@@ -39,7 +39,8 @@ const Lands = () => {
             <Row>
                 <Col md='4'>
                     <ButtonGroup>
-                        <Button outline={true} color='primary' title='Click this button to generate a table of devPoint data'>
+                        <Button outline={true} color='primary'
+                                title='Click this button to generate a table of devPoint data'>
                             <i class="fa fa-table" aria-hidden="true"></i>Generate
                         </Button>
                         <Button outline={true} color='primary' id="btnSumDevPoint" disabled title='Group data by discordIDs'>
