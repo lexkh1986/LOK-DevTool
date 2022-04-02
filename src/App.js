@@ -3,7 +3,7 @@ import { Container } from "reactstrap";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Header from './components/header/Header';
-import Sidebar from './components/sidebar/Sidebar';
+import Main from './components/main/Main';
 
 import Dashboard from './views/Dashboard';
 import Lands from './views/Lands';
@@ -13,17 +13,19 @@ const App = () => {
   return (
     <div className='App'>
       <Header />
-      <Container>
-        <Router>
-          <Routes>
-            <Route path='/' element={<Sidebar />}>
-              <Route path='/' element={<Dashboard />} />
-              <Route path='/lands' element={<Lands />} />
-              <Route path='/members' element={<Members />} />
-            </Route>
-          </Routes>
-        </Router>
-      </Container>
+      <div className='main'>
+        <Container fluid={true}>
+          <Router>
+            <Routes>
+              <Route path='/LOK-DevTool' element={<Main />}>
+                <Route path='/LOK-DevTool' element={<Dashboard />} />
+                <Route path='/LOK-DevTool/lands' element={<Lands />} />
+                <Route path='/LOK-DevTool/members' element={<Members />} />
+              </Route>
+            </Routes>
+          </Router>
+        </Container>
+      </div>
     </div>
   );
 }

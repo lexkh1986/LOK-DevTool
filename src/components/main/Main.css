@@ -1,0 +1,8 @@
+.main {
+    padding-top: 40px !important;
+}
+
+.main .container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+}
