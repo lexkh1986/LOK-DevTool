@@ -6,12 +6,14 @@ import './Main.css';
 
 const Main = () => {
     return (
-        <Row>
-            <Col className='col-2'>
+        <Row className='gx-0'>
+            <Col>
                 <Sidebar />
             </Col>
-            <Col className='col-auto'>
-                <Outlet />
+            <Col className='col-md-9 ml-sm-auto col-lg-10 px-4'>
+                <div className='content'>
+                    <Outlet />
+                </div>
             </Col>
         </Row>
     )

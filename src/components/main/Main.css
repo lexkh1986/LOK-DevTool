@@ -1,3 +1,4 @@
+/* --------- Main Layout --------- */
 /* Space for fixed navbar */
 [role="main"] {
     padding-top: 40px;
@@ -12,6 +13,8 @@
         padding-top: 40px;
     }
 }
+
+/* --------- Sidebar --------- */
 
 .sidebar {
     position: relative;
@@ -56,4 +59,9 @@
 .sidebar-heading {
     font-size: 0.75rem;
     text-transform: uppercase;
+}
+
+/* --------- Content --------- */
+.content i {
+    margin-right: 4px;
 }

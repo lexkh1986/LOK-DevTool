@@ -2,7 +2,9 @@ import React from 'react';
 
 const Members = () => {
     return (
-        <h1 className="h2">Members</h1>
+        <div className='members'>
+            <h1 className="h2">Members Management</h1>
+        </div>
     );
 }
 

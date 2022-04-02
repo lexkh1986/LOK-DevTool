@@ -2,7 +2,9 @@ import React from 'react';
 
 const Report = () => {
     return (
-        <h1 className="h2">Report</h1>
+        <div className='report'>
+            <h1 className="h2">Reports</h1>
+        </div>
     );
 }
 
