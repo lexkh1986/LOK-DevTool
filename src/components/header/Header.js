@@ -10,7 +10,7 @@ const Header = () => {
     return (
         <div className='header'>
             <Navbar color="dark" dark expand fixed="top" light>
-                <NavbarBrand href="/">{logoName}</NavbarBrand>
+                <NavbarBrand href="/LOK-DevTool">{logoName}</NavbarBrand>
                 <NavbarText>{author}</NavbarText>
                 {
                     navItems.map((item, index) =>

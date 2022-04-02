@@ -8,24 +8,24 @@ import Main from './components/main/Main';
 import Dashboard from './views/Dashboard';
 import Lands from './views/Lands';
 import Members from './views/Members';
+import Report from './views/Report';
 
 const App = () => {
   return (
     <div className='App'>
       <Header />
-      <div className='main'>
-        <Container fluid={true}>
-          <Router>
-            <Routes>
-              <Route path='/LOK-DevTool' element={<Main />}>
-                <Route path='/LOK-DevTool' element={<Dashboard />} />
-                <Route path='/LOK-DevTool/lands' element={<Lands />} />
-                <Route path='/LOK-DevTool/members' element={<Members />} />
-              </Route>
-            </Routes>
-          </Router>
-        </Container>
-      </div>
+      <Container fluid={true} role='main'>
+        <Router>
+          <Routes>
+            <Route path='/LOK-DevTool' element={<Main />}>
+              <Route path='/LOK-DevTool/dashboard' element={<Dashboard />} />
+              <Route path='/LOK-DevTool/lands' element={<Lands />} />
+              <Route path='/LOK-DevTool/members' element={<Members />} />
+              <Route path='/LOK-DevTool/report' element={<Report />} />
+            </Route>
+          </Routes>
+        </Router>
+      </Container>
     </div>
   );
 }
