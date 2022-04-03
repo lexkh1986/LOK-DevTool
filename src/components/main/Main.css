@@ -65,3 +65,13 @@
 .content i {
     margin-right: 4px;
 }
+
+.content .land-list * {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.content .land-list .form-control {
+    display: inline-flex;
+    width: min-content;
+}

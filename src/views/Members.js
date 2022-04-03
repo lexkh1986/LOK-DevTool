@@ -21,7 +21,7 @@ const Members = () => {
                     <InputGroup className='mb-3'>
                         <Button outline={true} color='primary'
                             title='Browse to .csv file and then click this button to import list of contributed members'>
-                            <i class="fa fa-cloud-upload" aria-hidden="true"></i>Import
+                            <i className="fa fa-cloud-upload" aria-hidden="true"></i>Import
                         </Button>
                         <Input id='csvMemberFile' type='file' accept=".csv"></Input>
                     </InputGroup>
