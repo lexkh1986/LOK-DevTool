@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/LOK-DevTool/static/css/main.4333772e.css",
-    "main.js": "/LOK-DevTool/static/js/main.23758037.js",
+    "main.css": "/LOK-DevTool/static/css/main.0139cfc8.css",
+    "main.js": "/LOK-DevTool/static/js/main.adf4bf1d.js",
     "index.html": "/LOK-DevTool/index.html",
-    "main.4333772e.css.map": "/LOK-DevTool/static/css/main.4333772e.css.map",
-    "main.23758037.js.map": "/LOK-DevTool/static/js/main.23758037.js.map"
+    "main.0139cfc8.css.map": "/LOK-DevTool/static/css/main.0139cfc8.css.map",
+    "main.adf4bf1d.js.map": "/LOK-DevTool/static/js/main.adf4bf1d.js.map"
   },
   "entrypoints": [
-    "static/css/main.4333772e.css",
-    "static/js/main.23758037.js"
+    "static/css/main.0139cfc8.css",
+    "static/js/main.adf4bf1d.js"
   ]
 }
