@@ -1,1 +1,13 @@
 @import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
+/* --------- CSS by Content --------- */
+.kingdom button {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.member-list th,
+.member-list td {
+    margin-left: 10px;
+    margin-right: 10px;
+}

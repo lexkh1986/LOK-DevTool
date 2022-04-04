@@ -7,12 +7,10 @@ import {
     Table,
 } from 'reactstrap';
 import Land from '../components/Land';
+import myLand from '../data/lands';
 
 const Lands = () => {
-    const [lands, setLands] = useState([
-        { id: 144375, currentCycle: { from: '2022-03-28', to: '2022-04-03' }, nextCycle: { from: '2022-04-28', to: '2022-05-03' }, isFilled: false, data: [] },
-        { id: 144376, currentCycle: { from: '2022-02-28', to: '2022-03-03' }, nextCycle: { from: '2022-03-28', to: '2022-04-03' }, isFilled: false, data: [] }
-    ]);
+    const [lands, setLands] = useState(myLand);
 
     const validateLandID = (elem) => {
         const isNumber = (n) => { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }

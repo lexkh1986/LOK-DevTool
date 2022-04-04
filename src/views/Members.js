@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     ButtonGroup, InputGroup, ListGroup,
     Input, Button,
     Row, Col
 } from 'reactstrap';
+import MemberList from '../components/MemberList';
+import myMembers from '../data/members';
 
 const Members = () => {
+    const [members, initMembers] = useState(myMembers);
+
     return (
         <div className='members'>
             <div className='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
@@ -29,7 +33,7 @@ const Members = () => {
             </Row>
             <Row>
                 <Col md='12'>
-                    <ListGroup id='memberGroup'></ListGroup>
+                    <MemberList id='memberGroup' members={members} />
                 </Col>
             </Row>
         </div>
