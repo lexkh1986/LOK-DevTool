@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import './Main.css';
+import '../../assets/styles/main.css';
 
 const Main = () => {
     return (

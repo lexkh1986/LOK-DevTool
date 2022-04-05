@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navbar, NavbarBrand, NavbarText, NavLink } from 'reactstrap';
-import './Header.css';
+import '../../assets/styles/header.css';
 
 const Header = () => {
     const logoName = 'League Of Kingdom - DevTool';

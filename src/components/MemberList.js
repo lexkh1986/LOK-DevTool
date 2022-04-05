@@ -2,11 +2,13 @@ import React from 'react';
 import {
     Table, Button
 } from 'reactstrap';
+import metamaskIcon from '../assets/images/metamask16.png';
+import polygonIcon from '../assets/images/polygon16.png';
 
 const MemberList = ({ members }) => {
     return (
         <div className='member-list'>
-            <Table hover responsive striped size='sm'>
+            <Table hover responsive size='sm'>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -31,7 +33,10 @@ const Member = ({ member }) => {
             <td>{member.id}</td>
             <td>{member.discord}</td>
             <td>{member.level}</td>
-            <td>{member.wallet.address + ' [' + member.wallet.type + ']'}</td>
+            <td>
+                <img className='wallet-icon' src={member.wallet.type === 'polygon' ? polygonIcon : metamaskIcon} />
+                {member.wallet.address}
+            </td>
             <td>{member.email}</td>
             <td><Kingdoms memberRef={member.id} list={member.kingdoms} /></td>
         </tr>

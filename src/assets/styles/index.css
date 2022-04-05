@@ -1,13 +1,28 @@
 @import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 
 /* --------- CSS by Content --------- */
+
+body {
+    font-size: 0.75rem;
+}
+
+.list-group li {
+    vertical-align: middle;
+}
+
 .kingdom button {
     margin-left: 2px;
     margin-right: 2px;
 }
 
+.wallet-icon {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
 .member-list th,
 .member-list td {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    vertical-align: middle;
 }
