@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
+import logo from '../assets/images/logo.png';
 
 const validateUser = (email) => {
     return email === 'darthrev1986@gmail.com' ? true : false;
@@ -29,7 +30,8 @@ const Login = () => {
     }
 
     return (
-        <div className='layout-center'>
+        <div className='layout-center login'>
+            <img src={logo} alt="" />
             <h1>League of Kingdom - DevTools</h1>
             <p>Designed by ABooBoo</p>
             <GoogleLogin clientId={clientId}

@@ -5,7 +5,7 @@ import Login from './views/Login';
 import Lands from './views/Lands';
 import Members from './views/Members';
 import Report from './views/Report';
-
+  
 const App = () => {
   return (
     <div className='App'>

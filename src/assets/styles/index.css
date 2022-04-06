@@ -1,9 +1,18 @@
 @import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 
+.layout-center button {
+    border-radius: 6px !important;
+}
+
 .layout-center {
     text-align: center;
-    padding-top: 200px;
+    background-image: url(../images/img_deco_trailer.png);
+    z-index: -99;
     height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: calc(100vh - 0px);
 }
 
 /* --------- CSS by Content --------- */
