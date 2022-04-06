@@ -11,15 +11,15 @@ const App = () => {
     <div className='App'>
       <HashRouter>
         <Routes>
-          <Route exact path="/LOK-DevTool" element={<Login />} />
-          <Route path='/LOK-DevTool/dashboard' element={<Main />}>
-            <Route path='/LOK-DevTool/dashboard/lands' element={<Lands />} />
-            <Route path='/LOK-DevTool/dashboard/members' element={<Members />} />
-            <Route path='/LOK-DevTool/dashboard/report' element={<Report />} />
+          <Route exact path="/" element={<Login />} />
+          <Route path='/dashboard' element={<Main />}>
+            <Route path='/dashboard/lands' element={<Lands />} />
+            <Route path='/dashboard/members' element={<Members />} />
+            <Route path='/dashboard/report' element={<Report />} />
           </Route>
           <Route
             path="*"
-            element={<Navigate to="/LOK-DevTool" replace />}
+            element={<Navigate to="/" replace />}
           />
         </Routes>
       </HashRouter>

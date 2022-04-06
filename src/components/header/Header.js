@@ -12,7 +12,7 @@ const Header = () => {
     return (
         <div className='header'>
             <Navbar color="dark" dark expand fixed="top" light>
-                <NavbarBrand href="/LOK-DevTool/dashboard">{logoName}</NavbarBrand>
+                <NavbarBrand href="/dashboard">{logoName}</NavbarBrand>
                 <NavbarText>{author}</NavbarText>
                 {
                     navItems.map((item, index) =>
@@ -30,7 +30,7 @@ const Logout = (res) => {
     const clientId = '129123030731-jna8pn3o75crio0vdkq02o6lvhdp05qh.apps.googleusercontent.com';
 
     const onSuccess = (res) => {
-        return navigate('/LOK-DevTool');
+        return navigate('/');
     }
 
     return (

@@ -18,10 +18,10 @@ const Login = () => {
     const onSuccess = (res) => {
         if (validateUser(res.profileObj.email)) {
             sessionStorage.setItem('user', res.profileObj.email);
-            return navigate('/LOK-DevTool/dashboard');
+            return navigate('/dashboard');
         } else {
             sessionStorage.setItem('user', 'guest');
-            return navigate('/LOK-DevTool');
+            return navigate('/');
         }
     }
 
