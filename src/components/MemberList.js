@@ -34,7 +34,7 @@ const Member = ({ member }) => {
             <td>{member.discord}</td>
             <td>{member.level}</td>
             <td>
-                <img className='wallet-icon' src={member.wallet.type === 'polygon' ? polygonIcon : metamaskIcon} />
+                <img className='wallet-icon' alt='Wallet Type' src={member.wallet.type === 'polygon' ? polygonIcon : metamaskIcon} />
                 {member.wallet.address}
             </td>
             <td>{member.email}</td>

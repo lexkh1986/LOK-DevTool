@@ -3,8 +3,6 @@ import {
     ButtonGroup, InputGroup, ListGroup,
     Input, Button,
     Row, Col,
-    Accordion, AccordionItem, AccordionHeader,
-    Table,
 } from 'reactstrap';
 import Land from '../components/Land';
 import myLand from '../data/lands';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     ButtonGroup, InputGroup,
     Input, Button,
@@ -8,7 +8,7 @@ import MemberList from '../components/MemberList';
 import myMembers from '../data/members';
 
 const Members = () => {
-    const [members, initMembers] = useState(myMembers);
+    const [members] = useState(myMembers);
 
     return (
         <div className='members'>
