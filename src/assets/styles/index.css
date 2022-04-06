@@ -15,6 +15,11 @@
     height: calc(100vh - 0px);
 }
 
+.login-request {
+    padding-top: 200px;
+    text-align: center;
+}
+
 /* --------- CSS by Content --------- */
 
 body {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './components/main/Main';
 import Login from './views/Login';
 import Lands from './views/Lands';
@@ -9,7 +9,7 @@ import Report from './views/Report';
 const App = () => {
   return (
     <div className='App'>
-      <Router>
+      <HashRouter>
         <Routes>
           <Route exact path="/LOK-DevTool" element={<Login />} />
           <Route path='/LOK-DevTool/dashboard' element={<Main />}>
@@ -22,7 +22,7 @@ const App = () => {
             element={<Navigate to="/LOK-DevTool" replace />}
           />
         </Routes>
-      </Router>
+      </HashRouter>
     </div >
   );
 }
