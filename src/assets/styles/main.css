@@ -68,6 +68,7 @@
 .content .land-list * {
     margin-left: 4px;
     margin-right: 4px;
+    vertical-align: middle;
 }
 
 .content .land-list .form-control {

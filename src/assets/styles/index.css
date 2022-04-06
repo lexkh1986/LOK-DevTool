@@ -6,10 +6,6 @@ body {
     font-size: 0.75rem;
 }
 
-.list-group li {
-    vertical-align: middle;
-}
-
 .kingdom button {
     margin-left: 2px;
     margin-right: 2px;

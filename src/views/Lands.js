@@ -98,20 +98,6 @@ const Lands = () => {
             </Row>
             <Row>
                 <Col md='12'>
-                    <Accordion id='accordion' flush>
-                        <AccordionItem>
-                            <AccordionHeader targetId='1'>Summary By Kingdom</AccordionHeader>
-                            <AccordionItem>
-                                <Table id='devPointSum' borderless hover responsive striped size='sm' />
-                            </AccordionItem>
-                        </AccordionItem>
-                        <AccordionItem>
-                            <AccordionHeader targetId='2'>Summary By Discord</AccordionHeader>
-                            <AccordionItem>
-                                <Table id='discordSum' borderless hover responsive striped size='sm' />
-                            </AccordionItem>
-                        </AccordionItem>
-                    </Accordion>
                 </Col>
             </Row>
         </div>
