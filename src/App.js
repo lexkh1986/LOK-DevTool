@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './components/main/Main';
 import Login from './views/Login';
 import Lands from './views/Lands';
@@ -17,6 +17,10 @@ const App = () => {
             <Route path='/LOK-DevTool/dashboard/members' element={<Members />} />
             <Route path='/LOK-DevTool/dashboard/report' element={<Report />} />
           </Route>
+          <Route
+            path="*"
+            element={<Navigate to="/LOK-DevTool" replace />}
+          />
         </Routes>
       </Router>
     </div >
