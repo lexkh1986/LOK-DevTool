@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from 'react-google-login';
 
@@ -10,11 +10,17 @@ const Login = () => {
     const clientId = '129123030731-jna8pn3o75crio0vdkq02o6lvhdp05qh.apps.googleusercontent.com';
     const navigate = useNavigate();
 
+    useEffect(() => {
+        sessionStorage.setItem('user', 'guest');
+    }, []);
+
     const onSuccess = (res) => {
         if (validateUser(res.profileObj.email)) {
-            return navigate('/LOK-DevTool', { state: { user: res.profileObj } });
+            sessionStorage.setItem('user', res.profileObj.email);
+            return navigate('/LOK-DevTool/dashboard');
         } else {
-            return navigate('/LOK-DevTool/login');
+            sessionStorage.setItem('user', 'guest');
+            return navigate('/LOK-DevTool');
         }
     }
 

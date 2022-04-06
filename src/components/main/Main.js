@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row, Container } from 'reactstrap';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from '../header/Header';
 import '../../assets/styles/main.css';
 
 const Main = () => {
-    const state = useLocation();
+    const [user, setUser] = useState('guest');
 
-    if (!state.state) {
+    useEffect(() => {
+        setUser(sessionStorage.getItem('user'));
+    }, []);
+
+    if (user === 'guest') {
         return (
             <div className='layout-center'>
-                <h6>Please <a href='/LOK-DevTool/login'>login</a> before using admin dashboard</h6>
+                <h6>Please <a href='/LOK-DevTool'>login</a> before using admin dashboard</h6>
             </div>
         )
     } else {

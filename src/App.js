@@ -11,11 +11,11 @@ const App = () => {
     <div className='App'>
       <Router>
         <Routes>
-          <Route exact path="/LOK-DevTool/login" element={<Login />}></Route>
-          <Route path='/LOK-DevTool' element={<Main />}>
-            <Route path='/LOK-DevTool/lands' element={<Lands/>} />
-            <Route path='/LOK-DevTool/members' element={<Members />} />
-            <Route path='/LOK-DevTool/report' element={<Report />} />
+          <Route exact path="/LOK-DevTool" element={<Login />} />
+          <Route path='/LOK-DevTool/dashboard' element={<Main />}>
+            <Route path='/LOK-DevTool/dashboard/lands' element={<Lands />} />
+            <Route path='/LOK-DevTool/dashboard/members' element={<Members />} />
+            <Route path='/LOK-DevTool/dashboard/report' element={<Report />} />
           </Route>
         </Routes>
       </Router>
