@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ButtonGroup, InputGroup,
     Input, Button,
@@ -8,7 +8,11 @@ import MemberList from '../components/MemberList';
 import myMembers from '../data/members';
 
 const Members = () => {
-    const [members] = useState(myMembers);
+    const [members, setMemberList] = useState(myMembers);
+
+    useEffect(() => {
+        localStorage.setItem('members', JSON.stringify(members));
+    }, []);
 
     return (
         <div className='members'>

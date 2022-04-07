@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row, Container } from 'reactstrap';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import Header from '../header/Header';
-import '../../assets/styles/main.css';
+import Header from './Header';
+import '../assets/styles/main.css';
 
 const Main = () => {
     const [user, setUser] = useState('guest');
@@ -27,7 +27,7 @@ const Main = () => {
                         <Col>
                             <Sidebar />
                         </Col>
-                        <Col className='col-md-9 ml-sm-auto col-lg-10 px-4'>
+                        <Col className='col-md-9 ml-sm-auto col-lg-10 px-4 main-bg'>
                             <div className='content'>
                                 <Outlet />
                             </div>

@@ -1,9 +1,11 @@
 import { React, useState } from 'react';
+import ReactDOM from 'react-dom';
 import {
     ButtonGroup, InputGroup, ListGroup,
     Input, Button,
     Row, Col,
 } from 'reactstrap';
+import LandContribution from '../components/LandContribution';
 import Land from '../components/Land';
 import myLand from '../data/lands';
 
@@ -82,6 +84,10 @@ const Lands = () => {
                 <Col md='4'>
                     <ButtonGroup>
                         <Button outline={true} color='primary'
+                            onClick={() => {
+                                ReactDOM.render(<LandContribution lands={lands} members={localStorage.getItem('members')} />,
+                                document.getElementById('contributions'));
+                            }}
                             title='Click this button to generate a table of devPoint data'>
                             <i className='fa fa-table' aria-hidden="true"></i>Generate
                         </Button>
@@ -95,7 +101,7 @@ const Lands = () => {
                 </Col>
             </Row>
             <Row>
-                <Col md='12'>
+                <Col id='contributions' md='12'>
                 </Col>
             </Row>
         </div>

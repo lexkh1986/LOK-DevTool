@@ -2,7 +2,7 @@ import React from 'react';
 import { GoogleLogout } from 'react-google-login';
 import { useNavigate } from "react-router-dom";
 import { Navbar, NavbarBrand, NavbarText, NavLink } from 'reactstrap';
-import '../../assets/styles/header.css';
+import '../assets/styles/header.css';
 
 const Header = () => {
     const logoName = 'League Of Kingdom - DevTool';
