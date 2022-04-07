@@ -4,7 +4,7 @@ import { GoogleLogin } from 'react-google-login';
 import logo from '../assets/images/logo.png';
 
 const validateUser = (email) => {
-    return email === 'darthrev1986@gmail.com' ? true : false;
+    return (email === 'darthrev1986@gmail.com' || email === 'felinosacijul@gmail.com') ? true : false;
 }
 
 const Login = () => {
