@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import {
     ButtonGroup, InputGroup, ListGroup,
@@ -8,9 +8,15 @@ import {
 import LandContribution from '../components/LandContribution';
 import Land from '../components/Land';
 import myLand from '../data/lands';
+import { useNavigate } from 'react-router-dom';
 
 const Lands = () => {
     const [lands, setLands] = useState(myLand);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        localStorage.removeItem('landContribution');
+    }, []);
 
     const validateLandID = (elem) => {
         const isNumber = (n) => { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
@@ -91,8 +97,16 @@ const Lands = () => {
                             title='Click this button to generate a table of devPoint data'>
                             <i className='fa fa-table' aria-hidden="true"></i>Generate
                         </Button>
-                        <Button outline={true} color='primary' id="btnSumDevPoint" disabled title='Group data by discordIDs'>
-                            <i className='fa fa-th' aria-hidden="true"></i>Group
+                        <Button outline={true} color='primary' id="btnSumDevPoint"
+                            onClick={() => {
+                                if (!localStorage.getItem('landContribution')) {
+                                    alert('Please generate land contribution report first!');
+                                } else {
+                                    navigate('/dashboard/report');
+                                }
+                            }}
+                            title='Group data by discordIDs'>
+                            <i className='fa fa-line-chart' aria-hidden="true"></i>Payout Report
                         </Button>
                         <Button outline={true} color='primary' title='Export data to csv'>
                             <i className='fa fa-files-o' aria-hidden="true"></i>Export CSV
