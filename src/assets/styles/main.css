@@ -75,3 +75,18 @@
     display: inline-flex;
     width: min-content;
 }
+
+.table {
+    margin-top: 20px;
+}
+
+.table th {
+    text-transform: capitalize;
+}
+
+.error-text {
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 350;
+    color: red;
+}

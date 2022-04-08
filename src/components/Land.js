@@ -23,7 +23,6 @@ const Land = ({ land, handeDelete }) => {
                 land.data = data.contribution;
                 land.isFilled = true;
                 toggleLoad({ enabled: true, isfilled: true, text: 'GET DATA' });
-                console.log(land);
             })
     };
 

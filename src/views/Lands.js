@@ -84,10 +84,10 @@ const Lands = () => {
                 <Col md='4'>
                     <ButtonGroup>
                         <Button outline={true} color='primary'
-                            onClick={() => {
+                            onClick={() =>
                                 ReactDOM.render(<LandContribution lands={lands} members={localStorage.getItem('members')} />,
-                                document.getElementById('contributions'));
-                            }}
+                                    document.getElementById('contributions'))
+                            }
                             title='Click this button to generate a table of devPoint data'>
                             <i className='fa fa-table' aria-hidden="true"></i>Generate
                         </Button>

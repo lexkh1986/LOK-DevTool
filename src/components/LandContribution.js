@@ -1,41 +1,39 @@
 import React from 'react';
 import {
-    Table, Button, Col
+    Table,
 } from 'reactstrap';
 
 const LandContribution = ({ lands, members }) => {
-    const buildContribution = () => {
+    const filledLands = lands.filter(land => land.isFilled);
 
-        if (!members || !lands) {
-            return [];
-        }
-
+    const genHeaders = () => {
         // Build headers
-        let headers = ['#', 'Discord', 'Kingdom', 'Total'];
-        lands.map(function (land) {
-            if (land.isFilled) {
-                headers.push(land.id);
-            }
+        let headers = ['no', 'discord', 'kingdom', 'total'];
+        filledLands.forEach(land => {
+            headers.push(land.id);
         });
+        return headers;
+    };
 
+    const genBody = () => {
         // Build body
         let body = [];
         let count = 1;
-        JSON.parse(members).map(function (mem) {
-            mem.kingdoms.map(function (kingdom) {
+        JSON.parse(members).forEach(mem => {
+            mem.kingdoms.forEach(kingdom => {
                 let row = { no: count, discord: mem.discord, kingdom: kingdom, total: 0 };
-                lands.map(function (land) {
+                filledLands.forEach(land => {
                     row[land['id']] = 0;
                 });
                 body.push(row);
                 count += 1;
-            })
+            });
         });
-        
+
         // Fill body data
-        lands.map(function (land) {
-            land.data.map(function (item) {
-                body.map(function (row) {
+        filledLands.forEach(land => {
+            land.data.forEach(item => {
+                body.forEach(row => {
                     if (row.kingdom === item.name) {
                         row[land.id] = item.total;
                         row.total += item.total;
@@ -43,16 +41,40 @@ const LandContribution = ({ lands, members }) => {
                 });
             });
         });
-
+        localStorage.setItem('landContribution', JSON.stringify(body));
         return body;
     };
 
     return (
-        <Table hover responsive size='sm'>
-            {
-                buildContribution(lands, members)
+        <div className='land-contributions'>
+            {!members ?
+                <p className='error-text'>Could not detect any members to calculate. Please check your member management section first!</p> :
+                filledLands.length === 0 ?
+                    <p className='error-text'>Please get data at least 1 land first</p> :
+                    <Table size='sm' responsive hover>
+                        <thead>
+                            <tr>
+                                {
+                                    genHeaders().map((item, key) =>
+                                        <th key={key}>
+                                            {isNaN(item) ? null : <i className='fa fa-map' aria-hidden='true'></i>}
+                                            {item}
+                                        </th>)
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                genBody().map((item, key) =>
+                                    <tr key={key}>
+                                        {genHeaders().map((col, key) => <td key={key}>{item[col]}</td>)}
+                                    </tr>
+                                )
+                            }
+                        </tbody>
+                    </Table>
             }
-        </Table>
+        </div>
     );
 }
 
