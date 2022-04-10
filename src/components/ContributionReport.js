@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Table } from 'reactstrap';
 import payoutRate from '../data/payoutRate';
 import metamaskIcon from '../assets/images/metamask16.png';
@@ -13,20 +13,40 @@ const ContributionReport = (data) => {
 
         let count = 1;
         members.forEach(mem => {
-            let row = { no: count, discord: mem.discord, wallet: mem.wallet, level: mem.level, devpoint: 0 };
+            let row = {
+                no: count,
+                discord: mem.discord,
+                wallet: mem.wallet,
+                level: mem.level,
+                rate: payoutRate[mem.level],
+                bonus: 0,
+                devpoint: 0
+            };
             rptPayout.forEach(rptRow => {
                 row.devpoint += rptRow.discord === mem.discord ? rptRow.total : 0;
             });
-            row.payout = (row.devpoint / 1000 * payoutRate[mem.level]).toFixed(2);
-            row.devpoint = row.devpoint.toFixed(2);
+            row.payout = (row.devpoint / 1000 * payoutRate[mem.level]);
             body.push(row);
             count += 1;
         });
+
         body.sort((a, b) => -(a.payout - b.payout));
         count = 1;
         body.forEach(item => {
+            // Add bonus program
+            if (count === 1) {
+                item.bonus = 10;
+                item.payout += item.bonus;
+            } else if (count === 2) {
+                item.bonus = 5;
+                item.payout += item.bonus;
+            }
+
             item.no = count;
             count += 1;
+
+            item.devpoint = item.devpoint.toFixed(2);
+            item.payout = item.payout.toFixed(2);
         });
 
         return body;
@@ -45,6 +65,8 @@ const ContributionReport = (data) => {
                                     <th>Discord ID</th>
                                     <th>Level</th>
                                     <th>Wallet Address</th>
+                                    <th>Rate</th>
+                                    <th>Bonus</th>
                                     <th>DevPoints</th>
                                     <th>Payout</th>
                                 </tr>
@@ -60,6 +82,8 @@ const ContributionReport = (data) => {
                                                 <img className='wallet-icon' alt='Wallet Type' src={row.wallet.type === 'polygon' ? polygonIcon : metamaskIcon} />
                                                 {row.wallet.address}
                                             </td>
+                                            <td>{row.rate}</td>
+                                            <td><i className="fa fa-usd" aria-hidden="true"></i><strong>{row.bonus}</strong></td>
                                             <td>{row.devpoint}</td>
                                             <td><i className="fa fa-usd" aria-hidden="true"></i><strong>{row.payout}</strong></td>
                                         </tr>
