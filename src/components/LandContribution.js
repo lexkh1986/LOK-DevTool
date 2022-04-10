@@ -35,12 +35,13 @@ const LandContribution = ({ lands, members }) => {
             land.data.forEach(item => {
                 body.forEach(row => {
                     if (row.kingdom === item.name) {
-                        row[land.id] = item.total;
-                        row.total += item.total;
+                        row[land.id] = parseFloat(item.total.toFixed(2));
+                        row.total += row[land.id];
                     }
                 });
             });
         });
+
         localStorage.setItem('landContribution', JSON.stringify(body));
         return body;
     };

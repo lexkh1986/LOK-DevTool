@@ -13,7 +13,7 @@ const MemberList = ({ members }) => {
                     <tr>
                         <th>ID</th>
                         <th>Discord</th>
-                        <th>Level</th>
+                        <th className='col-center'>Level</th>
                         <th>Wallet Address</th>
                         <th>Email</th>
                         <th>Kingdoms</th>
@@ -32,7 +32,7 @@ const Member = ({ member }) => {
         <tr>
             <td>{member.id}</td>
             <td>{member.discord}</td>
-            <td>{member.level}</td>
+            <td className='col-center'><Button outline className='mem-level' color='success' size='sm'>{member.level}</Button></td>
             <td>
                 <img className='wallet-icon' alt='Wallet Type' src={member.wallet.type === 'polygon' ? polygonIcon : metamaskIcon} />
                 {member.wallet.address}

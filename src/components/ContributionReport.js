@@ -1,10 +1,10 @@
 import React from 'react';
-import { Table } from 'reactstrap';
+import { Table, Button } from 'reactstrap';
 import payoutRate from '../data/payoutRate';
 import metamaskIcon from '../assets/images/metamask16.png';
 import polygonIcon from '../assets/images/polygon16.png';
 
-const ContributionReport = (data) => {
+const ContributionReport = () => {
     const members = localStorage.getItem('members') ? JSON.parse(localStorage.getItem('members')) : null;
     const rptPayout = localStorage.getItem('landContribution') ? JSON.parse(localStorage.getItem('landContribution')) : null;
 
@@ -35,10 +35,10 @@ const ContributionReport = (data) => {
         body.forEach(item => {
             // Add bonus program
             if (count === 1) {
-                item.bonus = 10;
+                item.bonus = 5;
                 item.payout += item.bonus;
             } else if (count === 2) {
-                item.bonus = 5;
+                item.bonus = 3;
                 item.payout += item.bonus;
             }
 
@@ -55,7 +55,7 @@ const ContributionReport = (data) => {
     return (
         <div className='contribution-report'>
             {
-                !rptPayout ? null :
+                !rptPayout ? <p className='error-text'>Please generate contribution data from land management first</p> :
                     <div>
                         <h6>Payout</h6>
                         <Table>
@@ -63,7 +63,7 @@ const ContributionReport = (data) => {
                                 <tr>
                                     <th>#</th>
                                     <th>Discord ID</th>
-                                    <th>Level</th>
+                                    <th className='col-center'>Level</th>
                                     <th>Wallet Address</th>
                                     <th>Rate</th>
                                     <th>Bonus</th>
@@ -77,7 +77,7 @@ const ContributionReport = (data) => {
                                         <tr key={key}>
                                             <td>{row.no}</td>
                                             <td>{row.discord}</td>
-                                            <td>{row.level}</td>
+                                            <td className='col-center'><Button outline className='mem-level' color='success' size='sm'>{row.level}</Button></td>
                                             <td>
                                                 <img className='wallet-icon' alt='Wallet Type' src={row.wallet.type === 'polygon' ? polygonIcon : metamaskIcon} />
                                                 {row.wallet.address}

@@ -65,6 +65,7 @@
     margin-right: 4px;
 }
 
+.contribution-report tr,
 .content .land-list * {
     margin-left: 4px;
     margin-right: 4px;
@@ -89,4 +90,8 @@
     font-size: 16px;
     font-weight: 350;
     color: red;
+}
+
+.col-center {
+    text-align: center;
 }
