@@ -20,10 +20,20 @@ const Land = ({ land, handeDelete }) => {
             .then(response => {
                 return response.json();
             }).then(data => {
-                land.data = data.contribution;
-                land.isFilled = true;
+                storeData(land.id, data.contribution);
                 toggleLoad({ enabled: true, isfilled: true, text: 'GET DATA' });
             })
+    };
+
+    const storeData = (id, data) => {
+        const currData = JSON.parse(localStorage.getItem('landData'));
+        if (!currData) {
+            localStorage.setItem('landData', JSON.stringify([{ id: id, data: data }]));
+        } else {
+            localStorage.setItem('landData', JSON.stringify(
+                currData.concat({ id: id, data: data })
+            ));
+        }
     };
 
     const updateCurrCycle = () => {
