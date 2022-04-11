@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-    Table,
-} from 'reactstrap';
+import { Table } from 'reactstrap';
 
-const LandContribution = ({ lands, members }) => {
+const RptLandContribution = ({ lands, members }) => {
     const filledLands = lands.filter(land => land.isFilled);
 
     const genHeaders = () => {
@@ -79,4 +77,4 @@ const LandContribution = ({ lands, members }) => {
     );
 }
 
-export default LandContribution;
+export default RptLandContribution;

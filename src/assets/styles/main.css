@@ -65,6 +65,7 @@
     margin-right: 4px;
 }
 
+.export-csv *,
 .contribution-report tr,
 .content .land-list * {
     margin-left: 4px;

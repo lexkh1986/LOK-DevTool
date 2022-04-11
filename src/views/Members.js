@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ButtonGroup, InputGroup,
     Input, Button,
@@ -10,6 +10,13 @@ import MemberList from '../components/MemberList';
 const Members = () => {
     const [members, setMemberList] = useState(undefined);
     const [csvSource, setSource] = useState(undefined);
+
+    useEffect(() => {
+        const data = JSON.parse(localStorage.getItem('members'));
+        if (data) {
+            setMemberList(data);
+        }
+    }, []);
 
     const readCSV = (file) => {
         if (!file) { return }

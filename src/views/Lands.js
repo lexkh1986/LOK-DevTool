@@ -5,7 +5,7 @@ import {
     Input, Button,
     Row, Col,
 } from 'reactstrap';
-import LandContribution from '../components/LandContribution';
+import RptLandContribution from '../components/RptLandContribution';
 import Land from '../components/Land';
 import myLand from '../data/lands';
 import { useNavigate } from 'react-router-dom';
@@ -89,15 +89,15 @@ const Lands = () => {
             <Row>
                 <Col md='4'>
                     <ButtonGroup>
-                        <Button outline={true} color='primary'
+                        <Button outline color='primary'
                             onClick={() =>
-                                ReactDOM.render(<LandContribution lands={lands} members={localStorage.getItem('members')} />,
+                                ReactDOM.render(<RptLandContribution lands={lands} members={localStorage.getItem('members')} />,
                                     document.getElementById('contributions'))
                             }
                             title='Click this button to generate a table of devPoint data'>
                             <i className='fa fa-table' aria-hidden="true"></i>Generate
                         </Button>
-                        <Button outline={true} color='primary' id="btnSumDevPoint"
+                        <Button outline color='primary' id="btnSumDevPoint"
                             onClick={() => {
                                 if (!localStorage.getItem('landContribution')) {
                                     alert('Please generate land contribution report first!');
@@ -107,9 +107,6 @@ const Lands = () => {
                             }}
                             title='Group data by discordIDs'>
                             <i className='fa fa-line-chart' aria-hidden="true"></i>Payout Report
-                        </Button>
-                        <Button outline={true} color='primary' title='Export data to csv'>
-                            <i className='fa fa-files-o' aria-hidden="true"></i>Export CSV
                         </Button>
                     </ButtonGroup>
                 </Col>

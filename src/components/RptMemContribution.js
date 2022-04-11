@@ -1,10 +1,12 @@
 import React from 'react';
 import { Table, Button } from 'reactstrap';
+import { useCSVDownloader } from 'react-papaparse';
 import payoutRate from '../data/payoutRate';
 import metamaskIcon from '../assets/images/metamask16.png';
 import polygonIcon from '../assets/images/polygon16.png';
 
-const ContributionReport = () => {
+const RptMemContribution = () => {
+    const { CSVDownloader } = useCSVDownloader();
     const members = localStorage.getItem('members') ? JSON.parse(localStorage.getItem('members')) : null;
     const rptPayout = localStorage.getItem('landContribution') ? JSON.parse(localStorage.getItem('landContribution')) : null;
 
@@ -52,13 +54,43 @@ const ContributionReport = () => {
         return body;
     };
 
+    const exportCSV = () => {
+        const data = [];
+        genPayout().forEach(row => {
+            data.push({
+                no: row.no,
+                discord: row.discord,
+                level: row.level,
+                wallettype: row.wallet.type,
+                walletaddress: row.wallet.address,
+                rate: row.rate,
+                devpoint: row.devpoint,
+                bonus: row.bonus,
+                payout: row.payout
+            })
+        });
+        return data;
+    };
+
     return (
         <div className='contribution-report'>
             {
                 !rptPayout ? <p className='error-text'>Please generate contribution data from land management first</p> :
                     <div>
-                        <h6>Payout</h6>
-                        <Table>
+                        <div className='d-flex align-items-center justify-content-between'>
+                            <h6>Payout</h6>
+                            <CSVDownloader
+                                filename='Payout_Report'
+                                bom={true}
+                                config={{ delimeter: ',' }}
+                                download={true}
+                                data={exportCSV()}
+                            >
+                                <Button outline size='sm'>Export</Button>
+                            </CSVDownloader>
+                        </div>
+
+                        <Table responsive hover size='sm'>
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -77,7 +109,7 @@ const ContributionReport = () => {
                                         <tr key={key}>
                                             <td>{row.no}</td>
                                             <td>{row.discord}</td>
-                                            <td className='col-center'><Button outline className='mem-level' color='success' size='sm'>{row.level}</Button></td>
+                                            <td className='col-center'><Button outline disabled className='mem-level' color='success' size='sm'>{row.level}</Button></td>
                                             <td>
                                                 <img className='wallet-icon' alt='Wallet Type' src={row.wallet.type === 'polygon' ? polygonIcon : metamaskIcon} />
                                                 {row.wallet.address}
@@ -97,4 +129,4 @@ const ContributionReport = () => {
     );
 }
 
-export default ContributionReport;
+export default RptMemContribution;

@@ -1,25 +1,16 @@
 import React from 'react';
-import {
-    ButtonGroup,
-    Button,
-    Row, Col
-} from 'reactstrap';
-import ContributionReport from '../components/ContributionReport';
+import { Row, Col } from 'reactstrap';
+import RptMemContribution from '../components/RptMemContribution';
 
 const Report = () => {
     return (
         <div className='report'>
             <div className='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
                 <h2>Reports</h2>
-                <ButtonGroup>
-                    <Button outline={true} size='sm'>
-                        Export
-                    </Button>
-                </ButtonGroup>
             </div>
             <Row>
                 <Col md='12'>
-                    <ContributionReport />
+                    <RptMemContribution />
                 </Col>
             </Row>
         </div>
