@@ -8,21 +8,24 @@ import polygonIcon from '../assets/images/polygon16.png';
 const MemberList = ({ members }) => {
     return (
         <div className='member-list'>
-            <Table hover responsive size='sm'>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Discord</th>
-                        <th className='col-center'>Level</th>
-                        <th>Wallet Address</th>
-                        <th>Email</th>
-                        <th>Kingdoms</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {members.map((member, key) => <Member key={key} member={member} />)}
-                </tbody>
-            </Table>
+            {
+                !members ? <p className='error-text'>There is no members yet. Import you first member list!</p> :
+                    <Table hover responsive size='sm'>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Discord</th>
+                                <th className='col-center'>Level</th>
+                                <th>Wallet Address</th>
+                                <th>Email</th>
+                                <th>Kingdoms</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {members.map((member, key) => <Member key={key} member={member} />)}
+                        </tbody>
+                    </Table>
+            }
         </div>
     );
 }

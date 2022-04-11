@@ -35,18 +35,18 @@ const ContributionReport = () => {
         body.forEach(item => {
             // Add bonus program
             if (count === 1) {
-                item.bonus = 5;
+                item.bonus = 0;
                 item.payout += item.bonus;
             } else if (count === 2) {
-                item.bonus = 3;
+                item.bonus = 0;
                 item.payout += item.bonus;
             }
 
             item.no = count;
             count += 1;
 
-            item.devpoint = item.devpoint.toFixed(2);
-            item.payout = item.payout.toFixed(2);
+            item.devpoint = parseFloat(item.devpoint.toFixed(2));
+            item.payout = parseFloat(item.payout.toFixed(2));
         });
 
         return body;
