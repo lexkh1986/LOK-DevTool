@@ -25,6 +25,9 @@ const Members = () => {
             header: true,
             complete: function (results) {
                 const data = MapMembers(results.data);
+                data.forEach(mem => {
+                    mem.kingdoms = mem.kingdoms.filter(item => item)
+                });
                 setMemberList(data);
                 localStorage.setItem('members', JSON.stringify(data));
             }
