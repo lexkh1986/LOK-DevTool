@@ -6,14 +6,17 @@ import {
     Input, InputGroup
 } from 'reactstrap';
 import Land from '../components/Land';
-import myLand from '../data/lands';
 
 const LandManagement = () => {
-    const [lands, buildLands] = useState(myLand);
+    const [lands, buildLands] = useState(JSON.parse(localStorage.getItem('lands')));
 
     useEffect(() => {
         localStorage.removeItem('landData');
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem('lands', JSON.stringify(lands));
+    }, [lands]);
 
     const validateLandID = (elem) => {
         const isNumber = (n) => { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
@@ -40,7 +43,7 @@ const LandManagement = () => {
             isFilled: false,
             data: []
         };
-        buildLands(lands.concat(newLand));
+        buildLands(!lands ? [newLand] : lands.concat(newLand));
     };
 
     const deleteLand = (id) => {
@@ -74,11 +77,14 @@ const LandManagement = () => {
                 </Col>
                 <Col md='8'>
                     <div className='land-list'>
-                        <ListGroup id='landGroup'>
-                            {
-                                lands.map((land) => <Land key={land.id} land={land} handeDelete={deleteLand} />)
-                            }
-                        </ListGroup>
+                        {
+                            !lands || lands.length === 0 ? <p>You have no lands, input your first land!</p> :
+                                <ListGroup id='landGroup'>
+                                    {
+                                        lands.map((land) => <Land key={land.id} land={land} handeDelete={deleteLand} />)
+                                    }
+                                </ListGroup>
+                        }
                     </div>
                 </Col>
             </Row>
