@@ -12,7 +12,7 @@ const Header = () => {
     return (
         <div className='header'>
             <Navbar color="dark" dark expand fixed="top" light>
-                <NavbarBrand href="/#/dashboard">{logoName}</NavbarBrand>
+                <NavbarBrand>{logoName}</NavbarBrand>
                 <NavbarText>{author}</NavbarText>
                 {
                     navItems.map((item, index) =>
