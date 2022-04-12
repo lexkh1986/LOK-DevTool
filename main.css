@@ -1,0 +1,150 @@
+@import url(https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url(https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css);
+.navbar {
+  padding: 0px !important;
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+
+.navbar-brand {
+  font-size: 1rem !important;
+}
+/* --------- Main Layout --------- */
+/* Space for fixed navbar */
+[role="main"] {
+    padding-top: 40px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+/* Space for fixed navbar */
+@media (min-width: 768px) {
+    [role="main"] {
+        padding-top: 40px;
+    }
+}
+
+/* --------- Sidebar --------- */
+
+.sidebar {
+    position: relative;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    z-index: 100;
+    font-size: 0.875rem;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
+}
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+    .sidebar-sticky {
+        position: -webkit-sticky;
+        position: sticky;
+    }
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #333;
+}
+
+.sidebar .nav-link .feather {
+    margin-right: 4px;
+    padding-right: 2px;
+    color: #999;
+}
+
+.sidebar .nav-link.active {
+    color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+    color: inherit;
+}
+
+.sidebar-heading {
+    text-transform: uppercase;
+}
+
+/* --------- Content --------- */
+.content i {
+    margin-right: 4px;
+}
+
+.export-csv *,
+.contribution-report tr,
+.content .land-list * {
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.content .land-list .form-control {
+    display: inline-flex;
+    width: min-content;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.table th {
+    text-transform: capitalize;
+}
+
+.error-text {
+    padding: 20px;
+    font-size: 16px;
+    font-weight: 350;
+    color: red;
+}
+
+.col-center {
+    text-align: center;
+}
+.layout-center button {
+    border-radius: 6px !important;
+}
+
+.layout-center {
+    text-align: center;
+    background-image: url(/LOK-DevTool/3925a1a4c285ef579eaa8668e28d3368.png);
+    z-index: -99;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: calc(100vh - 0px);
+}
+
+.login-request {
+    padding-top: 200px;
+    text-align: center;
+}
+
+/* --------- CSS by Content --------- */
+
+body {
+    font-size: 0.75rem;
+}
+
+.kingdom button {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.wallet-icon {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.member-list th,
+.member-list td {
+    margin-left: 20px;
+    margin-right: 20px;
+    vertical-align: middle;
+}
