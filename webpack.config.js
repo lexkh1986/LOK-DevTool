@@ -8,7 +8,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'build'),
-        publicPath: "/LOK-DevTool/",
+        publicPath: "/",
         filename: 'index.bundle.js',
     },
     devServer: {
