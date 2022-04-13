@@ -1,7 +1,7 @@
 {
   "name": "lok-devtool",
   "version": "1.1.0",
-  "homepage": "https://www.loklandlord.tk/",
+  "homepage": "https://loklandlord.tk/",
   "private": true,
   "description": "LOK with webpack",
   "main": "index.bundle.js",
