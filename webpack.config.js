@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CnameWebpackPlugin = require('cname-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 
@@ -17,6 +18,9 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin(),
+        new CnameWebpackPlugin({
+            domain: 'loklandlord.tk',
+        }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './public/index.html'
@@ -38,7 +42,7 @@ module.exports = {
                 test: /\.(png|svg|jpg|gif|json)$/,
                 use: [
                     'file-loader'
-                ],
+                ]
             },
         ],
     },

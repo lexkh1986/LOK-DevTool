@@ -1,7 +1,7 @@
 {
   "name": "lok-devtool",
   "version": "1.1.0",
-  "homepage": "https://lexkh1986.github.io/LOK-DevTool/",
+  "homepage": "https://loklandlord.tk/",
   "private": true,
   "description": "LOK with webpack",
   "main": "index.bundle.js",
@@ -27,6 +27,7 @@
     "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.4",
     "clean-webpack-plugin": "^4.0.0",
+    "cname-webpack-plugin": "^3.0.0",
     "css-loader": "4.3.0",
     "file-loader": "^6.2.0",
     "gh-pages": "^3.2.3",
