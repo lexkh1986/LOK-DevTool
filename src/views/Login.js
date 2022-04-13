@@ -8,7 +8,7 @@ const validateUser = (email) => {
 }
 
 const Login = () => {
-    const clientId = '129123030731-jna8pn3o75crio0vdkq02o6lvhdp05qh.apps.googleusercontent.com';
+    const clientId = '129123030731-mputaolhk25n53jmb8d0r9oelqqvtrv4.apps.googleusercontent.com';
     const navigate = useNavigate();
 
     useEffect(() => {
