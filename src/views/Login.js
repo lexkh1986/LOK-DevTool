@@ -32,7 +32,12 @@ const Login = () => {
 
 	return (
 		<AnimatePresence>
-			<div className='layout-center login'>
+			<motion.div
+				className='layout-center login'
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				exit={{ opacity: 0 }}
+			>
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
@@ -61,7 +66,7 @@ const Login = () => {
 						style={{ marginTop: '100px' }}
 					/>
 				</motion.div>
-			</div>
+			</motion.div>
 		</AnimatePresence>
 	);
 };
