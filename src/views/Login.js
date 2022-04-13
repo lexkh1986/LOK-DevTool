@@ -32,7 +32,7 @@ const Login = () => {
     return (
         <div className='layout-center login'>
             <img src={logo} alt="" />
-            <h1>League of Kingdom - Lands Manager</h1>
+            <h1>League of Kingdoms - Lands Manager</h1>
             <p>Designed by ABooBoo</p>
             <GoogleLogin clientId={clientId}
                 buttonText='Login with Google'

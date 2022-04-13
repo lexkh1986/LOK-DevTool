@@ -1,7 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CnameWebpackPlugin = require('cname-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CnameWebpackPlugin = require('cname-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -16,14 +16,15 @@ module.exports = {
         static: './build'
     },
     plugins: [
-        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin(),
+        new CleanWebpackPlugin(),
         new CnameWebpackPlugin({
             domain: 'loklandlord.tk',
         }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: './public/index.html'
+            template: './public/index.html',
+            favicon: "./public/favicon.ico"
         })],
     module: {
         rules: [
@@ -39,7 +40,7 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, "css-loader"],
             },
             {
-                test: /\.(png|svg|jpg|gif|json)$/,
+                test: /\.(png|svg|jpg|gif)$/,
                 use: [
                     'file-loader'
                 ]
