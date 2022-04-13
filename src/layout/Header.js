@@ -5,8 +5,8 @@ import { Navbar, NavbarBrand, NavbarText, NavLink } from 'reactstrap';
 import '../assets/styles/header.css';
 
 const Header = () => {
-    const logoName = 'League Of Kingdom - DevTool';
-    const author = 'Designed by ABooBoo - Trial version';
+    const logoName = 'League Of Kingdom - Lands Manager';
+    const author = 'Designed by ABooBoo';
     const navItems = [];
 
     return (
