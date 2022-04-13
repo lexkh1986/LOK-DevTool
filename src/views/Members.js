@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-    ButtonGroup, InputGroup,
-    Input, Button,
-    Row, Col
-} from 'reactstrap';
-import Papa from "papaparse";
+import { ButtonGroup, InputGroup, Input, Button, Row, Col } from 'reactstrap';
+import Papa from 'papaparse';
 import MemberList from '../components/MemberList';
 
 const Members = () => {
@@ -19,34 +15,36 @@ const Members = () => {
     }, []);
 
     const readCSV = (file) => {
-        if (!file) { return }
+        if (!file) {
+            return;
+        }
 
         Papa.parse(file, {
             header: true,
             complete: function (results) {
                 const data = MapMembers(results.data);
-                data.forEach(mem => {
-                    mem.kingdoms = mem.kingdoms.filter(item => item)
+                data.forEach((mem) => {
+                    mem.kingdoms = mem.kingdoms.filter((item) => item);
                 });
                 setMemberList(data);
                 localStorage.setItem('members', JSON.stringify(data));
-            }
+            },
         });
     };
 
     const MapMembers = (raw) => {
         let list = [];
         let count = 1;
-        raw.forEach(item => {
+        raw.forEach((item) => {
             let newMem = {
                 id: count,
                 discord: item.discord,
                 email: item.email,
                 level: parseInt(item.level),
                 wallet: { type: item.wallettype, address: item.walletaddress },
-                kingdoms: []
-            }
-            Object.keys(item).forEach(key => {
+                kingdoms: [],
+            };
+            Object.keys(item).forEach((key) => {
                 if (key.includes('kingdom')) {
                     newMem.kingdoms.push(item[key]);
                 }
@@ -55,7 +53,7 @@ const Members = () => {
             count += 1;
         });
         return list;
-    }
+    };
 
     return (
         <div className='members'>
@@ -70,16 +68,24 @@ const Members = () => {
             <Row>
                 <Col md='4'>
                     <InputGroup className='mb-3'>
-                        <Button outline={true} color='primary'
+                        <Button
+                            outline={true}
+                            color='primary'
                             onClick={() => {
                                 readCSV(csvSource);
                             }}
-                            title='Browse to .csv file and then click this button to import list of contributed members'>
-                            <i className="fa fa-cloud-upload" aria-hidden="true"></i>Import
+                            title='Browse to .csv file and then click this button to import list of contributed members'
+                        >
+                            <i className='fa fa-cloud-upload' aria-hidden='true'></i>Import
                         </Button>
-                        <Input id='csvMemberFile' type='file' accept=".csv" onChange={(e) => {
-                            setSource(e.target.files[0])
-                        }}></Input>
+                        <Input
+                            id='csvMemberFile'
+                            type='file'
+                            accept='.csv'
+                            onChange={(e) => {
+                                setSource(e.target.files[0]);
+                            }}
+                        ></Input>
                     </InputGroup>
                 </Col>
             </Row>
@@ -90,6 +96,6 @@ const Members = () => {
             </Row>
         </div>
     );
-}
+};
 
 export default Members;

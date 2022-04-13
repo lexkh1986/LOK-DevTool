@@ -61,16 +61,17 @@
 }
 
 /* --------- Content --------- */
-.content i {
-    margin-right: 4px;
+.bold {
+    font-weight: 700;
 }
 
-.export-csv *,
-.contribution-report tr,
-.content .land-list * {
-    margin-left: 4px;
+.margin * {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.content i {
     margin-right: 4px;
-    vertical-align: middle;
 }
 
 .content .land-list .form-control {

@@ -6,10 +6,9 @@ const Lands = () => {
     return (
         <div className='lands'>
             <LandManagement />
-            <div style={{ marginTop: '40px' }} />
             <RptLandContribution />
         </div>
     );
-}
+};
 
 export default Lands;

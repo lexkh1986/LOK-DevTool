@@ -15,6 +15,6 @@ const Report = () => {
             </Row>
         </div>
     );
-}
+};
 
 export default Report;

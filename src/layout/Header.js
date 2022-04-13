@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoogleLogout } from 'react-google-login';
-import { useNavigate } from "react-router-dom";
-import { Navbar, NavbarBrand, NavbarText, NavLink } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
+import { Navbar, NavbarBrand, NavbarText, NavLink, Button } from 'reactstrap';
 import '../assets/styles/header.css';
 
 const Header = () => {
@@ -11,19 +11,19 @@ const Header = () => {
 
     return (
         <div className='header'>
-            <Navbar color="dark" dark expand fixed="top" light>
+            <Navbar color='dark' dark expand fixed='top' light>
                 <NavbarBrand>{logoName}</NavbarBrand>
                 <NavbarText>{author}</NavbarText>
-                {
-                    navItems.map((item, index) =>
-                        <NavLink key={index} href="#">{item}</NavLink>
-                    )
-                }
+                {navItems.map((item, index) => (
+                    <NavLink key={index} href='#'>
+                        {item}
+                    </NavLink>
+                ))}
                 <Logout />
             </Navbar>
         </div>
     );
-}
+};
 
 const Logout = (res) => {
     const navigate = useNavigate();
@@ -31,17 +31,20 @@ const Logout = (res) => {
 
     const onSuccess = (res) => {
         return navigate('/');
-    }
+    };
 
     return (
-        <GoogleLogout clientId={clientId}
-            render={renderProps => (
-                <button onClick={renderProps.onClick} disabled={renderProps.disabled}>Logout</button>
+        <GoogleLogout
+            clientId={clientId}
+            render={(renderProps) => (
+                <Button size='sm' outline onClick={renderProps.onClick} disabled={renderProps.disabled}>
+                    Logout
+                </Button>
             )}
             buttonText='Logout'
             onLogoutSuccess={onSuccess}
         />
     );
-}
+};
 
 export default Header;

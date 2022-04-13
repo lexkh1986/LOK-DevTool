@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import {
-    ButtonGroup, Button,
-    Row, Col,
-    Table
-} from 'reactstrap';
+import { ButtonGroup, Button, Row, Col, Table } from 'reactstrap';
 import { useCSVDownloader } from 'react-papaparse';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,17 +29,22 @@ const RptLandContribution = () => {
 
         // Build headers
         let headers = ['no', 'discord', 'kingdom', 'total'];
-        lands.forEach(land => {
+        lands.forEach((land) => {
             headers.push(land.id);
         });
 
         // Build body
         let body = [];
         let count = 1;
-        members.forEach(mem => {
-            mem.kingdoms.forEach(kingdom => {
-                let row = { no: count, discord: mem.discord, kingdom: kingdom, total: 0 };
-                lands.forEach(land => {
+        members.forEach((mem) => {
+            mem.kingdoms.forEach((kingdom) => {
+                let row = {
+                    no: count,
+                    discord: mem.discord,
+                    kingdom: kingdom,
+                    total: 0,
+                };
+                lands.forEach((land) => {
                     row[land['id']] = 0;
                 });
                 body.push(row);
@@ -52,9 +53,9 @@ const RptLandContribution = () => {
         });
 
         // Fill body data
-        lands.forEach(land => {
-            land.data.forEach(item => {
-                body.forEach(row => {
+        lands.forEach((land) => {
+            land.data.forEach((item) => {
+                body.forEach((row) => {
                     if (row.kingdom === item.name) {
                         row[land.id] = parseFloat(item.total.toFixed(2));
                         row.total += row[land.id];
@@ -69,33 +70,40 @@ const RptLandContribution = () => {
     };
 
     return (
-        <div className='land-contribution'>
+        <div className='land-contribution' style={{ marginTop: '40px' }}>
             <div className='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
                 <h2>Lands Contributions</h2>
-                {
-                    !isRptRendered ? null :
-                        <CSVDownloader
-                            filename='LandContribution_Report'
-                            bom={true}
-                            config={{ delimeter: ',' }}
-                            download={true}
-                            data={JSON.parse(localStorage.getItem('landContribution'))}
-                        >
-                            <Button outline size='sm'>Export</Button>
-                        </CSVDownloader>
-                }
+                {!isRptRendered ? null : (
+                    <CSVDownloader
+                        filename='LandContribution_Report'
+                        bom={true}
+                        config={{ delimeter: ',' }}
+                        download={true}
+                        data={JSON.parse(localStorage.getItem('landContribution'))}
+                    >
+                        <Button outline size='sm'>
+                            Export
+                        </Button>
+                    </CSVDownloader>
+                )}
             </div>
             <Row>
                 <Col md='4'>
                     <ButtonGroup>
-                        <Button outline color='primary'
+                        <Button
+                            outline
+                            color='primary'
                             onClick={() => {
-                                ReactDOM.render(genData(), document.getElementById('contributions'))
+                                ReactDOM.render(genData(), document.getElementById('contributions'));
                             }}
-                            title='Click this button to generate a table of devPoint data'>
-                            <i className='fa fa-table' aria-hidden="true"></i>Generate
+                            title='Click this button to generate a table of devPoint data'
+                        >
+                            <i className='fa fa-table' aria-hidden='true'></i>Generate
                         </Button>
-                        <Button outline color='primary' id="btnSumDevPoint"
+                        <Button
+                            outline
+                            color='primary'
+                            id='btnSumDevPoint'
                             onClick={() => {
                                 if (!localStorage.getItem('landContribution')) {
                                     alert('Please generate land contribution report first!');
@@ -103,15 +111,15 @@ const RptLandContribution = () => {
                                     navigate('/dashboard/report');
                                 }
                             }}
-                            title='Group data by discordIDs'>
-                            <i className='fa fa-line-chart' aria-hidden="true"></i>Payout Report
+                            title='Group data by discordIDs'
+                        >
+                            <i className='fa fa-line-chart' aria-hidden='true'></i>Payout Report
                         </Button>
                     </ButtonGroup>
                 </Col>
             </Row>
             <Row>
-                <Col id='contributions' md='12'>
-                </Col>
+                <Col id='contributions' md='12'></Col>
             </Row>
         </div>
     );
@@ -123,27 +131,26 @@ const ReportTable = ({ headers, body }) => {
             <Table size='sm' responsive hover>
                 <thead>
                     <tr>
-                        {
-                            headers.map((item, key) =>
-                                <th key={key}>
-                                    {isNaN(item) ? null : <i className='fa fa-map' aria-hidden='true'></i>}
-                                    {item}
-                                </th>)
-                        }
+                        {headers.map((item, key) => (
+                            <th key={key}>
+                                {isNaN(item) ? null : <i className='fa fa-map' aria-hidden='true'></i>}
+                                {item}
+                            </th>
+                        ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {
-                        body.map((item, key) =>
-                            <tr key={key}>
-                                {headers.map((col, key) => <td key={key}>{item[col]}</td>)}
-                            </tr>
-                        )
-                    }
+                    {body.map((item, key) => (
+                        <tr key={key}>
+                            {headers.map((col, key) => (
+                                <td key={key}>{item[col]}</td>
+                            ))}
+                        </tr>
+                    ))}
                 </tbody>
             </Table>
         </div>
     );
-}
+};
 
 export default RptLandContribution;

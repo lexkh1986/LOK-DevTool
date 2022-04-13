@@ -15,9 +15,11 @@ const Main = () => {
     if (user === 'guest') {
         return (
             <div className='login-request'>
-                <h2>Please <a href='/#/'>login</a> before using admin dashboard</h2>
+                <h2>
+                    Please <a href='/#/'>login</a> before using admin dashboard
+                </h2>
             </div>
-        )
+        );
     } else {
         return (
             <div>
@@ -35,8 +37,8 @@ const Main = () => {
                     </Row>
                 </Container>
             </div>
-        )
+        );
     }
-}
+};
 
 export default Main;

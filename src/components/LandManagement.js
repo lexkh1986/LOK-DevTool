@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    ListGroup,
-    Row, Col,
-    Button, ButtonGroup,
-    Input, InputGroup
-} from 'reactstrap';
+import { ListGroup, Row, Col, Button, ButtonGroup, Input, InputGroup } from 'reactstrap';
 import Land from '../components/Land';
 
 const LandManagement = () => {
@@ -19,7 +14,9 @@ const LandManagement = () => {
     }, [lands]);
 
     const validateLandID = (elem) => {
-        const isNumber = (n) => { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
+        const isNumber = (n) => {
+            return !isNaN(parseFloat(n)) && !isNaN(n - 0);
+        };
 
         if (elem.value.length !== 6 || !isNumber(elem.value)) {
             alert('LandID must be a 6 digits number!');
@@ -32,7 +29,7 @@ const LandManagement = () => {
     const addLand = (id) => {
         const toDate = new Date();
         const fromDate = new Date();
-        const nextDate = new Date()
+        const nextDate = new Date();
         fromDate.setDate(toDate.getDate() - 6);
         nextDate.setDate(toDate.getDate() + 6);
 
@@ -41,7 +38,7 @@ const LandManagement = () => {
             currentCycle: { from: fromDate.toISOString().slice(0, 10), to: toDate.toISOString().slice(0, 10) },
             nextCycle: { from: toDate.toISOString().slice(0, 10), to: nextDate.toISOString().slice(0, 10) },
             isFilled: false,
-            data: []
+            data: [],
         };
         buildLands(!lands ? [newLand] : lands.concat(newLand));
     };
@@ -67,29 +64,39 @@ const LandManagement = () => {
             <Row>
                 <Col md='4'>
                     <InputGroup className='mb-3'>
-                        <Button outline color='primary'
+                        <Button
+                            outline
+                            color='primary'
                             title='Enter value to the textbox and click this button to register a new LandID'
-                            onClick={() => validateLandID(document.getElementById('newLandID'))}>
+                            onClick={() => validateLandID(document.getElementById('newLandID'))}
+                        >
                             <i className='fa fa-map-marker' aria-hidden='true'></i>Add Land
                         </Button>
-                        <Input id='newLandID' minLength='6' maxLength='8' size='15' placeholder='Input new landID'></Input>
+                        <Input
+                            id='newLandID'
+                            minLength='6'
+                            maxLength='8'
+                            size='15'
+                            placeholder='Input new landID'
+                        ></Input>
                     </InputGroup>
                 </Col>
                 <Col md='8'>
                     <div className='land-list'>
-                        {
-                            !lands || lands.length === 0 ? <p>You have no lands, input your first land!</p> :
-                                <ListGroup id='landGroup'>
-                                    {
-                                        lands.map((land) => <Land key={land.id} land={land} handeDelete={deleteLand} />)
-                                    }
-                                </ListGroup>
-                        }
+                        {!lands || lands.length === 0 ? (
+                            <p>You have no lands, input your first land!</p>
+                        ) : (
+                            <ListGroup id='landGroup'>
+                                {lands.map((land) => (
+                                    <Land key={land.id} land={land} handeDelete={deleteLand} />
+                                ))}
+                            </ListGroup>
+                        )}
                     </div>
                 </Col>
             </Row>
         </div>
     );
-}
+};
 
 export default LandManagement;
