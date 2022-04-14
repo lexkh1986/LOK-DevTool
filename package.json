@@ -30,6 +30,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "cname-webpack-plugin": "^3.0.0",
     "css-loader": "4.3.0",
+    "dotenv-webpack": "^7.1.0",
     "file-loader": "^6.2.0",
     "framer-motion": "^6.2.10",
     "gh-pages": "^3.2.3",

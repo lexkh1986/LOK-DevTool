@@ -27,7 +27,6 @@ const Header = () => {
 
 const Logout = (res) => {
     const navigate = useNavigate();
-    const clientId = '129123030731-mputaolhk25n53jmb8d0r9oelqqvtrv4.apps.googleusercontent.com';
 
     const onSuccess = (res) => {
         return navigate('/');
@@ -35,7 +34,7 @@ const Logout = (res) => {
 
     return (
         <GoogleLogout
-            clientId={clientId}
+            clientId={process.env.REACT_APP_GOOGLE_API_CLIENT_ID}
             render={(renderProps) => (
                 <Button size='sm' outline onClick={renderProps.onClick} disabled={renderProps.disabled}>
                     Logout

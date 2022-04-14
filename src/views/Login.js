@@ -9,7 +9,6 @@ const validateUser = (email) => {
 };
 
 const Login = () => {
-	const clientId = '129123030731-mputaolhk25n53jmb8d0r9oelqqvtrv4.apps.googleusercontent.com';
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -58,7 +57,7 @@ const Login = () => {
 					<h1>League of Kingdoms - Lands Manager</h1>
 					<p>Designed by ABooBoo</p>
 					<GoogleLogin
-						clientId={clientId}
+						clientId={process.env.REACT_APP_GOOGLE_API_CLIENT_ID}
 						buttonText='Login with Google'
 						onSuccess={onSuccess}
 						onFailure={onFailure}
