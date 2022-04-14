@@ -131,13 +131,10 @@ const ReportTable = ({ headers, body }) => {
 		<AnimatePresence>
 			<motion.div
 				className='contributions-data'
-				initial={{ scale: 0 }}
-				animate={{ rotate: 360, scale: 1 }}
-				transition={{
-					type: 'spring',
-					stiffness: 260,
-					damping: 60,
-				}}
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				exit={{ opacity: 0 }}
+				transition={{ delay: 0.8 }}
 			>
 				<Table size='sm' responsive hover>
 					<thead>
