@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Stack, Button, Collapse, Spinner } from 'react-bootstrap';
 import { motion } from 'framer-motion';
+import { addDays } from './functions/commons';
 
 const Land = ({ land, handeDelete }) => {
 	const [lockCurrCycle, toggleLockCycle] = useState(true);
@@ -59,12 +60,6 @@ const Land = ({ land, handeDelete }) => {
 			let rangeArr = [];
 			let diff = Math.floor((to - from) / (24 * 3600 * 1000));
 
-			const addDays = (date, days) => {
-				let result = new Date(date);
-				result.setDate(result.getDate() + days);
-				return result;
-			};
-
 			if (Math.floor(diff / 6) <= 1) {
 				rangeArr.push({ from: from, to: to });
 			} else {
@@ -104,6 +99,20 @@ const Land = ({ land, handeDelete }) => {
 		land.currentCycle.to = currToDate;
 		toggleLockCycle(!lockCurrCycle);
 	};
+
+	const applyNewCycle = () => {
+		setCurrFromDate(nxtFromDate);
+		setCurrToDate(nxtToDate);
+	}
+
+	const setNextDate = (days) => {
+		let toArr = currToDate.split('-');
+		let toNorm = new Date(Number(toArr[0]), Number(toArr[1]) - 1, Number(toArr[2]));
+
+		let startDate = addDays(toNorm, 1);
+		setNxtFromDate(startDate.toLocaleDateString('en-GB').split('/').reverse().join('-'));
+		setNxtToDate(addDays(startDate, parseInt(days)).toLocaleDateString('en-GB').split('/').reverse().join('-'));
+	}
 
 	return (
 		<motion.div
@@ -176,18 +185,18 @@ const Land = ({ land, handeDelete }) => {
 							<div className='d-flex align-items-center margin'>
 								<span className='bold'>
 									Next cycle date
-									<Button size='sm' variant='outline-info'>
-										+7 Days
+									<Button size='sm' variant='outline-info' onClick={() => setNextDate(6)}>
+										+6 Days
 									</Button>
-									<Button size='sm' variant='outline-info'>
-										+14 Days
+									<Button size='sm' variant='outline-info' onClick={() => setNextDate(12)}>
+										+12 Days
 									</Button>
 								</span>
 								<Form.Label>From</Form.Label>
 								<Form.Control size='sm' htmlSize={10} maxLength={10} value={nxtFromDate} readOnly />
 								<Form.Label>To</Form.Label>
 								<Form.Control size='sm' htmlSize={10} maxLength={10} value={nxtToDate} readOnly />
-								<Button size='sm' variant='outline-info'>
+								<Button size='sm' variant='outline-info' onClick={() => applyNewCycle()}>
 									Apply as current cycle
 								</Button>
 							</div>
