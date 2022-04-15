@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ButtonGroup, Button, Row, Col, Table } from 'reactstrap';
+import { Spinner } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCSVDownloader } from 'react-papaparse';
 import { useNavigate } from 'react-router-dom';
 
 const RptLandContribution = () => {
 	const [isRptRendered, toggleRender] = useState(false);
+	const [isCalculating, toggleCalculating] = useState(false);
 	const { CSVDownloader } = useCSVDownloader();
 	const navigate = useNavigate();
 
@@ -28,6 +30,7 @@ const RptLandContribution = () => {
 			return <p className='error-text'>Please get data at least 1 land!</p>;
 		}
 
+		toggleCalculating(true);
 		// Build headers
 		let headers = ['no', 'discord', 'kingdom', 'total'];
 		lands.forEach((land) => {
@@ -67,6 +70,7 @@ const RptLandContribution = () => {
 		});
 
 		localStorage.setItem('landContribution', JSON.stringify(body));
+		toggleCalculating(false);
 		toggleRender(true);
 		return <ReportTable headers={headers} body={body} />;
 	};
@@ -99,8 +103,14 @@ const RptLandContribution = () => {
 								ReactDOM.render(genData(), document.getElementById('contributions'));
 							}}
 							title='Click this button to generate a table of devPoint data'
+							className={isCalculating ? 'disabled' : ''}
 						>
-							<i className='fa fa-table' aria-hidden='true'></i>Generate
+							{isCalculating ? (
+								<Spinner size='sm' animation='border' />
+							) : (
+								<i className='fa fa-table' aria-hidden='true' />
+							)}
+							Generate
 						</Button>
 						<Button
 							outline
