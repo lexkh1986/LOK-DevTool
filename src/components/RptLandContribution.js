@@ -58,8 +58,9 @@ const RptLandContribution = () => {
 			land.data.forEach((item) => {
 				body.forEach((row) => {
 					if (row.kingdom === item.name) {
-						row[land.id] = parseFloat(item.total.toFixed(2));
-						row.total += row[land.id];
+						let currValue = parseFloat(item.total.toFixed(2));
+						row[land.id] += currValue;
+						row.total += currValue;
 					}
 				});
 			});

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Stack, Button, Collapse } from 'react-bootstrap';
+import { Form, Stack, Button, Collapse, Spinner } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 
 const Land = ({ land, handeDelete }) => {
@@ -11,26 +11,78 @@ const Land = ({ land, handeDelete }) => {
 	const [nxtFromDate, setNxtFromDate] = useState(land.nextCycle.from);
 	const [nxtToDate, setNxtToDate] = useState(land.nextCycle.to);
 
-	const [isSynced, toggleSync] = useState({ enabled: true, isfilled: false, text: 'GET DATA' });
+	const [isSynced, toggleSync] = useState({ enabled: true, isfilled: false });
 
 	const getLandDevPoint = (land) => {
-		const strQuery =
-			'https://api-lok-live.leagueofkingdoms.com/api/stat/land/contribution?landId=' +
-			land.id +
-			'&from=' +
-			currFromDate +
-			'&to=' +
-			currToDate;
+		let combinedPoints = { id: land.id, from: currFromDate, to: currToDate, data: [] };
 
-		toggleSync({ enabled: false, isfilled: isSynced.isfilled, text: 'Loading...' });
-		fetch(strQuery)
-			.then((response) => {
-				return response.json();
-			})
-			.then((data) => {
-				storeData(land.id, data.contribution);
-				toggleSync({ enabled: true, isfilled: true, text: 'GET DATA' });
+		// Split date range to 6-days cycles
+		let dateRangeArr = parseDateRange(currFromDate, currToDate);
+
+		// Validate unsupport cases
+		if (dateRangeArr.length > 5) {
+			alert('Too long date range, should less than 5 cycles!');
+			return;
+		}
+
+		// Get data for all date ranges
+		(async (listRange) => {
+			toggleSync({ enabled: false, isfilled: false });
+			await Promise.all(
+				listRange.map(async (range) => {
+					const url =
+						'https://api-lok-live.leagueofkingdoms.com/api/stat/land/contribution?landId=' +
+						land.id +
+						'&from=' +
+						range.from +
+						'&to=' +
+						range.to;
+
+					const res = await fetch(url);
+					const data = await res.json();
+					combinedPoints.data = [...combinedPoints.data, ...data.contribution];
+					return;
+				})
+			);
+			toggleSync({ enabled: true, isfilled: true });
+			storeData(land.id, combinedPoints.data);
+		})(dateRangeArr);
+	};
+
+	const parseDateRange = (from, to) => {
+		let fromArr = from.split('-');
+		let fromNorm = new Date(Number(fromArr[0]), Number(fromArr[1]) - 1, Number(fromArr[2]));
+		let toArr = to.split('-');
+		let toNorm = new Date(Number(toArr[0]), Number(toArr[1]) - 1, Number(toArr[2]));
+
+		const cutRange = (from, to) => {
+			let rangeArr = [];
+			let diff = Math.floor((to - from) / (24 * 3600 * 1000));
+
+			const addDays = (date, days) => {
+				let result = new Date(date);
+				result.setDate(result.getDate() + days);
+				return result;
+			};
+
+			if (Math.floor(diff / 6) <= 1) {
+				rangeArr.push({ from: from, to: to });
+			} else {
+				rangeArr.push({ from: from, to: addDays(from, 6) });
+				while (rangeArr[rangeArr.length - 1].to < to) {
+					let tmpfr = addDays(rangeArr[rangeArr.length - 1].to, 1);
+					rangeArr.push({ from: tmpfr, to: addDays(tmpfr, 6) });
+				}
+				rangeArr[rangeArr.length - 1].to =
+					rangeArr[rangeArr.length - 1].to > to ? to : rangeArr[rangeArr.length - 1].to;
+			}
+			rangeArr.forEach((item) => {
+				item.from = item.from.toLocaleDateString('en-GB').split('/').reverse().join('-');
+				item.to = item.to.toLocaleDateString('en-GB').split('/').reverse().join('-');
 			});
+			return rangeArr;
+		};
+		return cutRange(fromNorm, toNorm);
 	};
 
 	const storeData = (id, data) => {
@@ -38,7 +90,12 @@ const Land = ({ land, handeDelete }) => {
 		if (!currData) {
 			localStorage.setItem('landData', JSON.stringify([{ id: id, data: data }]));
 		} else {
-			localStorage.setItem('landData', JSON.stringify(currData.concat({ id: id, data: data })));
+			currData.forEach(element => {
+				if (element.id === id) {
+					currData.pop(element);
+				}
+			});
+			localStorage.setItem('landData', JSON.stringify([...currData,...[{ id: id, data: data }]]));
 		}
 	};
 
@@ -61,13 +118,14 @@ const Land = ({ land, handeDelete }) => {
 					<span className='bold'>
 						{land.id}
 						<Button
+							style={{ width: '80px' }}
 							size='sm'
 							className={isSynced.enabled ? '' : 'disabled'}
 							variant={isSynced.isfilled ? 'success' : 'secondary'}
 							isfilled={isSynced.isfilled.toString()}
 							onClick={() => getLandDevPoint(land)}
 						>
-							{isSynced.text}
+							{!isSynced.enabled ? <Spinner size='sm' animation='border' /> : 'GET DATA'}
 						</Button>
 					</span>
 					<Form.Label>From</Form.Label>

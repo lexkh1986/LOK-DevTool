@@ -18,11 +18,13 @@
     "url": "git+https://github.com/lexkh1986/LOK-DevTool.git"
   },
   "dependencies": {
+    "@babel/runtime": "^7.17.9",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
+    "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.4",
