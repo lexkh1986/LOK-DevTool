@@ -6,18 +6,18 @@ const Sidebar = () => {
 	return (
 		<Nav className='bg-light sidebar' vertical={true}>
 			<NavItem className='nav-item'>
-				<NavLink className='nav-link' to='/dashboard/lands'>
+				<NavLink className='nav-link' to='/lands'>
 					<i className='fa fa-map-signs feather' aria-hidden='true'></i>Lands
 				</NavLink>
 			</NavItem>
 			<NavItem className='nav-item'>
-				<NavLink className='nav-link' to='/dashboard/members'>
+				<NavLink className='nav-link' to='/members'>
 					<i className='fa fa-address-book-o feather' aria-hidden='true'></i>
 					Members
 				</NavLink>
 			</NavItem>
 			<NavItem className='nav-item'>
-				<NavLink className='nav-link' to='/dashboard/report'>
+				<NavLink className='nav-link' to='/report'>
 					<i className='fa fa-line-chart feather' aria-hidden='true'></i>Report
 				</NavLink>
 			</NavItem>

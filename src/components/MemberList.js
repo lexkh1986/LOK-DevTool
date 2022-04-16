@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'reactstrap';
+import { Table, Button } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import metamaskIcon from '../assets/images/metamask16.png';
 import polygonIcon from '../assets/images/polygon16.png';
@@ -47,7 +47,7 @@ const Member = ({ member }) => {
 			<td>{member.id}</td>
 			<td>{member.discord}</td>
 			<td className='col-center'>
-				<Button outline disabled className='mem-level' color='success' size='sm'>
+				<Button variant='outline-secondary' disabled className='mem-level' color='success' size='sm'>
 					{member.level}
 				</Button>
 			</td>
@@ -71,7 +71,7 @@ const Kingdoms = ({ memberRef, list }) => {
 	return (
 		<div className='kingdom' member_ref={memberRef}>
 			{list.map((kingdom, key) => (
-				<Button outline color='info' size='sm' key={key}>
+				<Button variant='outline-info' size='sm' key={key}>
 					{kingdom}
 				</Button>
 			))}

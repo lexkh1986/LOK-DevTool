@@ -1,29 +1,36 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { GoogleLogin } from 'react-google-login';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { auth, db } from '../data/firebase';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { collection, getDocs } from 'firebase/firestore/lite';
+import { Button } from 'react-bootstrap';
 import logo from '../assets/images/logo.png';
-import { valOwn } from '../components/functions/share';
 
-const Login = ({ isUser }) => {
-	const navigate = useNavigate();
+const Login = ({ handleSignIn }) => {
+	const signInWithGoogle = () => {
+		signInWithPopup(auth, new GoogleAuthProvider())
+			.then((res) => {
+				(async (res) => {
+					const allUsersSnapshot = await getDocs(collection(db, 'users'));
+					const users = allUsersSnapshot.docs.map((doc) => doc.data());
 
-	useEffect(() => {
-		sessionStorage.setItem('user', 'guest');
-	}, []);
-
-	const onSuccess = (res) => {
-		if (valOwn(res.profileObj.email)) {
-			sessionStorage.setItem('user', res.profileObj.email);
-			return navigate('/dashboard');
-		} else {
-			sessionStorage.setItem('user', 'guest');
-			return navigate('/');
-		}
-	};
-
-	const onFailure = (res) => {
-		console.log('Logged in failed', res);
+					// Check valid user
+					users.forEach((user) => {
+						if (user.email === res.user.email) {
+							if (user.role === 'landlord') {
+								sessionStorage.setItem('organizationID', user.organization);
+							}
+							sessionStorage.setItem('user', user.email);
+							sessionStorage.setItem('role', user.role);
+							handleSignIn(user.role);
+							return;
+						}
+					});
+				})(res);
+			})
+			.catch((err) => {
+				alert('Caught an error during logging in: ' + err.toString());
+			});
 	};
 
 	return (
@@ -59,14 +66,9 @@ const Login = ({ isUser }) => {
 						</p>
 					</div>
 
-					<GoogleLogin
-						clientId={process.env.REACT_APP_GOOGLE_API_CLIENT_ID}
-						buttonText='Login with Google'
-						onSuccess={onSuccess}
-						onFailure={onFailure}
-						cookiePolicy={'single_host_origin'}
-						style={{ marginTop: '100px' }}
-					/>
+					<Button variant='outline-secondary' onClick={signInWithGoogle}>
+						Login with Google
+					</Button>
 				</motion.div>
 			</motion.div>
 		</AnimatePresence>

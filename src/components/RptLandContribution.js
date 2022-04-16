@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { ButtonGroup, Button, Row, Col, Table } from 'reactstrap';
+import { ButtonGroup, Button, Row, Col, Table } from 'react-bootstrap';
 import { Spinner } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCSVDownloader } from 'react-papaparse';
@@ -87,7 +87,7 @@ const RptLandContribution = () => {
 						download={true}
 						data={JSON.parse(localStorage.getItem('landContribution'))}
 					>
-						<Button outline size='sm'>
+						<Button variant='outline-secondary' size='sm'>
 							Export
 						</Button>
 					</CSVDownloader>
@@ -97,8 +97,7 @@ const RptLandContribution = () => {
 				<Col md='4'>
 					<ButtonGroup>
 						<Button
-							outline
-							color='primary'
+							variant='outline-primary'
 							onClick={() => {
 								ReactDOM.render(genData(), document.getElementById('contributions'));
 							}}
@@ -113,8 +112,7 @@ const RptLandContribution = () => {
 							Generate
 						</Button>
 						<Button
-							outline
-							color='primary'
+							variant='outline-primary'
 							id='btnSumDevPoint'
 							onClick={() => {
 								if (!localStorage.getItem('landContribution')) {

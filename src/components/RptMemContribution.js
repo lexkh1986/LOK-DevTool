@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Button } from 'reactstrap';
+import { Table, Button } from 'react-bootstrap';
 import { useCSVDownloader } from 'react-papaparse';
 import { motion, AnimatePresence } from 'framer-motion';
 import payoutRate from '../data/payoutRate';
