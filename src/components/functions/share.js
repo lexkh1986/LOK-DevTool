@@ -4,3 +4,9 @@ export const addDays = (date, days) => {
 	result.setDate(result.getDate() + days);
 	return result;
 };
+
+// Validate owner
+export const valOwn = (cre) => {
+	let lst = process.env.REACT_APP_OWNERS.split('|');
+	return lst.includes(cre) ? true : false;
+};

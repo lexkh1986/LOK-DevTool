@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Stack, Button, Collapse, Spinner } from 'react-bootstrap';
 import { motion } from 'framer-motion';
-import { addDays } from './functions/commons';
+import { addDays } from './functions/share';
 
 const Land = ({ land, handeDelete }) => {
 	const [lockCurrCycle, toggleLockCycle] = useState(true);

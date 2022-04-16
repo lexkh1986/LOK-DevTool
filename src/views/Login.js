@@ -3,12 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login';
 import { motion, AnimatePresence } from 'framer-motion';
 import logo from '../assets/images/logo.png';
+import { valOwn } from '../components/functions/share';
 
-const validateUser = (email) => {
-	return email === 'darthrev1986@gmail.com' || email === 'felinosacijul@gmail.com' ? true : false;
-};
-
-const Login = () => {
+const Login = ({ isUser }) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -16,7 +13,7 @@ const Login = () => {
 	}, []);
 
 	const onSuccess = (res) => {
-		if (validateUser(res.profileObj.email)) {
+		if (valOwn(res.profileObj.email)) {
 			sessionStorage.setItem('user', res.profileObj.email);
 			return navigate('/dashboard');
 		} else {
@@ -56,6 +53,12 @@ const Login = () => {
 					/>
 					<h1>League of Kingdoms - Lands Manager</h1>
 					<p>Designed by ABooBoo</p>
+					<div style={{ margin: '4px' }}>
+						<h7>
+							Please contact site admin at email <strong>darthrev1986@gmail.com</strong> to Sign Up
+						</h7>
+					</div>
+
 					<GoogleLogin
 						clientId={process.env.REACT_APP_GOOGLE_API_CLIENT_ID}
 						buttonText='Login with Google'
