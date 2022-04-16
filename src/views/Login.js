@@ -54,9 +54,9 @@ const Login = ({ isUser }) => {
 					<h1>League of Kingdoms - Lands Manager</h1>
 					<p>Designed by ABooBoo</p>
 					<div style={{ margin: '4px' }}>
-						<h7>
+						<p>
 							Please contact site admin at email <strong>darthrev1986@gmail.com</strong> to Sign Up
-						</h7>
+						</p>
 					</div>
 
 					<GoogleLogin
