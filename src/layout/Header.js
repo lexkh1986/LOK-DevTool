@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { signOut } from '../data/firebase';
+import { signOut } from '../connection/firebase';
 import { Navbar, Nav, Button } from 'react-bootstrap';
-import { UserProfile } from '../data/appContexts';
+import { UserProfile } from '../connection/appContexts';
 import '../assets/styles/header.css';
 
 const Header = () => {

@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ListGroup, Row, Col, Button, ButtonGroup, Form, InputGroup } from 'react-bootstrap';
 import { AnimatePresence } from 'framer-motion';
+import { UserProfile } from '../connection/appContexts';
+import { getLands, getByID } from '../connection/sql/organizations';
 import Land from '../components/Land';
 
 const LandManagement = () => {
+	const { profile } = useContext(UserProfile);
 	const [lands, buildLands] = useState(JSON.parse(localStorage.getItem('lands')));
 
 	useEffect(() => {
 		localStorage.removeItem('landData');
+		getByID('organizations', profile.organization).then((res) => {
+			console.log(res);
+		});
 	}, []);
 
 	useEffect(() => {

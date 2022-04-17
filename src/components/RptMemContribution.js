@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { useCSVDownloader } from 'react-papaparse';
 import { motion, AnimatePresence } from 'framer-motion';
-import payoutRate from '../data/payoutRate';
+import payoutRate from '../connection/payoutRate';
 import metamaskIcon from '../assets/images/metamask16.png';
 import polygonIcon from '../assets/images/polygon16.png';
 

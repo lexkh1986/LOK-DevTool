@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Routes as DOMRoutes, Route, Navigate, useLocation } from 'react-router-dom';
-import { signInGoogle, validateUser, useAuth } from './data/firebase';
+import { signInGoogle, useAuth } from './connection/firebase';
+import { getUserByEmail } from './connection/sql/users';
 import { Spinner } from 'react-bootstrap';
 
-import { UserProfile, Session } from './data/appContexts';
+import { UserProfile, Session } from './connection/appContexts';
 import Main from './layout/Main';
 import Lands from './views/Lands';
 import Members from './views/Members';
 import Report from './views/Report';
 import Login from './views/Login';
 import Profile from './views/Profile';
+import Error from './views/Error';
 
 function Routes() {
 	const location = useLocation();
@@ -20,12 +22,14 @@ function Routes() {
 	useEffect(() => {
 		setLoading(true);
 		useAuth((user) => {
-			setSession(user);
-			validateUser(user).then((dbUser) => {
-				setProfile(dbUser ? dbUser : { email: user.email, organization: null, role: 'member' });
-				setLoading(false);
-				return;
-			});
+			if (user) {
+				getUserByEmail(user).then((dbUser) => {
+					setProfile(dbUser ? dbUser : { email: user.email, organization: null, role: 'member' });
+					setSession(user);
+					setLoading(false);
+					return;
+				});
+			}
 			setLoading(false);
 		});
 	}, []);
@@ -33,9 +37,9 @@ function Routes() {
 	async function handleSignin() {
 		await signInGoogle().then(async (res) => {
 			setLoading(true);
-			setSession(res.user);
-			let userProfile = await validateUser(res.user);
+			let userProfile = await getUserByEmail(res.user);
 			setProfile(userProfile ? userProfile : { email: user.email, organization: null, role: 'member' });
+			setSession(res.user);
 		});
 		setLoading(false);
 	}
@@ -67,7 +71,7 @@ function Routes() {
 			<Route path='*' element={<Navigate to='/' replace />} />
 		</DOMRoutes>
 	) : (
-		<p>Oops 404 page</p>
+		<Error />
 	);
 }
 

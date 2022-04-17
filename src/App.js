@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HashRouter } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Routes from './Routes';
-import { Session, UserProfile } from './data/appContexts';
+import { Session, UserProfile } from './connection/appContexts';
 
 const App = () => {
 	const [profile, setProfile] = useState(null);
