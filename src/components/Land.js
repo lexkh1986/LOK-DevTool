@@ -5,12 +5,12 @@ import { addDays } from './functions/share';
 
 const Land = ({ land, handeDelete }) => {
 	const [lockCurrCycle, toggleLockCycle] = useState(true);
-	const [currFromDate, setCurrFromDate] = useState(land.currentCycle.from);
-	const [currToDate, setCurrToDate] = useState(land.currentCycle.to);
+	const [currFromDate, setCurrFromDate] = useState(land.currentFrom);
+	const [currToDate, setCurrToDate] = useState(land.currentTo);
 
 	const [isNextCycleOpened, toggleNextCycle] = useState(false);
-	const [nxtFromDate, setNxtFromDate] = useState(land.nextCycle.from);
-	const [nxtToDate, setNxtToDate] = useState(land.nextCycle.to);
+	const [nxtFromDate, setNxtFromDate] = useState(land.nextFrom);
+	const [nxtToDate, setNxtToDate] = useState(land.nextTo);
 
 	const [isSynced, toggleSync] = useState({ enabled: true, isfilled: false });
 
@@ -95,8 +95,8 @@ const Land = ({ land, handeDelete }) => {
 	};
 
 	const updateCurrCycle = () => {
-		land.currentCycle.from = currFromDate;
-		land.currentCycle.to = currToDate;
+		land.currentFrom = currFromDate;
+		land.currentTo = currToDate;
 		toggleLockCycle(!lockCurrCycle);
 	};
 

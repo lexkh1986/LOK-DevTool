@@ -1,15 +1,22 @@
 import { db } from '../firebase';
-import { collection, query, where, getDoc, getDocs, doc } from 'firebase/firestore/lite';
+import { collection, query, where, getDoc, getDocs, doc, ref } from 'firebase/firestore/lite';
 
 // Common helper
-export async function getByID(collection, id) {
-	const snap = await getDoc(doc(db, collection, id));
-	if (snap.exists()) return snap.data();
-	else alert(`No such document: ${collection}.${id}`);
+export async function getDocByID(collection, id) {
+	let snap = await getDoc(doc(db, collection, id));
+	if (snap.exists()) {
+		return snap.data();
+	} else {
+		return Promise.reject(Error(`No such document: ${collection}.${id}`));
+	}
 }
 
 // By functions
 export async function getLands(organization) {
-	let org = await getByID('organizations', organization);
-	console.log(org);
+	let data = [];
+	let lands = await getDocs(collection(db, 'organizations', organization, 'lands'));
+	lands.forEach((land) => {
+		data.push({ id: parseInt(land.id), ...land.data() });
+	});
+	return data;
 }

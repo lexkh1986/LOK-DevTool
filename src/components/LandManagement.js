@@ -2,23 +2,23 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ListGroup, Row, Col, Button, ButtonGroup, Form, InputGroup } from 'react-bootstrap';
 import { AnimatePresence } from 'framer-motion';
 import { UserProfile } from '../connection/appContexts';
-import { getLands, getByID } from '../connection/sql/organizations';
+import { getLands } from '../connection/sql/organizations';
+import PleaseWait from './PleaseWait';
 import Land from '../components/Land';
 
 const LandManagement = () => {
 	const { profile } = useContext(UserProfile);
-	const [lands, buildLands] = useState(JSON.parse(localStorage.getItem('lands')));
+	const [lands, setLands] = useState();
+	const [isloading, setLoading] = useState(false);
 
 	useEffect(() => {
 		localStorage.removeItem('landData');
-		getByID('organizations', profile.organization).then((res) => {
-			console.log(res);
+		setLoading(true);
+		getLands(profile.organization).then((lands) => {
+			setLands(lands);
+			setLoading(false);
 		});
 	}, []);
-
-	useEffect(() => {
-		localStorage.setItem('lands', JSON.stringify(lands));
-	}, [lands]);
 
 	const validateLandID = (elem) => {
 		const isNumber = (n) => {
@@ -42,17 +42,17 @@ const LandManagement = () => {
 
 		const newLand = {
 			id: parseInt(id),
-			currentCycle: { from: fromDate.toISOString().slice(0, 10), to: toDate.toISOString().slice(0, 10) },
-			nextCycle: { from: toDate.toISOString().slice(0, 10), to: nextDate.toISOString().slice(0, 10) },
-			isFilled: false,
-			data: [],
+			currentFrom: fromDate.toISOString().slice(0, 10), 
+			currentTo: toDate.toISOString().slice(0, 10),
+			nextFrom: toDate.toISOString().slice(0, 10),
+			nextTo: nextDate.toISOString().slice(0, 10),
 		};
-		buildLands(!lands ? [newLand] : lands.concat(newLand));
+		setLands(!lands ? [newLand] : lands.concat(newLand));
 	};
 
 	const deleteLand = (id) => {
 		const newLands = lands.filter((land) => land.id !== id);
-		buildLands(newLands);
+		setLands(newLands);
 	};
 
 	return (
@@ -89,7 +89,9 @@ const LandManagement = () => {
 				</Col>
 				<Col md='8'>
 					<div className='land-list'>
-						{!lands || lands.length === 0 ? (
+						{isloading ? (
+							<PleaseWait />
+						) : !lands || lands.length === 0 ? (
 							<p>You have no lands, input your first land!</p>
 						) : (
 							<AnimatePresence>

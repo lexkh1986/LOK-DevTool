@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Routes as DOMRoutes, Route, Navigate, useLocation } from 'react-router-dom';
 import { signInGoogle, useAuth } from './connection/firebase';
 import { getUserByEmail } from './connection/sql/users';
-import { Spinner } from 'react-bootstrap';
 
 import { UserProfile, Session } from './connection/appContexts';
+import PleaseWait from './components/PleaseWait';
 import Main from './layout/Main';
 import Lands from './views/Lands';
 import Members from './views/Members';
@@ -45,12 +45,7 @@ function Routes() {
 	}
 
 	return isLoading ? (
-		<div className='page-spinner'>
-			<div>
-				<Spinner animation='border' variant='primary' />
-				<h6>Please wait ...</h6>
-			</div>
-		</div>
+		<PleaseWait />
 	) : !session && !profile ? (
 		<DOMRoutes location={location} key={location.pathname}>
 			<Route path='/' element={<Login handleSignin={handleSignin} />} />
