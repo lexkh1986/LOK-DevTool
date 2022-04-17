@@ -1,6 +1,3 @@
-// Common imports
-import { useEffect, useState } from 'react';
-
 // Firebase imports
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, signOut as logOut, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
@@ -34,15 +31,8 @@ export function signInGoogle() {
 	return signInWithPopup(auth, new GoogleAuthProvider());
 }
 
-export function useAuth() {
-	const [currentUser, setCurrentUser] = useState();
-
-	useEffect(() => {
-		const unsubsc = onAuthStateChanged(auth, (user) => setCurrentUser(user));
-		return unsubsc;
-	}, []);
-
-	return currentUser;
+export function useAuth(func) {
+	return onAuthStateChanged(auth, (user) => func(user));
 }
 
 export function signOut() {

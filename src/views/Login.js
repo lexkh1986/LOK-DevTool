@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from 'react-bootstrap';
 import logo from '../assets/images/logo.png';
 
-const Login = ({ handleSignIn }) => {
+const Login = ({ handleSignin }) => {
 	return (
 		<AnimatePresence>
 			<motion.div
@@ -31,13 +31,8 @@ const Login = ({ handleSignIn }) => {
 					/>
 					<h1>League of Kingdoms - Lands Manager</h1>
 					<p>Designed by ABooBoo</p>
-					<div style={{ margin: '4px' }}>
-						<p>
-							Please contact site admin at email <strong>darthrev1986@gmail.com</strong> to Sign Up
-						</p>
-					</div>
 
-					<Button variant='outline-secondary' onClick={handleSignIn}>
+					<Button variant='outline-secondary' onClick={handleSignin}>
 						Login with Google
 					</Button>
 				</motion.div>

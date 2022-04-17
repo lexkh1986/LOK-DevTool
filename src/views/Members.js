@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Papa from 'papaparse';
 import MemberList from '../components/MemberList';
 
-const Members = ({ org }) => {
+const Members = () => {
 	const [members, setMemberList] = useState(undefined);
 	const [csvSource, setSource] = useState(undefined);
 
