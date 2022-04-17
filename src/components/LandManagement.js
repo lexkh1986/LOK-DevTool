@@ -42,7 +42,7 @@ const LandManagement = () => {
 
 		const newLand = {
 			id: parseInt(id),
-			currentFrom: fromDate.toISOString().slice(0, 10), 
+			currentFrom: fromDate.toISOString().slice(0, 10),
 			currentTo: toDate.toISOString().slice(0, 10),
 			nextFrom: toDate.toISOString().slice(0, 10),
 			nextTo: nextDate.toISOString().slice(0, 10),
@@ -59,14 +59,6 @@ const LandManagement = () => {
 		<div className='land-management'>
 			<div className='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
 				<h2>Lands Management</h2>
-				<ButtonGroup>
-					<Button variant='outline-secondary' size='sm'>
-						Import
-					</Button>
-					<Button variant='outline-secondary' size='sm'>
-						Export
-					</Button>
-				</ButtonGroup>
 			</div>
 			<Row>
 				<Col md='4'>
