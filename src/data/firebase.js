@@ -1,6 +1,10 @@
+// Common imports
+import { useEffect, useState } from 'react';
+
+// Firebase imports
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore/lite';
+import { getAuth, signInWithPopup, signOut as logOut, GoogleAuthProvider, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 
 const firebaseConfig = {
 	apiKey: process.env.REACT_APP_APIKEY,
@@ -12,6 +16,35 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-export const auth = getAuth(app);
+// Firestore
 export const db = getFirestore(app);
+
+export async function validateUser(user) {
+	const allUsersSnapshot = await getDocs(collection(db, 'users'));
+	const dbUsers = allUsersSnapshot.docs.map((doc) => doc.data());
+
+	// If valid user in db, return the user
+	return dbUsers.filter((dbUser) => dbUser.email === user.email)[0];
+}
+
+// Authentication
+export function signInGoogle() {
+	return signInWithPopup(auth, new GoogleAuthProvider());
+}
+
+export function useAuth() {
+	const [currentUser, setCurrentUser] = useState();
+
+	useEffect(() => {
+		const unsubsc = onAuthStateChanged(auth, (user) => setCurrentUser(user));
+		return unsubsc;
+	}, []);
+
+	return currentUser;
+}
+
+export function signOut() {
+	return logOut(auth);
+}

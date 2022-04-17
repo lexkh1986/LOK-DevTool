@@ -1,6 +1,5 @@
 import React from 'react';
-import { signOut } from 'firebase/auth';
-import { auth } from '../data/firebase';
+import { signOut } from '../data/firebase';
 import { Button } from 'react-bootstrap';
 import { Navbar, NavbarBrand, NavbarText, NavLink } from 'reactstrap';
 import '../assets/styles/header.css';
@@ -24,7 +23,9 @@ const Header = () => {
 					size='sm'
 					variant='outline-secondary'
 					onClick={() => {
-						signOut(auth);
+						signOut();
+						sessionStorage.removeItem('organization');
+						sessionStorage.removeItem('role');
 						window.location.reload(false);
 					}}
 				>

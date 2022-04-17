@@ -27,19 +27,7 @@ body {
     font-size: 0.75rem;
 }
 
-.kingdom button {
-    margin-left: 2px;
-    margin-right: 2px;
-}
-
-.wallet-icon {
-    margin-left: 4px;
-    margin-right: 4px;
-}
-
-.member-list th,
-.member-list td {
-    margin-left: 20px;
-    margin-right: 20px;
-    vertical-align: middle;
+.page-spinner {
+    text-align: center;
+    margin-top: calc(50vh)
 }
