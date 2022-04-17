@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ButtonGroup, InputGroup, Input, Button, Row, Col } from 'reactstrap';
+import { ButtonGroup, InputGroup, Form, Button, Row, Col } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import Papa from 'papaparse';
 import MemberList from '../components/MemberList';
 
-const Members = () => {
+const Members = ({ org }) => {
 	const [members, setMemberList] = useState(undefined);
 	const [csvSource, setSource] = useState(undefined);
 
@@ -61,7 +61,7 @@ const Members = () => {
 			<div className='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
 				<h2>Members Management</h2>
 				<ButtonGroup>
-					<Button outline={true} size='sm'>
+					<Button variant='outline-secondary' size='sm'>
 						Export
 					</Button>
 				</ButtonGroup>
@@ -70,8 +70,7 @@ const Members = () => {
 				<Col md='4'>
 					<InputGroup className='mb-3'>
 						<Button
-							outline={true}
-							color='primary'
+							variant='outline-primary'
 							onClick={() => {
 								readCSV(csvSource);
 							}}
@@ -79,14 +78,14 @@ const Members = () => {
 						>
 							<i className='fa fa-cloud-upload' aria-hidden='true'></i>Import
 						</Button>
-						<Input
+						<Form.Control
 							id='csvMemberFile'
 							type='file'
 							accept='.csv'
 							onChange={(e) => {
 								setSource(e.target.files[0]);
 							}}
-						></Input>
+						></Form.Control>
 					</InputGroup>
 				</Col>
 			</Row>

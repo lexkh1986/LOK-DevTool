@@ -1,31 +1,26 @@
 import React from 'react';
 import { signOut } from '../data/firebase';
-import { Button } from 'react-bootstrap';
-import { Navbar, NavbarBrand, NavbarText, NavLink } from 'reactstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import '../assets/styles/header.css';
 
-const Header = () => {
-	const logoName = 'League Of Kingdom - Lands Manager';
+const Header = ({ org }) => {
 	const author = 'Designed by ABooBoo';
 	const navItems = [];
 
 	return (
 		<div className='header'>
-			<Navbar color='dark' dark expand fixed='top' light>
-				<NavbarBrand>{logoName}</NavbarBrand>
-				<NavbarText>{author}</NavbarText>
+			<Navbar className='justify-content-between' expand='lg' variant='dark' bg='dark' fixed='top'>
+				<Navbar.Brand>Organization - {org.toUpperCase()}</Navbar.Brand>
 				{navItems.map((item, index) => (
-					<NavLink key={index} href='#'>
+					<Nav.Link key={index} href='#'>
 						{item}
-					</NavLink>
+					</Nav.Link>
 				))}
 				<Button
 					size='sm'
 					variant='outline-secondary'
 					onClick={() => {
 						signOut();
-						sessionStorage.removeItem('organization');
-						sessionStorage.removeItem('role');
 						window.location.reload(false);
 					}}
 				>

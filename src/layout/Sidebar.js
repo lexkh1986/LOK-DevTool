@@ -1,10 +1,10 @@
 import React from 'react';
-import { Nav, NavItem } from 'reactstrap';
+import { Nav, NavItem } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
 	return (
-		<Nav className='bg-light sidebar' vertical={true}>
+		<Nav className='bg-light sidebar flex-column' >
 			<NavItem className='nav-item'>
 				<NavLink className='nav-link' to='/lands'>
 					<i className='fa fa-map-signs feather' aria-hidden='true'></i>Lands

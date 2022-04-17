@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { signInGoogle, validateUser, useAuth } from '../data/firebase';
@@ -13,6 +13,7 @@ import Profile from '../views/Profile';
 function AnimatedRoutes() {
 	const location = useLocation();
 	const currentUser = useAuth();
+	const [org, setOrg] = useState();
 	const [renderRole, setRenderRole] = useState();
 	const [isLoading, setLoading] = useState(false);
 
@@ -21,7 +22,12 @@ function AnimatedRoutes() {
 			.then(async (res) => {
 				setLoading(true);
 				let dbUser = await validateUser(res.user);
-				setRenderRole(dbUser ? dbUser.role : 'member');
+				if (dbUser) {
+					setOrg(dbUser.organization);
+					setRenderRole(dbUser.role);
+				} else {
+					setRenderRole('member');
+				}
 			})
 			.catch((err) => {
 				alert('Oops!!! Got an error: ' + err);
@@ -42,10 +48,10 @@ function AnimatedRoutes() {
 		return (
 			<AnimatePresence>
 				<Routes location={location} key={location.pathname}>
-					<Route path='/' element={<Main />}>
-						<Route path='/lands' element={<Lands />} />
-						<Route path='/members' element={<Members />} />
-						<Route path='/report' element={<Report />} />
+					<Route path='/' element={<Main org={org} />}>
+						<Route path='/lands' element={<Lands org={org} />} />
+						<Route path='/members' element={<Members org={org} />} />
+						<Route path='/report' element={<Report org={org} />} />
 					</Route>
 					<Route path='*' element={<Navigate to='/' replace />} />
 				</Routes>

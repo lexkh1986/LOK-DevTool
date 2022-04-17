@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ListGroup, Row, Col, Button, ButtonGroup, Input, InputGroup } from 'reactstrap';
+import { ListGroup, Row, Col, Button, ButtonGroup, Form, InputGroup } from 'react-bootstrap';
 import { AnimatePresence } from 'framer-motion';
 import Land from '../components/Land';
 
@@ -54,10 +54,10 @@ const LandManagement = () => {
 			<div className='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
 				<h2>Lands Management</h2>
 				<ButtonGroup>
-					<Button outline size='sm'>
+					<Button variant='outline-secondary' size='sm'>
 						Import
 					</Button>
-					<Button outline size='sm'>
+					<Button variant='outline-secondary' size='sm'>
 						Export
 					</Button>
 				</ButtonGroup>
@@ -66,20 +66,19 @@ const LandManagement = () => {
 				<Col md='4'>
 					<InputGroup className='mb-3'>
 						<Button
-							outline
-							color='primary'
+							variant='outline-primary'
 							title='Enter value to the textbox and click this button to register a new LandID'
 							onClick={() => validateLandID(document.getElementById('newLandID'))}
 						>
 							<i className='fa fa-map-marker' aria-hidden='true'></i>Add Land
 						</Button>
-						<Input
+						<Form.Control
 							id='newLandID'
 							minLength='6'
 							maxLength='8'
 							size='15'
 							placeholder='Input new landID'
-						></Input>
+						></Form.Control>
 					</InputGroup>
 				</Col>
 				<Col md='8'>

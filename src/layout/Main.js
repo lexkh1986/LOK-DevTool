@@ -5,10 +5,10 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import '../assets/styles/main.css';
 
-const Main = () => {
+const Main = ({ org }) => {
 	return (
 		<div>
-			<Header />
+			<Header org={org} />
 			<Container fluid={true} role='main'>
 				<Row className='gx-0'>
 					<Col>
