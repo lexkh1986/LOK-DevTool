@@ -21,6 +21,11 @@
     text-align: center;
 }
 
+.google-icon {
+    width: 32px;
+    height: 32px;
+}
+
 /* --------- CSS by Content --------- */
 
 body {
