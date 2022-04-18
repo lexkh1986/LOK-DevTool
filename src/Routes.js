@@ -26,11 +26,11 @@ function Routes() {
 				getUserByEmail(user).then((dbUser) => {
 					setProfile(dbUser ? dbUser : { email: user.email, organization: null, role: 'member' });
 					setSession(user);
-					setTimeout(() => setLoading(false), 1000);
+					setTimeout(() => setLoading(false), 500);
 					return;
 				});
 			}
-			setTimeout(() => setLoading(false), 1000);
+			setTimeout(() => setLoading(false), 500);
 		});
 	}, []);
 
@@ -41,7 +41,7 @@ function Routes() {
 			setProfile(userProfile ? userProfile : { email: user.email, organization: null, role: 'member' });
 			setSession(res.user);
 		});
-		setTimeout(() => setLoading(false), 1000);
+		setTimeout(() => setLoading(false), 500);
 	}
 
 	return isLoading ? (

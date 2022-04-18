@@ -1,20 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ListGroup, Row, Col, Button, ButtonGroup, Form, InputGroup } from 'react-bootstrap';
+import { ListGroup, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { AnimatePresence } from 'framer-motion';
-import { UserProfile } from '../connection/appContexts';
-import { getLands } from '../connection/sql/organizations';
+import { onSnapshot } from 'firebase/firestore';
+import { UserProfile, Lands } from '../connection/appContexts';
+import { getLands, addLand as build, deleteLand as remove } from '../connection/sql/organizations';
 import PleaseWait from './PleaseWait';
 import Land from '../components/Land';
 
 const LandManagement = () => {
 	const { profile } = useContext(UserProfile);
-	const [lands, setLands] = useState();
+	const { lands, setLands } = useContext(Lands);
+
 	const [isloading, setLoading] = useState(false);
 
 	useEffect(() => {
 		localStorage.removeItem('landData');
 		setLoading(true);
-		getLands(profile.organization).then((lands) => {
+		onSnapshot(getLands(profile.organization), (snapshot) => {
+			let lands = [];
+			snapshot.docs.forEach((doc) => {
+				lands.push({ id: doc.id, ...doc.data() });
+			});
 			setLands(lands);
 			setLoading(false);
 		});
@@ -40,19 +46,16 @@ const LandManagement = () => {
 		fromDate.setDate(toDate.getDate() - 6);
 		nextDate.setDate(toDate.getDate() + 6);
 
-		const newLand = {
-			id: parseInt(id),
+		build(profile.organization, parseInt(id), {
 			currentFrom: fromDate.toISOString().slice(0, 10),
 			currentTo: toDate.toISOString().slice(0, 10),
 			nextFrom: toDate.toISOString().slice(0, 10),
 			nextTo: nextDate.toISOString().slice(0, 10),
-		};
-		setLands(!lands ? [newLand] : lands.concat(newLand));
+		});
 	};
 
 	const deleteLand = (id) => {
-		const newLands = lands.filter((land) => land.id !== id);
-		setLands(newLands);
+		remove(profile.organization, id);
 	};
 
 	return (

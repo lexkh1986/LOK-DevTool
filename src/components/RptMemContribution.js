@@ -90,7 +90,7 @@ const RptMemContribution = () => {
 							download={true}
 							data={exportCSV()}
 						>
-							<Button outline size='sm'>
+							<Button variant='outline-secondary' size='sm'>
 								Export
 							</Button>
 						</CSVDownloader>
@@ -122,10 +122,9 @@ const RptMemContribution = () => {
 											<td>{row.discord}</td>
 											<td className='col-center'>
 												<Button
-													outline
+													variant='outline-success'
 													disabled
 													className='mem-level'
-													color='success'
 													size='sm'
 												>
 													{row.level}

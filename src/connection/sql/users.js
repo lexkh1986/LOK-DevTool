@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore/lite';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 export async function getUserByEmail(user) {
 	let snapshot = await getDocs(query(collection(db, 'users'), where('email', '==', user.email)));

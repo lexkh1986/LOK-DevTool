@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { collection, query, where, getDoc, getDocs, doc, ref } from 'firebase/firestore/lite';
+import { collection, getDoc, setDoc, deleteDoc, doc } from 'firebase/firestore';
 
 // Common helper
 export async function getDocByID(collection, id) {
@@ -12,11 +12,19 @@ export async function getDocByID(collection, id) {
 }
 
 // By functions
-export async function getLands(organization) {
-	let data = [];
-	let lands = await getDocs(collection(db, 'organizations', organization, 'lands'));
-	lands.forEach((land) => {
-		data.push({ id: parseInt(land.id), ...land.data() });
-	});
-	return data;
+export function getLands(organization) {
+	return collection(db, 'organizations', organization, 'lands');
+}
+
+export async function deleteLand(organization, id) {
+	let docRef = doc(db, 'organizations', organization);
+	let subcolRef = collection(docRef, 'lands');
+	await deleteDoc(doc(subcolRef, id.toString()));
+}
+
+export async function addLand(organization, id, data) {
+	let docRef = doc(db, 'organizations', organization);
+	let subcolRef = collection(docRef, 'lands');
+	let newDoc = doc(subcolRef, id.toString());
+	await setDoc(newDoc, data);
 }
