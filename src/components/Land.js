@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Stack, Button, Collapse, Spinner } from 'react-bootstrap';
 import { motion } from 'framer-motion';
-import { addDays } from './functions/share';
+import { UserProfile } from '../connection/appContexts';
+import { setLand } from '../connection/sql/organizations';
+import { addDays, parseDate, dateToString } from './functions/share';
+import PleaseWait from './PleaseWait';
 
 const Land = ({ land, handeDelete }) => {
+	const { profile } = useContext(UserProfile);
+
 	const [lockCurrCycle, toggleLockCycle] = useState(true);
 	const [currFromDate, setCurrFromDate] = useState(land.currentFrom);
 	const [currToDate, setCurrToDate] = useState(land.currentTo);
@@ -13,6 +18,7 @@ const Land = ({ land, handeDelete }) => {
 	const [nxtToDate, setNxtToDate] = useState(land.nextTo);
 
 	const [isSynced, toggleSync] = useState({ enabled: true, isfilled: false });
+	const [isLoading, setLoading] = useState(false);
 
 	const getLandDevPoint = (land) => {
 		let combinedPoints = { id: land.id, from: currFromDate, to: currToDate, data: [] };
@@ -51,10 +57,8 @@ const Land = ({ land, handeDelete }) => {
 	};
 
 	const parseDateRange = (from, to) => {
-		let fromArr = from.split('-');
-		let fromNorm = new Date(Number(fromArr[0]), Number(fromArr[1]) - 1, Number(fromArr[2]));
-		let toArr = to.split('-');
-		let toNorm = new Date(Number(toArr[0]), Number(toArr[1]) - 1, Number(toArr[2]));
+		let fromNorm = parseDate(from);
+		let toNorm = parseDate(to);
 
 		const cutRange = (from, to) => {
 			let rangeArr = [];
@@ -72,8 +76,8 @@ const Land = ({ land, handeDelete }) => {
 					rangeArr[rangeArr.length - 1].to > to ? to : rangeArr[rangeArr.length - 1].to;
 			}
 			rangeArr.forEach((item) => {
-				item.from = item.from.toLocaleDateString('en-GB').split('/').reverse().join('-');
-				item.to = item.to.toLocaleDateString('en-GB').split('/').reverse().join('-');
+				item.from = dateToString(item.from);
+				item.to = dateToString(item.to);
 			});
 			return rangeArr;
 		};
@@ -85,34 +89,52 @@ const Land = ({ land, handeDelete }) => {
 		if (!currData) {
 			localStorage.setItem('landData', JSON.stringify([{ id: id, data: data }]));
 		} else {
-			currData.forEach(element => {
+			currData.forEach((element) => {
 				if (element.id === id) {
 					currData.pop(element);
 				}
 			});
-			localStorage.setItem('landData', JSON.stringify([...currData,...[{ id: id, data: data }]]));
+			localStorage.setItem('landData', JSON.stringify([...currData, ...[{ id: id, data: data }]]));
 		}
 	};
 
 	const updateCurrCycle = () => {
-		land.currentFrom = currFromDate;
-		land.currentTo = currToDate;
+		setLoading(true);
+		setLand(profile.organization, land.id, {
+			currentFrom: currFromDate,
+			currentTo: currToDate,
+		}).then(() => {
+			setLoading(false);
+		});
 		toggleLockCycle(!lockCurrCycle);
 	};
 
 	const applyNewCycle = () => {
+		setLoading(true);
 		setCurrFromDate(nxtFromDate);
 		setCurrToDate(nxtToDate);
-	}
+		setLand(profile.organization, land.id, {
+			currentFrom: currFromDate,
+			currentTo: currToDate,
+		}).then(() => {
+			setLoading(false);
+		});
+	};
 
 	const setNextDate = (days) => {
-		let toArr = currToDate.split('-');
-		let toNorm = new Date(Number(toArr[0]), Number(toArr[1]) - 1, Number(toArr[2]));
-
+		setLoading(true);
+		let toNorm = parseDate(currToDate);
 		let startDate = addDays(toNorm, 1);
-		setNxtFromDate(startDate.toLocaleDateString('en-GB').split('/').reverse().join('-'));
-		setNxtToDate(addDays(startDate, parseInt(days)).toLocaleDateString('en-GB').split('/').reverse().join('-'));
-	}
+		setNxtFromDate(dateToString(startDate));
+		setNxtToDate(dateToString(addDays(startDate, parseInt(days))));
+
+		setLand(profile.organization, land.id, {
+			nextFrom: dateToString(startDate),
+			nextTo: dateToString(addDays(startDate, parseInt(days))),
+		}).then(() => {
+			setLoading(false);
+		});
+	};
 
 	return (
 		<motion.div
@@ -137,68 +159,90 @@ const Land = ({ land, handeDelete }) => {
 							{!isSynced.enabled ? <Spinner size='sm' animation='border' /> : 'GET DATA'}
 						</Button>
 					</span>
-					<Form.Label>From</Form.Label>
-					<Form.Control
-						size='sm'
-						htmlSize={10}
-						id={'from' + land.id}
-						maxLength={10}
-						value={currFromDate}
-						readOnly={lockCurrCycle}
-						onChange={(e) => setCurrFromDate(e.target.value)}
-					/>
-					<Form.Label>To</Form.Label>
-					<Form.Control
-						size='sm'
-						htmlSize={10}
-						id={'to' + land.id}
-						maxLength={10}
-						value={currToDate}
-						readOnly={lockCurrCycle}
-						onChange={(e) => setCurrToDate(e.target.value)}
-					/>
-					<Button size='sm' variant='secondary' onClick={() => updateCurrCycle()}>
-						<i className={lockCurrCycle ? 'fa fa-unlock' : 'fa fa-floppy-o'} aria-hidden='true' />
-					</Button>
-					<Button
-						size='sm'
-						variant='outline-info'
-						aria-expanded={isNextCycleOpened}
-						aria-controls={'nextCycle_' + land.id}
-						onClick={() => toggleNextCycle(!isNextCycleOpened)}
-					>
-						Schedule
-					</Button>
-					<Button
-						size='sm'
-						variant='outline-danger'
-						onClick={() => {
-							handeDelete(land.id);
-						}}
-					>
-						X
-					</Button>
+					{isLoading ? (
+						<PleaseWait type='area-spinner' />
+					) : (
+						<Form>
+							<Form.Label>From</Form.Label>
+							<Form.Control
+								size='sm'
+								htmlSize={10}
+								id={'from' + land.id}
+								maxLength={10}
+								value={currFromDate}
+								readOnly={lockCurrCycle}
+								onChange={(e) => setCurrFromDate(e.target.value)}
+							/>
+							<Form.Label>To</Form.Label>
+							<Form.Control
+								size='sm'
+								htmlSize={10}
+								id={'to' + land.id}
+								maxLength={10}
+								value={currToDate}
+								readOnly={lockCurrCycle}
+								onChange={(e) => setCurrToDate(e.target.value)}
+							/>
+							<Button size='sm' variant='secondary' onClick={() => updateCurrCycle()}>
+								<i className={lockCurrCycle ? 'fa fa-unlock' : 'fa fa-floppy-o'} aria-hidden='true' />
+							</Button>
+							<Button
+								size='sm'
+								variant='outline-info'
+								aria-expanded={isNextCycleOpened}
+								aria-controls={'nextCycle_' + land.id}
+								onClick={() => toggleNextCycle(!isNextCycleOpened)}
+							>
+								Schedule
+							</Button>
+							<Button
+								size='sm'
+								variant='outline-danger'
+								onClick={() => {
+									handeDelete(land.id);
+								}}
+							>
+								X
+							</Button>
+						</Form>
+					)}
 				</div>
 				<div>
 					<Collapse in={isNextCycleOpened}>
 						<div id={'nextCycle_' + land.id}>
 							<div className='d-flex align-items-center margin'>
-								<span className='bold'>
-									Next cycle date
-									<Button size='sm' variant='outline-info' onClick={() => setNextDate(6)}>
-										+6 Days
-									</Button>
-									<Button size='sm' variant='outline-info' onClick={() => setNextDate(12)}>
-										+12 Days
-									</Button>
-								</span>
-								<Form.Label>From</Form.Label>
-								<Form.Control size='sm' htmlSize={10} maxLength={10} value={nxtFromDate} readOnly />
-								<Form.Label>To</Form.Label>
-								<Form.Control size='sm' htmlSize={10} maxLength={10} value={nxtToDate} readOnly />
-								<Button size='sm' variant='outline-info' onClick={() => applyNewCycle()}>
-									Apply as current cycle
-								</Button>
+								<span className='bold'>Next cycle date</span>
+								{isLoading ? (
+									<PleaseWait type='area-spinner' />
+								) : (
+									<Form>
+										<Button size='sm' variant='outline-info' onClick={() => setNextDate(6)}>
+											+6 Days
+										</Button>
+										<Button size='sm' variant='outline-info' onClick={() => setNextDate(12)}>
+											+12 Days
+										</Button>
+										<Form.Label>From</Form.Label>
+										<Form.Control
+											size='sm'
+											htmlSize={10}
+											maxLength={10}
+											value={nxtFromDate}
+											readOnly
+										/>
+										<Form.Label>To</Form.Label>
+										<Form.Control
+											size='sm'
+											htmlSize={10}
+											maxLength={10}
+											value={nxtToDate}
+											readOnly
+										/>
+										<Button size='sm' variant='outline-info' onClick={() => applyNewCycle()}>
+											Apply as current cycle
+										</Button>
+									</Form>
+								)}
 							</div>
 						</div>
 					</Collapse>

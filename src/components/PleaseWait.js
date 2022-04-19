@@ -1,12 +1,12 @@
 import React from 'react';
 import { Spinner } from 'react-bootstrap';
 
-const PleaseWait = () => {
+const PleaseWait = ({ type }) => {
 	return (
-		<div className='page-spinner'>
+		<div className={type}>
 			<div>
-				<Spinner animation='border' variant='primary' />
-				<h6>Please wait ...</h6>
+				<Spinner animation='border' variant='primary' size={type === 'page-spinner' ? 'lg' : 'sm'} />
+				{type === 'page-spinner' && <p>Please wait ...</p>}
 			</div>
 		</div>
 	);

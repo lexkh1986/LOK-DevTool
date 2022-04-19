@@ -45,7 +45,7 @@ function Routes() {
 	}
 
 	return isLoading ? (
-		<PleaseWait />
+		<PleaseWait type='page-spinner' />
 	) : !session && !profile ? (
 		<DOMRoutes location={location} key={location.pathname}>
 			<Route path='/' element={<Login handleSignin={handleSignin} />} />

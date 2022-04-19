@@ -37,3 +37,7 @@ body {
     text-align: center;
     margin-top: calc(50vh)
 }
+
+.area-spinner {
+    text-align: center;
+}

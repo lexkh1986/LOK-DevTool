@@ -28,3 +28,10 @@ export async function addLand(organization, id, data) {
 	let newDoc = doc(subcolRef, id.toString());
 	await setDoc(newDoc, data);
 }
+
+export async function setLand(organization, id, data) {
+	let docRef = doc(collection(db, 'organizations', organization, 'lands'), id.toString());
+	await setDoc(docRef, data, {
+		merge: true,
+	});
+}

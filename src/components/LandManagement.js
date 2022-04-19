@@ -55,7 +55,10 @@ const LandManagement = () => {
 	};
 
 	const deleteLand = (id) => {
-		remove(profile.organization, id);
+		setLoading(true);
+		remove(profile.organization, id).then(() => {
+			setLoading(false);
+		});
 	};
 
 	return (
@@ -85,7 +88,7 @@ const LandManagement = () => {
 				<Col md='8'>
 					<div className='land-list'>
 						{isloading ? (
-							<PleaseWait />
+							<PleaseWait type='area-spinner' />
 						) : !lands || lands.length === 0 ? (
 							<p>You have no lands, input your first land!</p>
 						) : (

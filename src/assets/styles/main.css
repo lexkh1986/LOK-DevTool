@@ -87,6 +87,11 @@ html {
     margin-right: 4px;
 }
 
+.content .land-list form * {
+    text-align: center;
+    vertical-align: middle;
+}
+
 .content .land-list .form-control {
     display: inline-flex;
     width: min-content;
