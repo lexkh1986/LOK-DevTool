@@ -53,7 +53,12 @@ const Land = ({ land, handeDelete }) => {
 			);
 			toggleSync({ enabled: true, isfilled: true });
 			storeData(land.id, combinedPoints.data);
-		})(dateRangeArr);
+		})(dateRangeArr)
+			.then()
+			.catch((err) => {
+				alert('Oops!!! Got an error with the game API: ' + err);
+				toggleSync({ enabled: true, isfilled: true });
+			});
 	};
 
 	const parseDateRange = (from, to) => {
@@ -146,23 +151,21 @@ const Land = ({ land, handeDelete }) => {
 		>
 			<Stack gap={2} style={{ marginTop: '8px' }}>
 				<div className='d-flex align-items-center margin'>
-					<span className='bold'>
-						{land.id}
-						<Button
-							style={{ width: '80px' }}
-							size='sm'
-							className={isSynced.enabled ? '' : 'disabled'}
-							variant={isSynced.isfilled ? 'success' : 'secondary'}
-							isfilled={isSynced.isfilled.toString()}
-							onClick={() => getLandDevPoint(land)}
-						>
-							{!isSynced.enabled ? <Spinner size='sm' animation='border' /> : 'GET DATA'}
-						</Button>
-					</span>
+					<span className='bold'>{land.id}</span>
 					{isLoading ? (
 						<PleaseWait type='area-spinner' />
 					) : (
 						<Form>
+							<Button
+								style={{ width: '80px' }}
+								size='sm'
+								className={isSynced.enabled ? '' : 'disabled'}
+								variant={isSynced.isfilled ? 'success' : 'secondary'}
+								isfilled={isSynced.isfilled.toString()}
+								onClick={() => getLandDevPoint(land)}
+							>
+								{!isSynced.enabled ? <Spinner size='sm' animation='border' /> : 'GET DATA'}
+							</Button>
 							<Form.Label>From</Form.Label>
 							<Form.Control
 								size='sm'

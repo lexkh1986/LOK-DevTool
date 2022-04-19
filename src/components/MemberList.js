@@ -47,7 +47,7 @@ const Member = ({ member }) => {
 			<td>{member.id}</td>
 			<td>{member.discord}</td>
 			<td className='col-center'>
-				<Button variant='outline-dark' className='mem-level bold' size='sm'>
+				<Button variant='outline-secondary' className='mem-level bold' size='sm'>
 					{member.level}
 				</Button>
 			</td>
