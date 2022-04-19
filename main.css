@@ -3,11 +3,12 @@
 .navbar {
   height: 35px;
   padding: 0px !important;
-  box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
 }
 
 .navbar-brand {
   font-size: 1rem !important;
+  margin-left: 10px;
 }
 /* --------- Main Layout --------- */
 /* Avoid space for fixed navbar */
@@ -28,10 +29,12 @@
 /* --------- Sidebar --------- */
 
 .sidebar {
-    position: relative;
+    position: fixed;
     height: calc(100vh - 35px);
     padding-top: 1rem;
     padding-left: 0.5rem;
+    width: calc(15%);
+    min-width: fit-content;
     z-index: 100;
     font-size: 0.875rem;
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
@@ -98,6 +101,12 @@ html {
     margin-right: 4px;
 }
 
+.content .land-list form * {
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 0px;
+}
+
 .content .land-list .form-control {
     display: inline-flex;
     width: min-content;
@@ -121,6 +130,23 @@ html {
 .col-center {
     text-align: center;
 }
+
+.kingdom button {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.wallet-icon {
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
+.member-list th,
+.member-list td {
+    margin-left: 20px;
+    margin-right: 20px;
+    vertical-align: middle;
+}
 .layout-center button {
     border-radius: 6px !important;
 }
@@ -141,25 +167,28 @@ html {
     text-align: center;
 }
 
+.google-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 4px;
+}
+
+.google-icon * {
+    vertical-align: middle;
+}
+
 /* --------- CSS by Content --------- */
 
 body {
     font-size: 0.75rem;
 }
 
-.kingdom button {
-    margin-left: 2px;
-    margin-right: 2px;
+.error-page,
+.page-spinner {
+    text-align: center;
+    margin-top: calc(50vh)
 }
 
-.wallet-icon {
-    margin-left: 4px;
-    margin-right: 4px;
-}
-
-.member-list th,
-.member-list td {
-    margin-left: 20px;
-    margin-right: 20px;
-    vertical-align: middle;
+.area-spinner {
+    text-align: center;
 }
