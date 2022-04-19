@@ -117,7 +117,7 @@ const RptLandContribution = () => {
 								if (!localStorage.getItem('landContribution')) {
 									alert('Please generate land contribution report first!');
 								} else {
-									navigate('/dashboard/report');
+									navigate('/report');
 								}
 							}}
 							title='Group data by discordIDs'
