@@ -17,6 +17,12 @@ const Sidebar = () => {
 				</NavLink>
 			</NavItem>
 			<NavItem className='nav-item'>
+				<NavLink className='nav-link' to='/settings'>
+					<i className='fa fa-cogs feather' aria-hidden='true'></i>
+					Settings
+				</NavLink>
+			</NavItem>
+			<NavItem className='nav-item'>
 				<NavLink className='nav-link' to='/report'>
 					<i className='fa fa-line-chart feather' aria-hidden='true'></i>Report
 				</NavLink>

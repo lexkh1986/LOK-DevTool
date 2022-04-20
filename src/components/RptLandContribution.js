@@ -149,7 +149,7 @@ const ReportTable = ({ headers, body }) => {
 						<tr>
 							{headers.map((item, key) => (
 								<th key={key}>
-									{isNaN(item) ? null : <i className='fa fa-map' aria-hidden='true'></i>}
+									{isNaN(item) ? null : <i className='fa fa-map-o' aria-hidden='true'></i>}
 									{item}
 								</th>
 							))}

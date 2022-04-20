@@ -6,12 +6,13 @@ import { getUserByEmail } from './connection/sql/users';
 import { UserProfile, Session } from './connection/appContexts';
 import PleaseWait from './components/PleaseWait';
 import Main from './layout/Main';
-import Lands from './views/Lands';
-import Members from './views/Members';
-import Report from './views/Report';
-import Login from './views/Login';
-import Profile from './views/Profile';
-import Error from './views/Error';
+import Lands from './pages/Lands';
+import Members from './pages/Members';
+import Report from './pages/Report';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import Error from './pages/Error';
+import Settings from './pages/Settings';
 
 function Routes() {
 	const location = useLocation();
@@ -56,6 +57,7 @@ function Routes() {
 			<Route path='/' element={<Main />}>
 				<Route path='/lands' element={<Lands />} />
 				<Route path='/members' element={<Members />} />
+				<Route path='/settings' element={<Settings />} />
 				<Route path='/report' element={<Report />} />
 			</Route>
 			<Route path='*' element={<Navigate to='/' replace />} />

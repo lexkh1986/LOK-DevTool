@@ -89,12 +89,31 @@ html {
     margin-right: 4px;
 }
 
-.content .land-list form * {
+.rate-list input,
+.rate-list span {
+    margin-right: 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+.rate-list button {
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 60px;
+}
+
+.rate-list .list-group-item {
+    border-width: 0px;
+}
+
+.rate-list form *,
+.land-list form * {
     text-align: center;
     vertical-align: middle;
     margin-bottom: 0px;
 }
 
+.content .rate-list .form-control,
 .content .land-list .form-control {
     display: inline-flex;
     width: min-content;

@@ -16,6 +16,21 @@ export function getLands(organization) {
 	return collection(db, 'organizations', organization, 'lands');
 }
 
+export async function getPayoutRate(organization) {
+	return await getDoc(doc(db, 'organizations', organization), 'payoutRate');
+}
+
+export async function setPayoutRates(organization, data) {
+	let docRef = doc(db, 'organizations', organization);
+	await setDoc(
+		docRef,
+		{ payoutRate: data },
+		{
+			merge: true,
+		}
+	);
+}
+
 export async function deleteLand(organization, id) {
 	let docRef = doc(db, 'organizations', organization);
 	let subcolRef = collection(docRef, 'lands');
