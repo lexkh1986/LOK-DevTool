@@ -14,8 +14,8 @@ const RptMemContribution = () => {
 	const [isLoading, setLoading] = useState(false);
 
 	const { CSVDownloader } = useCSVDownloader();
-	const [members, setMembers] = useState(JSON.parse(localStorage.getItem('members')));
-	const [rptPayout, setRptContent] = useState(JSON.parse(localStorage.getItem('landContribution')));
+	const [members] = useState(JSON.parse(localStorage.getItem('members')));
+	const [rptPayout] = useState(JSON.parse(localStorage.getItem('landContribution')));
 
 	useEffect(() => {
 		getPayoutRate(profile.organization).then((doc) => {
@@ -133,7 +133,7 @@ const RptMemContribution = () => {
 											{genPayout().map((row, key) => (
 												<tr key={key}>
 													<td>{row.no}</td>
-													<td>{row.discord}</td>
+													<td className='bold'>{row.discord}</td>
 													<td className='col-center'>
 														<Button
 															variant='outline-secondary'
@@ -162,8 +162,17 @@ const RptMemContribution = () => {
 													</td>
 													<td>{row.devpoint}</td>
 													<td>
-														<i className='fa fa-usd' aria-hidden='true'></i>
-														<strong>{row.payout.toString()}</strong>
+														{row.payout === 0 ? (
+															<>
+																<i className='fa fa-usd' aria-hidden='true'></i>
+																<strong>{row.payout.toString()}</strong>
+															</>
+														) : (
+															<Button sm='sm' variant='outline-success'>
+																<i className='fa fa-usd' aria-hidden='true'></i>
+																{row.payout.toString()}
+															</Button>
+														)}
 													</td>
 												</tr>
 											))}

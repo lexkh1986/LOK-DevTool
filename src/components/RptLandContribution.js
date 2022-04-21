@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ButtonGroup, Button, Row, Col, Table, Spinner } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,10 +10,6 @@ const RptLandContribution = () => {
 	const [isCalculating, toggleCalculating] = useState(false);
 	const { CSVDownloader } = useCSVDownloader();
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		localStorage.removeItem('landContribution');
-	}, []);
 
 	const genData = () => {
 		const members = JSON.parse(localStorage.getItem('members'));
@@ -68,6 +64,7 @@ const RptLandContribution = () => {
 			});
 		});
 
+		localStorage.removeItem('landContribution');
 		localStorage.setItem('landContribution', JSON.stringify(body));
 		toggleCalculating(false);
 		toggleRender(true);
