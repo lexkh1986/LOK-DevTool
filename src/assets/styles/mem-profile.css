@@ -1,0 +1,41 @@
+.background-img {
+    /* The image used */
+    background-image: url(../images/profile-bg.jpg);
+
+    /* Add the blur effect */
+    filter: blur(15px);
+    -webkit-filter: blur(15px);
+
+    /* Full height */
+    min-height: calc(98vh);
+    height: 100%;
+    z-index: 1;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-sizing: border-box;
+}
+
+/* Position text in the middle of the page/image */
+.overlay-text {
+    /* Fallback color */
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+
+    /* Black opacity/see-through */
+    color: white;
+    font-weight: bold;
+    border: 1px solid #f1f1f1;
+    border-radius: 4px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: calc(95%);
+    min-height: calc(95vh);
+    padding: 20px;
+    box-sizing: border-box;
+}
