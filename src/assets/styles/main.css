@@ -89,6 +89,10 @@ html {
     margin-right: 4px;
 }
 
+.wallet-icon,
+.member-list th,
+.member-list td,
+.contribution-report td,
 .rate-list input,
 .rate-list span {
     margin-right: 4px;
@@ -141,16 +145,4 @@ html {
 .kingdom button {
     margin-left: 2px;
     margin-right: 2px;
-}
-
-.wallet-icon {
-    margin-left: 4px;
-    margin-right: 4px;
-}
-
-.member-list th,
-.member-list td {
-    margin-left: 20px;
-    margin-right: 20px;
-    vertical-align: middle;
 }

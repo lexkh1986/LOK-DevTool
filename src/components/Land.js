@@ -94,12 +94,8 @@ const Land = ({ land, handeDelete }) => {
 		if (!currData) {
 			localStorage.setItem('landData', JSON.stringify([{ id: id, data: data }]));
 		} else {
-			currData.forEach((element) => {
-				if (element.id === id) {
-					currData.pop(element);
-				}
-			});
-			localStorage.setItem('landData', JSON.stringify([...currData, ...[{ id: id, data: data }]]));
+			let newData = currData.filter((elem) => elem.id !== id);
+			localStorage.setItem('landData', JSON.stringify([...newData, ...[{ id: id, data: data }]]));
 		}
 	};
 
