@@ -1,22 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { motion } from 'framer-motion';
+import { MemberProfile as memProfile } from '../connection/appContexts';
+import MemberProfile from '../components/MemberProfile';
 import '../assets/styles/mem-profile.css';
 
 const Profile = () => {
+	const [memberProfile, setProfile] = useState();
+
 	return (
 		<motion.div className='member-profile' initial={{ width: 0 }} animate={{ width: '100%' }} exit={{ x: '100%' }}>
 			<div className='background-img'></div>
-			<div className='overlay-text'>
-				<div className='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
-					<h2>Member Profile</h2>
+			<memProfile.Provider value={{ memberProfile, setProfile }}>
+				<div className='overlay-text'>
+					<MemberProfile />
 				</div>
-				<Row>
-					<Col md='12'>
-						<div>Content is here</div>
-					</Col>
-				</Row>
-			</div>
+			</memProfile.Provider>
 		</motion.div>
 	);
 };

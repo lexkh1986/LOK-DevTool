@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { collection, getDoc, setDoc, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDoc, setDoc, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 
 // Common helper
 export async function getDocByID(collection, id) {
@@ -14,6 +14,11 @@ export async function getDocByID(collection, id) {
 // By functions
 export function getLands(organization) {
 	return collection(db, 'organizations', organization, 'lands');
+}
+
+export async function getMemberByEmail(email) {
+	let qRef = query(collection(db, 'members'), where('email', '==', email));
+	return await getDocs(qRef);
 }
 
 export async function getPayoutRate(organization) {

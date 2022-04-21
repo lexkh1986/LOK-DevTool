@@ -7,8 +7,7 @@
     -webkit-filter: blur(15px);
 
     /* Full height */
-    min-height: calc(98vh);
-    height: 100%;
+    height: calc(250vh);
     z-index: 1;
 
     /* Center and scale the image nicely */
@@ -30,12 +29,77 @@
     border: 1px solid #f1f1f1;
     border-radius: 4px;
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
     width: calc(95%);
-    min-height: calc(95vh);
+    min-height: calc(100vh);
     padding: 20px;
     box-sizing: border-box;
+}
+
+.intro-message {
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: calc(35%);
+    min-height: calc(20vh);
+    height: fit-content;
+    box-sizing: border-box;
+    z-index: 3;
+}
+
+.intro-message p {
+    font-weight: 300;
+    margin: 50px;
+}
+
+.contribution-history,
+.kingdom-list,
+.member-info {
+    margin-bottom: 70px;
+}
+
+.member-info .list-group-item {
+    vertical-align: middle;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    background-color: transparent;
+}
+
+.profile-content h4,
+.profile-content h2 {
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.welcome-text {
+    padding-top: 30px;
+}
+
+.mem-level {
+    vertical-align: middle;
+}
+
+.member-info .list-group-item * {
+    display: block;
+}
+
+.mem-level,
+.member-info .info {
+    text-align: end;
+}
+
+.member-info .label {
+    color: white;
+}
+
+.member-info .wallet-type {
+    margin-left: auto;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
