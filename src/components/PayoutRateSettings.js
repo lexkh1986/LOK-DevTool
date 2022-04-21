@@ -35,10 +35,10 @@ const PayoutRateSettings = () => {
 						<PleaseWait type='area-spinner' />
 					) : (
 						<>
-							<h6>Payout Rates</h6>
 							<span style={{ color: 'gray', marginBottom: '10px' }}>
 								Change the value to update new rate
 							</span>
+							<h6>Payout Rates</h6>
 							<div className='rate-list d-flex align-items-center'>
 								<ListGroup>
 									{Object.keys(payoutRate).map((level, key) => (

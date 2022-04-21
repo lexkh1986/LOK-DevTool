@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { useCSVDownloader } from 'react-papaparse';
 import { motion, AnimatePresence } from 'framer-motion';
-import payoutRate from '../connection/payoutRate';
+import { UserProfile } from '../connection/appContexts';
+import { getPayoutRate } from '../connection/sql/organizations';
+import PleaseWait from './PleaseWait';
 import metamaskIcon from '../assets/images/metamask16.png';
 import polygonIcon from '../assets/images/polygon16.png';
 
 const RptMemContribution = () => {
+	const { profile } = useContext(UserProfile);
+	const [payoutRate, setRates] = useState({});
+	const [isLoading, setLoading] = useState(false);
+
 	const { CSVDownloader } = useCSVDownloader();
-	const members = localStorage.getItem('members') ? JSON.parse(localStorage.getItem('members')) : null;
-	const rptPayout = localStorage.getItem('landContribution')
-		? JSON.parse(localStorage.getItem('landContribution'))
-		: null;
+	const [members, setMembers] = useState(JSON.parse(localStorage.getItem('members')));
+	const [rptPayout, setRptContent] = useState(JSON.parse(localStorage.getItem('landContribution')));
+
+	useEffect(() => {
+		getPayoutRate(profile.organization).then((doc) => {
+			setRates(doc.data().payoutRate);
+		});
+	}, []);
 
 	const genPayout = () => {
 		let body = [];
@@ -80,80 +90,90 @@ const RptMemContribution = () => {
 			{!rptPayout ? (
 				<p className='error-text'>Please generate contribution data from land management first</p>
 			) : (
-				<div>
-					<div className='d-flex align-items-center justify-content-between'>
-						<h6>Payout</h6>
-						<CSVDownloader
-							filename='Payout_Report'
-							bom={true}
-							config={{ delimeter: ',' }}
-							download={true}
-							data={exportCSV()}
-						>
-							<Button variant='outline-secondary' size='sm'>
-								Export
-							</Button>
-						</CSVDownloader>
-					</div>
-					<AnimatePresence>
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							exit={{ opacity: 0 }}
-							transition={{ delay: 0.8 }}
-						>
-							<Table responsive hover size='sm'>
-								<thead>
-									<tr>
-										<th>#</th>
-										<th>Discord ID</th>
-										<th className='col-center'>Level</th>
-										<th>Wallet Address</th>
-										<th>Rate</th>
-										<th>Bonus</th>
-										<th>DevPoints</th>
-										<th>Payout</th>
-									</tr>
-								</thead>
-								<tbody>
-									{genPayout().map((row, key) => (
-										<tr key={key}>
-											<td>{row.no}</td>
-											<td>{row.discord}</td>
-											<td className='col-center'>
-												<Button
-													variant='outline-secondary'
-													className='mem-level bold'
-													size='sm'
-												>
-													{row.level}
-												</Button>
-											</td>
-											<td>
-												<img
-													className='wallet-icon'
-													alt='Wallet Type'
-													src={row.wallet.type === 'polygon' ? polygonIcon : metamaskIcon}
-												/>
-												{row.wallet.address}
-											</td>
-											<td>{row.rate}</td>
-											<td>
-												<i className='fa fa-usd' aria-hidden='true'></i>
-												<strong>{row.bonus}</strong>
-											</td>
-											<td>{row.devpoint}</td>
-											<td>
-												<i className='fa fa-usd' aria-hidden='true'></i>
-												<strong>{row.payout}</strong>
-											</td>
-										</tr>
-									))}
-								</tbody>
-							</Table>
-						</motion.div>
-					</AnimatePresence>
-				</div>
+				<>
+					{isLoading ? (
+						<PleaseWait type='page-spinner' />
+					) : (
+						<>
+							<div className='d-flex align-items-center justify-content-between'>
+								<h6>Payout</h6>
+								<CSVDownloader
+									filename='Payout_Report'
+									bom={true}
+									config={{ delimeter: ',' }}
+									download={true}
+									data={exportCSV()}
+								>
+									<Button variant='outline-secondary' size='sm'>
+										Export
+									</Button>
+								</CSVDownloader>
+							</div>
+							<AnimatePresence>
+								<motion.div
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+									transition={{ delay: 0.8 }}
+								>
+									<Table responsive hover size='sm'>
+										<thead>
+											<tr>
+												<th>#</th>
+												<th>Discord ID</th>
+												<th className='col-center'>Level</th>
+												<th>Wallet Address</th>
+												<th>Rate</th>
+												<th>Bonus</th>
+												<th>DevPoints</th>
+												<th>Payout</th>
+											</tr>
+										</thead>
+										<tbody>
+											{genPayout().map((row, key) => (
+												<tr key={key}>
+													<td>{row.no}</td>
+													<td>{row.discord}</td>
+													<td className='col-center'>
+														<Button
+															variant='outline-secondary'
+															className='mem-level bold'
+															size='sm'
+														>
+															{row.level}
+														</Button>
+													</td>
+													<td>
+														<img
+															className='wallet-icon'
+															alt='Wallet Type'
+															src={
+																row.wallet.type === 'polygon'
+																	? polygonIcon
+																	: metamaskIcon
+															}
+														/>
+														{row.wallet.address}
+													</td>
+													<td>{row.rate}</td>
+													<td>
+														<i className='fa fa-usd' aria-hidden='true'></i>
+														<strong>{row.bonus.toString()}</strong>
+													</td>
+													<td>{row.devpoint}</td>
+													<td>
+														<i className='fa fa-usd' aria-hidden='true'></i>
+														<strong>{row.payout.toString()}</strong>
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</Table>
+								</motion.div>
+							</AnimatePresence>
+						</>
+					)}
+				</>
 			)}
 		</div>
 	);

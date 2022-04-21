@@ -14,7 +14,6 @@ const LandManagement = () => {
 	const [isloading, setLoading] = useState(false);
 
 	useEffect(() => {
-		localStorage.removeItem('landData');
 		setLoading(true);
 		onSnapshot(getLands(profile.organization), (snapshot) => {
 			let lands = [];
