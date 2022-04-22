@@ -8,7 +8,7 @@
   "author": "ABooBoo",
   "license": "ISC",
   "scripts": {
-    "predeploy": "npm run build",
+    "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
     "start": "webpack serve --mode development",
     "build": "webpack --mode production"
@@ -19,8 +19,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.9",
+    "chart.js": "^3.7.1",
     "firebase": "9.6.11",
     "react": "17.0.2",
+    "react-chartjs-2": "^4.1.0",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
