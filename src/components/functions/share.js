@@ -15,3 +15,13 @@ export const dateToString = (date, delimeter) => {
 	let delimt = delimeter ? delimeter : '-';
 	return date.toLocaleDateString('en-GB').split('/').reverse().join(delimt);
 };
+
+export const sortByDate = (array, asc) => {
+	return array.sort(function (a, b) {
+		var keyA = new Date(a.date.toDate()),
+			keyB = new Date(b.date.toDate());
+		if (keyA < keyB) return asc ? -1 : 1;
+		if (keyA > keyB) return asc ? 1 : -1;
+		return 0;
+	});
+};

@@ -29,7 +29,7 @@
     border: 1px solid #f1f1f1;
     border-radius: 4px;
     position: absolute;
-    top: 55%;
+    top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2;
@@ -59,11 +59,12 @@
 
 .contribution-history,
 .kingdom-list,
-.member-info {
+.profile-details {
     margin-bottom: 70px;
 }
 
-.member-info .list-group-item {
+.kingdom-list .list-group-item,
+.profile-details .list-group-item {
     vertical-align: middle;
     border-top: 0px;
     border-left: 0px;
@@ -85,21 +86,42 @@
     vertical-align: middle;
 }
 
-.member-info .list-group-item * {
+.profile-details .list-group-item * {
     display: block;
 }
 
 .mem-level,
-.member-info .info {
+.profile-details .info {
     text-align: end;
 }
 
-.member-info .label {
+.light-pulp {
+    vertical-align: bottom;
+    padding-bottom: 3px;
+    padding-left: 4px;
+}
+
+.kingdom-list .info {
+    vertical-align: bottom;
+    padding-left: 6px;
+}
+
+.contribution-data th,
+.kingdom-list .label,
+.profile-details .label {
     color: white;
 }
 
-.member-info .wallet-type {
+.profile-details .wallet-type {
     margin-left: auto;
     margin-top: 6px;
     margin-bottom: 6px;
+}
+
+.contribution-data th,
+.contribution-data td {
+    margin-right: 4px;
+    margin-left: 4px;
+    text-align: center;
+    vertical-align: middle;
 }
