@@ -61,6 +61,10 @@ const UnauthorizedContent = ({ session }) => {
 };
 
 const AuthorizedContent = ({ profile, contributions }) => {
+	const sumDevPoints = contributions.map((item) => item.devpoints).reduce((a, b) => a + b, 0);
+	const sumPayout = contributions.map((item) => item.payout).reduce((a, b) => a + b, 0);
+	const sumSettled = contributions.map((item) => (item.settled ? item.payout : 0)).reduce((a, b) => a + b, 0);
+
 	return (
 		<>
 			<div className='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
@@ -80,6 +84,45 @@ const AuthorizedContent = ({ profile, contributions }) => {
 						<div className='chart-area'>
 							<ChartPayout chartData={contributions} />
 							<ChartContribution chartData={contributions} />
+						</div>
+						<div className='total-sum'>
+							<div>
+								<span className='label'>Total devPoints contributed: </span>
+								<span className='info'>{sumDevPoints}</span>
+							</div>
+							<div>
+								<span className='label'>Total payout settled: </span>
+								<span className='info'>
+									<i className='fa fa-usd' aria-hidden='true'></i>
+									{` ${sumSettled}`}
+								</span>
+							</div>
+							<div>
+								<span className='label'>Total payout remain: </span>
+								<span className='info'>
+									<i className='fa fa-usd' aria-hidden='true'></i>
+									{` ${sumPayout - sumSettled}`}
+								</span>
+							</div>
+							<hr />
+							<div>
+								<span className='label'>Last cycle devPoints: </span>
+								<span className='info'>{contributions[contributions.length - 1].devpoints}</span>
+							</div>
+							<div>
+								<span className='label'>Last cycle estimated payout: </span>
+								<span className='info'>
+									<i className='fa fa-usd' aria-hidden='true'></i>
+									{` ${contributions[contributions.length - 1].payout}`}
+								</span>
+							</div>
+							<div>
+								<span className='label'>Last cycle bonus: </span>
+								<span className='info'>
+									<i className='fa fa-usd' aria-hidden='true'></i>
+									{` ${contributions[contributions.length - 1].bonus}`}
+								</span>
+							</div>
 						</div>
 					</Col>
 				)}

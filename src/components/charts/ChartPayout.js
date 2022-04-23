@@ -42,7 +42,7 @@ const ChartPayout = ({ chartData }) => {
 			y: {
 				beginAtZero: true,
 				ticks: {
-					padding: 25,
+					padding: 24,
 					color: 'white',
 					callback: (value) => {
 						if (value / 1000000 >= 1) {
