@@ -15,6 +15,7 @@ const ChartPayout = ({ chartData }) => {
 		},
 		plugins: {
 			legend: {
+				align: 'end',
 				labels: {
 					color: 'white',
 				},
@@ -42,7 +43,7 @@ const ChartPayout = ({ chartData }) => {
 			y: {
 				beginAtZero: true,
 				ticks: {
-					padding: 24,
+					padding: 7,
 					color: 'white',
 					callback: (value) => {
 						if (value / 1000000 >= 1) {

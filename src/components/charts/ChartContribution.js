@@ -16,6 +16,7 @@ const ChartContribution = ({ chartData }) => {
 		},
 		plugins: {
 			legend: {
+				align: 'end',
 				labels: {
 					color: 'white',
 				},
@@ -39,7 +40,6 @@ const ChartContribution = ({ chartData }) => {
 			},
 			y: {
 				ticks: {
-					padding: 20,
 					color: 'white',
 					callback: (value) => {
 						if (value / 1000000 >= 1) {

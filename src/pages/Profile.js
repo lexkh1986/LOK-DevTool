@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { MemberProfile as memProfile } from '../connection/appContexts';
-import MemberProfile from '../components/MemberProfile';
+import MemberProfile from '../components/member/MemberProfile';
 import '../assets/styles/mem-profile.css';
 
 const Profile = () => {
