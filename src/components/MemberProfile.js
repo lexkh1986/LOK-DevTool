@@ -4,10 +4,10 @@ import { Row, Col, ListGroup, ListGroupItem, Table } from 'react-bootstrap';
 import { getMemberByEmail } from '../connection/sql/organizations';
 import { dateToString, sortByDate } from '../components/functions/share';
 import PleaseWait from './PleaseWait';
-import ContributionCharts from './ContributionCharts';
+import ChartContribution from './charts/ChartContribution';
+import ChartPayout from './charts/ChartPayout';
 import metamaskIcon from '../assets/images/metamask24.png';
 import polygonIcon from '../assets/images/polygon16.png';
-import crownIcon from '../assets/images/crown36.png';
 import settledIcon from '../assets/images/settled.png';
 import castleIcon from '../assets/images/castle48.png';
 import isInActive from '../assets/images/redlight12.png';
@@ -18,15 +18,13 @@ const MemberProfile = () => {
 	const { memberProfile, setProfile } = useContext(memProfile);
 
 	const [contributionHistory, setData] = useState([]);
-	const [showChart, toggleShowCharts] = useState(false);
 	const [isloading, setLoading] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
 		getMemberByEmail(session.email).then((snapshot) => {
 			let prof = snapshot.docs.map((doc) => doc.data())[0];
-			console.log(prof.contributions);
-			let contributionData = sortByDate(prof.contributions, false);
+			let contributionData = sortByDate(prof.contributions, true);
 
 			setProfile(prof);
 			setData(contributionData);
@@ -77,9 +75,12 @@ const AuthorizedContent = ({ profile, contributions }) => {
 					<ProfileDetails profile={profile} />
 					<Kingdoms arrKingdoms={profile.kingdoms} />
 				</Col>
-				{contributions && contributions.length > 5 && (
+				{contributions && contributions.length > 3 && (
 					<Col md='8'>
-						<ContributionCharts />
+						<div className='chart-area'>
+							<ChartPayout chartData={contributions} />
+							<ChartContribution chartData={contributions} />
+						</div>
 					</Col>
 				)}
 			</Row>

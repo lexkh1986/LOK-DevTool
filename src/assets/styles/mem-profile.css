@@ -7,7 +7,8 @@
     -webkit-filter: blur(15px);
 
     /* Full height */
-    height: calc(250vh);
+    min-height: calc(160vh);
+    max-height: calc(350vh);
     z-index: 1;
 
     /* Center and scale the image nicely */
@@ -29,12 +30,12 @@
     border: 1px solid #f1f1f1;
     border-radius: 4px;
     position: absolute;
-    top: 65%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 50px;
+    left: calc(5%);
     z-index: 2;
-    width: calc(95%);
+    width: calc(90%);
     min-height: calc(100vh);
+    max-height: fit-content;
     padding: 20px;
     box-sizing: border-box;
 }
