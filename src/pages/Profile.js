@@ -11,11 +11,11 @@ const Profile = () => {
 	return (
 		<motion.div className='member-profile' initial={{ width: 0 }} animate={{ width: '100%' }} exit={{ x: '100%' }}>
 			<div className='background-img'></div>
-			<memProfile.Provider value={{ memberProfile, setProfile }}>
-				<div className='overlay-text'>
+			<div className='overlay-text'>
+				<memProfile.Provider value={{ memberProfile, setProfile }}>
 					<MemberProfile />
-				</div>
-			</memProfile.Provider>
+				</memProfile.Provider>
+			</div>
 		</motion.div>
 	);
 };

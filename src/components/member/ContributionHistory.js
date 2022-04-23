@@ -30,7 +30,13 @@ const ContributionHistory = ({ contributions }) => {
 							<i className='fa fa-usd' aria-hidden='true'></i>
 							{` ${row.payout}`}
 						</td>
-						<td>{row.settled ? <img width='24' height='24' src={settledIcon} /> : ''}</td>
+						<td>
+							{row.settled ? (
+								<img className='settled-icon' width='24' height='24' src={settledIcon} />
+							) : (
+								''
+							)}
+						</td>
 					</tr>
 				))}
 			</tbody>

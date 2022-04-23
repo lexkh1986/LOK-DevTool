@@ -18,10 +18,11 @@ const MemberProfile = () => {
 		setLoading(true);
 		getMemberByEmail(session.email).then((snapshot) => {
 			let prof = snapshot.docs.map((doc) => doc.data())[0];
-			let contributionData = sortByDate(prof.contributions, true);
-
 			setProfile(prof);
-			setData(contributionData);
+
+			if (prof) {
+				setData(sortByDate(prof.contributions, true));
+			}
 			setLoading(false);
 		});
 	}, []);
