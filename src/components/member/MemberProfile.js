@@ -4,6 +4,7 @@ import { getMemberByEmail } from '../../connection/sql/organizations';
 import { sortByDate } from '../functions/share';
 import PleaseWait from '../PleaseWait';
 import AuthorizedContent from './AuthorizedContent';
+import UnapprovedContent from './UnapprovedContent';
 import UnauthorizedContent from './UnauthorizedContent';
 
 const MemberProfile = () => {
@@ -31,6 +32,8 @@ const MemberProfile = () => {
 				<PleaseWait type='page-spinner' />
 			) : !memberProfile ? (
 				<UnauthorizedContent session={session} />
+			) : !memberProfile.approved ? (
+				<UnapprovedContent session={session} />
 			) : (
 				<AuthorizedContent profile={memberProfile} contributions={contributionHistory} />
 			)}
