@@ -10,17 +10,18 @@ export async function getDocByID(collection, id) {
 		return Promise.reject(Error(`No such document: ${collection}.${id}`));
 	}
 }
-
-// By functions
-export function getLands(organization) {
-	return collection(db, 'organizations', organization, 'lands');
+// Organization functions
+export async function getOrg() {
+	let orgs = await getDocs(collection(db, 'organizations'));
+	return orgs.docs.map((doc) => doc.id);
 }
 
+// Members functions
 export async function getMemberByEmail(email) {
-	let qRef = query(collection(db, 'members'), where('email', '==', email));
-	return await getDocs(qRef);
+	return await getDocs(query(collection(db, 'members'), where('email', '==', email)));
 }
 
+// Payout rate functions
 export async function getPayoutRate(organization) {
 	return await getDoc(doc(db, 'organizations', organization), 'payoutRate');
 }
@@ -34,6 +35,11 @@ export async function setPayoutRates(organization, data) {
 			merge: true,
 		}
 	);
+}
+
+// Lands funtions
+export function getLands(organization) {
+	return collection(db, 'organizations', organization, 'lands');
 }
 
 export async function deleteLand(organization, id) {

@@ -181,3 +181,29 @@
     margin-left: 4px;
     vertical-align: middle;
 }
+
+/* Signup */
+.sign-up form>div {
+    position: relative;
+    left: 28%;
+}
+
+.sign-up .form-label {
+    padding-top: 20px;
+}
+
+.sign-up .input-group-text {
+    width: 80px;
+}
+
+.sign-up select,
+.sign-up input {
+    min-width: fit-content;
+    max-width: max-content;
+}
+
+.sign-up button {
+    margin-right: 4px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
