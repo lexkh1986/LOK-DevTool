@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Row, Col, InputGroup, Form, Button } from 'react-bootstrap';
 
 const SignUp = ({ orgs, email, onSubmit }) => {
+	const maxKingdoms = 8;
+
 	const [dao, setDao] = useState();
 	const [discord, setDiscord] = useState();
 	const [username, setUsername] = useState();
@@ -49,8 +51,10 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 
 	const addKingdom = () => {
 		let currCount = Math.max(...Object.keys(kingdoms)) + 1;
-		let newKingdoms = { ...kingdoms, ...{ [currCount]: { count: currCount, name: '', id: '' } } };
-		setKingdoms(newKingdoms);
+		if (currCount <= maxKingdoms) {
+			let newKingdoms = { ...kingdoms, ...{ [currCount]: { count: currCount, name: '', id: '' } } };
+			setKingdoms(newKingdoms);
+		}
 	};
 
 	return (
@@ -81,7 +85,7 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 					</Col>
 					<Col md='8'>
 						<Row>
-							<Col md='6'>
+							<Col md='8'>
 								<Form.Label>Profile information</Form.Label>
 								<InputGroup size='sm' className='mb-3'>
 									<InputGroup.Text id='lblUsername'>Username</InputGroup.Text>
@@ -112,7 +116,8 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 							</Col>
 						</Row>
 						<Row>
-							<Col md='6'>
+							<Col md='8'>
+								<Form.Label>Payment</Form.Label>
 								<InputGroup size='sm' className='mb-3'>
 									<InputGroup.Text id='lblWallet'>Wallet</InputGroup.Text>
 									<Form.Select
@@ -148,7 +153,7 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 							</Col>
 						</Row>
 						<Row>
-							<Col md='6'>
+							<Col md='8'>
 								<Button size='sm' variant='secondary' onClick={addKingdom}>
 									+
 								</Button>
@@ -185,6 +190,7 @@ const Kingdom = ({ data, handleChange }) => {
 			<InputGroup.Text id={`lblKingdom${data.count}`}>{`Kingdom ${data.count}`}</InputGroup.Text>
 			<Form.Control
 				id={`lblKingdom${data.count}Name`}
+				className='kingdom-input'
 				aria-describedby={`lblKingdom${data.count}`}
 				placeholder='Name'
 				value={name}
@@ -195,9 +201,9 @@ const Kingdom = ({ data, handleChange }) => {
 				}}
 				required
 			></Form.Control>
-			<Form.Control.Feedback type='invalid'>Please enter kingdom name!</Form.Control.Feedback>
 			<Form.Control
 				id={`lblKingdom${data.count}ID`}
+				className='kingdom-input'
 				aria-describedby={`lblKingdom${data.count}`}
 				placeholder='ID'
 				value={id}
@@ -207,6 +213,7 @@ const Kingdom = ({ data, handleChange }) => {
 					handleChange({ count: data.count, name: name, id: id });
 				}}
 			></Form.Control>
+			<Form.Control.Feedback type='invalid'>Please enter kingdom name!</Form.Control.Feedback>
 		</InputGroup>
 	);
 };

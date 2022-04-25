@@ -207,3 +207,7 @@
     margin-bottom: 4px;
     margin-top: 4px;
 }
+
+.sign-up .kingdom-input {
+    max-width: 120px !important;
+}
