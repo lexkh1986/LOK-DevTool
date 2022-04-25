@@ -1,10 +1,10 @@
 import React from 'react';
 
-const UnapprovedContent = ({ session }) => {
+const UnapprovedContent = ({ profile }) => {
 	return (
-		session && (
+		profile && (
 			<div style={{ textAlign: 'center' }}>
-				<h5>Hi {session.displayName}, thank you for signing up!</h5>
+				<h5>Hi {profile.identity}, thank you for signing up!</h5>
 				<p>
 					Your profile is under reviewing by a DAO admin, this process can take couple hours/days depend on
 					the admin.

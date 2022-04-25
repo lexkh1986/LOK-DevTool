@@ -1,5 +1,5 @@
 import { db } from '../firebase';
-import { collection, getDoc, setDoc, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDoc, setDoc, addDoc, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 
 // Common helper
 export async function getDocByID(collection, id) {
@@ -19,6 +19,10 @@ export async function getOrg() {
 // Members functions
 export async function getMemberByEmail(email) {
 	return await getDocs(query(collection(db, 'members'), where('email', '==', email)));
+}
+
+export async function addMember(data) {
+	await addDoc(collection(db, 'members'), data);
 }
 
 // Payout rate functions

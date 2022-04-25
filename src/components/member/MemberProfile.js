@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MemberProfile as memProfile, Session } from '../../connection/appContexts';
-import { getMemberByEmail } from '../../connection/sql/organizations';
+import { getMemberByEmail, getOrg } from '../../connection/sql/organizations';
 import { sortByDate } from '../functions/share';
 import PleaseWait from '../PleaseWait';
 import AuthorizedContent from './AuthorizedContent';
@@ -12,19 +12,34 @@ const MemberProfile = () => {
 	const { memberProfile, setProfile } = useContext(memProfile);
 
 	const [contributionHistory, setData] = useState([]);
+	const [orgs, setOrgs] = useState([]);
 	const [isloading, setLoading] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
-		getMemberByEmail(session.email).then((snapshot) => {
-			let prof = snapshot.docs.map((doc) => doc.data())[0];
-			setProfile(prof);
+		getMemberByEmail(session.email)
+			.then((snapshot) => {
+				let prof = snapshot.docs.map((doc) => doc.data())[0];
+				setProfile(prof);
 
-			if (prof) {
-				setData(sortByDate(prof.contributions, true));
-			}
-			setLoading(false);
-		});
+				if (prof) {
+					setData(sortByDate(prof.contributions, true));
+				}
+
+				getOrg()
+					.then((docs) => {
+						setOrgs(docs);
+						setLoading(false);
+					})
+					.catch((err) => {
+						alert(`Oops got an error: ${err}!!!`);
+						setLoading(false);
+					});
+			})
+			.catch((err) => {
+				alert(`Oops got an error: ${err}!!!`);
+				setLoading(false);
+			});
 	}, []);
 
 	return (
@@ -32,9 +47,9 @@ const MemberProfile = () => {
 			{isloading ? (
 				<PleaseWait type='page-spinner' />
 			) : !memberProfile ? (
-				<UnauthorizedContent session={session} />
+				<UnauthorizedContent session={session} orgs={orgs} />
 			) : !memberProfile.approved ? (
-				<UnapprovedContent session={session} />
+				<UnapprovedContent profile={memberProfile} />
 			) : (
 				<AuthorizedContent profile={memberProfile} contributions={contributionHistory} />
 			)}

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Row, Col, InputGroup, Form, Button } from 'react-bootstrap';
+import { Row, Col, InputGroup, Form, Button, Spinner } from 'react-bootstrap';
+import { getMemberByEmail, addMember } from '../../connection/sql/organizations';
 
-const SignUp = ({ orgs, email, onSubmit }) => {
+const SignUp = ({ orgs, email }) => {
 	const maxKingdoms = 8;
 
 	const [dao, setDao] = useState();
@@ -12,6 +13,7 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 	const [kingdoms, setKingdoms] = useState({ 1: { count: 1, name: '', id: '' } });
 
 	const [validated, setValidated] = useState(false);
+	const [isSubmiting, setSubmitStatus] = useState(false);
 
 	const constructData = () => {
 		let kingdomsArr = [];
@@ -44,7 +46,33 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 		if (form.checkValidity() === false) {
 			event.stopPropagation();
 		} else {
-			onSubmit(constructData());
+			setSubmitStatus(true);
+			let data = constructData();
+			getMemberByEmail(email)
+				.then((snapshot) => {
+					let prof = snapshot.docs.map((doc) => doc.data())[0];
+					if (prof) {
+						alert(
+							'Your email account has already been registered. Please wait for approval to start your journey'
+						);
+						setSubmitStatus(false);
+						return;
+					} else {
+						addMember(data)
+							.then(() => {
+								setSubmitStatus(false);
+								window.location.reload(false);
+							})
+							.catch((err) => {
+								alert(`Oops got an error: ${err}!!!`);
+								setSubmitStatus(false);
+							});
+					}
+				})
+				.catch((err) => {
+					alert(`Oops got an error: ${err}!!!`);
+					setSubmitStatus(false);
+				});
 		}
 		setValidated(true);
 	};
@@ -95,7 +123,7 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 										placeholder='Enter your username'
 										onChange={(e) => setUsername(e.target.value)}
 										required
-									></Form.Control>
+									/>
 									<Form.Control.Feedback type='invalid'>
 										Please enter a username!
 									</Form.Control.Feedback>
@@ -108,7 +136,7 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 										placeholder='Enter your discord ID'
 										onChange={(e) => setDiscord(e.target.value)}
 										required
-									></Form.Control>
+									/>
 									<Form.Control.Feedback type='invalid'>
 										A discord ID is required
 									</Form.Control.Feedback>
@@ -141,7 +169,7 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 										placeholder='Enter your wallet address'
 										onChange={(e) => setWalletAddress(e.target.value)}
 										required
-									></Form.Control>
+									/>
 									<Form.Control.Feedback type='invalid'>
 										Please enter a wallet address!
 									</Form.Control.Feedback>
@@ -153,7 +181,7 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 							</Col>
 						</Row>
 						<Row>
-							<Col md='8'>
+							<Col md='auto'>
 								<Button size='sm' variant='secondary' onClick={addKingdom}>
 									+
 								</Button>
@@ -167,12 +195,19 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 											delete newKingdoms[data.count];
 											setKingdoms({ ...newKingdoms, ...{ [data.count]: data } });
 										}}
+										handleDelete={(data) => {
+											if (Object.keys(kingdoms).length > 1) {
+												let newKingdoms = { ...kingdoms };
+												delete newKingdoms[data];
+												setKingdoms({ ...newKingdoms });
+											}
+										}}
 									/>
 								))}
 							</Col>
 						</Row>
-						<Button size='sm' type='submit'>
-							Submit
+						<Button className={isSubmiting ? 'disabled' : ''} size='sm' type='submit'>
+							{isSubmiting ? <Spinner size='sm' animation='border' /> : 'Submit'}
 						</Button>
 					</Col>
 				</Row>
@@ -181,40 +216,50 @@ const SignUp = ({ orgs, email, onSubmit }) => {
 	);
 };
 
-const Kingdom = ({ data, handleChange }) => {
+const Kingdom = ({ data, handleChange, handleDelete }) => {
 	const [name, setName] = useState(data.name);
 	const [id, setID] = useState(data.id);
 
 	return (
-		<InputGroup size='sm' className='mb-1'>
-			<InputGroup.Text id={`lblKingdom${data.count}`}>{`Kingdom ${data.count}`}</InputGroup.Text>
-			<Form.Control
-				id={`lblKingdom${data.count}Name`}
-				className='kingdom-input'
-				aria-describedby={`lblKingdom${data.count}`}
-				placeholder='Name'
-				value={name}
-				autoComplete='off'
-				onChange={(e) => {
-					setName(e.target.value);
-					handleChange({ count: data.count, name: name, id: id });
-				}}
-				required
-			></Form.Control>
-			<Form.Control
-				id={`lblKingdom${data.count}ID`}
-				className='kingdom-input'
-				aria-describedby={`lblKingdom${data.count}`}
-				placeholder='ID'
-				value={id}
-				autoComplete='off'
-				onChange={(e) => {
-					setID(e.target.value.replace(/\D/, ''));
-					handleChange({ count: data.count, name: name, id: id });
-				}}
-			></Form.Control>
-			<Form.Control.Feedback type='invalid'>Please enter kingdom name!</Form.Control.Feedback>
-		</InputGroup>
+		<div className='d-flex'>
+			<Button
+				className='remove-kingdom'
+				size='sm'
+				variant='outline-secondary'
+				onClick={() => handleDelete(data.count)}
+			>
+				X
+			</Button>
+			<InputGroup size='sm' className='mb-2'>
+				<InputGroup.Text id={`lblKingdom${data.count}`}>{`Kingdom ${data.count}`}</InputGroup.Text>
+				<Form.Control
+					id={`lblKingdom${data.count}Name`}
+					className='kingdom-input'
+					aria-describedby={`lblKingdom${data.count}`}
+					placeholder='Name'
+					value={name}
+					autoComplete='off'
+					onChange={(e) => {
+						setName(e.target.value);
+						handleChange({ count: data.count, name: name, id: id });
+					}}
+					required
+				/>
+				<Form.Control
+					id={`lblKingdom${data.count}ID`}
+					className='kingdom-input'
+					aria-describedby={`lblKingdom${data.count}`}
+					placeholder='ID'
+					value={id}
+					autoComplete='off'
+					onChange={(e) => {
+						setID(e.target.value.replace(/\D/, ''));
+						handleChange({ count: data.count, name: name, id: id });
+					}}
+				/>
+				<Form.Control.Feedback type='invalid'>Please enter kingdom name!</Form.Control.Feedback>
+			</InputGroup>
+		</div>
 	);
 };
 

@@ -211,3 +211,9 @@
 .sign-up .kingdom-input {
     max-width: 120px !important;
 }
+
+.sign-up .remove-kingdom {
+    vertical-align: middle;
+    margin-top: 0px;
+    height: fit-content;
+}

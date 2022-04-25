@@ -1,7 +1,7 @@
 import React from 'react';
 import SignUp from './SignUp';
 
-const UnauthorizedContent = ({ session }) => {
+const UnauthorizedContent = ({ session, orgs }) => {
 	const DAOdesc = 'https://en.wikipedia.org/wiki/Decentralized_autonomous_organization';
 
 	return (
@@ -20,7 +20,7 @@ const UnauthorizedContent = ({ session }) => {
 						admins approval to start your journey.
 					</p>
 				</div>
-				<SignUp orgs={['org1', 'org2']} email={session.email} />
+				<SignUp orgs={orgs} email={session.email} />
 			</>
 		)
 	);
