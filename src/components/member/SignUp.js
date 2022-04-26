@@ -21,7 +21,7 @@ const SignUp = ({ orgs, email }) => {
 			kingdomsArr.push({
 				isActive: true,
 				name: kingdoms[key].name,
-				id: kingdoms[key].id ? kingdoms[key].id : 'Unknown ID',
+				id: kingdoms[key].id,
 			});
 		});
 

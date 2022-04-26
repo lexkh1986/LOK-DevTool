@@ -73,7 +73,7 @@ const AuthorizedContent = ({ profile, contributions }) => {
 					</Col>
 				)}
 			</Row>
-			{contributions && (
+			{contributions && contributions.length > 0 && (
 				<Row>
 					<Col md='8'>
 						<div className='contribution-data'>
