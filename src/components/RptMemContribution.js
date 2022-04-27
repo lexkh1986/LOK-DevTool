@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { useCSVDownloader } from 'react-papaparse';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UserProfile } from '../connection/appContexts';
+import { UserProfile, Members } from '../connection/appContexts';
 import { getPayoutRate } from '../connection/sql/organizations';
 import PleaseWait from './PleaseWait';
 import metamaskIcon from '../assets/images/metamask16.png';
@@ -10,16 +10,18 @@ import polygonIcon from '../assets/images/polygon16.png';
 
 const RptMemContribution = () => {
 	const { profile } = useContext(UserProfile);
+	const { members } = useContext(Members);
 	const [payoutRate, setRates] = useState({});
 	const [isLoading, setLoading] = useState(false);
 
 	const { CSVDownloader } = useCSVDownloader();
-	const [members] = useState(JSON.parse(localStorage.getItem('members')));
 	const [rptPayout] = useState(JSON.parse(localStorage.getItem('landContribution')));
 
 	useEffect(() => {
+		setLoading(true);
 		getPayoutRate(profile.organization).then((doc) => {
 			setRates(doc.data().payoutRate);
+			setLoading(false);
 		});
 	}, []);
 
@@ -31,7 +33,8 @@ const RptMemContribution = () => {
 			let row = {
 				no: count,
 				discord: mem.discord,
-				wallet: mem.wallet,
+				wallettype: mem.wallettype,
+				walletaddress: mem.walletid,
 				level: mem.level,
 				rate: payoutRate[mem.level],
 				bonus: 0,
@@ -74,8 +77,8 @@ const RptMemContribution = () => {
 				no: row.no,
 				discord: row.discord,
 				level: row.level,
-				wallettype: row.wallet.type,
-				walletaddress: row.wallet.address,
+				wallettype: row.wallettype,
+				walletaddress: row.walletid,
 				rate: row.rate,
 				devpoint: row.devpoint,
 				bonus: row.bonus,
@@ -91,7 +94,7 @@ const RptMemContribution = () => {
 				<p className='error-text'>Please generate contribution data from land management first</p>
 			) : (
 				<>
-					{isLoading ? (
+					{isLoading || !members ? (
 						<PleaseWait type='page-spinner' />
 					) : (
 						<>
@@ -148,12 +151,12 @@ const RptMemContribution = () => {
 															className='wallet-icon'
 															alt='Wallet Type'
 															src={
-																row.wallet.type === 'polygon'
+																row.wallettype === 'polygon'
 																	? polygonIcon
 																	: metamaskIcon
 															}
 														/>
-														{row.wallet.address}
+														{row.walletaddress}
 													</td>
 													<td>{row.rate}</td>
 													<td>
