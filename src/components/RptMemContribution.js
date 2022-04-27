@@ -78,7 +78,7 @@ const RptMemContribution = () => {
 				discord: row.discord,
 				level: row.level,
 				wallettype: row.wallettype,
-				walletaddress: row.walletid,
+				walletaddress: row.walletaddress,
 				rate: row.rate,
 				devpoint: row.devpoint,
 				bonus: row.bonus,
