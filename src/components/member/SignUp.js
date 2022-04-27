@@ -20,21 +20,21 @@ const SignUp = ({ orgs, email }) => {
 		Object.keys(kingdoms).forEach((key) => {
 			kingdomsArr.push({
 				isActive: true,
-				name: kingdoms[key].name,
-				id: kingdoms[key].id,
+				name: kingdoms[key].name.trim(),
+				id: kingdoms[key].id.trim(),
 			});
 		});
 
 		return {
 			organization: dao,
-			identity: username,
-			discord: discord,
+			identity: username.trim(),
+			discord: discord.trim(),
 			email: email,
 			level: 1,
 			joinedDate: new Date(),
 			approved: false,
 			wallettype: walletType,
-			walletid: walletAddress,
+			walletid: walletAddress.trim(),
 			kingdoms: kingdomsArr,
 			contributions: [],
 		};
@@ -239,6 +239,10 @@ const Kingdom = ({ data, handleChange, handleDelete }) => {
 					placeholder='Name'
 					value={name}
 					autoComplete='off'
+					onBlur={(e) => {
+						setName(e.target.value);
+						handleChange({ count: data.count, name: name, id: id });
+					}}
 					onChange={(e) => {
 						setName(e.target.value);
 						handleChange({ count: data.count, name: name, id: id });

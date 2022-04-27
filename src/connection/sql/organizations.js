@@ -17,6 +17,10 @@ export async function getOrg() {
 }
 
 // Members functions
+export async function getAllMembers(organization) {
+	return await getDocs(query(collection(db, 'members'), where('organization', '==', organization)));
+}
+
 export async function getMemberByEmail(email) {
 	return await getDocs(query(collection(db, 'members'), where('email', '==', email)));
 }

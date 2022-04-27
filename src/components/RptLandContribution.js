@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ButtonGroup, Button, Row, Col, Table, Spinner } from 'react-bootstrap';
+import { Members } from '../connection/appContexts';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCSVDownloader } from 'react-papaparse';
 import { useNavigate } from 'react-router-dom';
 
 const RptLandContribution = () => {
+	const { members } = useContext(Members);
 	const [isRptRendered, toggleRender] = useState(false);
 	const [isCalculating, toggleCalculating] = useState(false);
 	const { CSVDownloader } = useCSVDownloader();
 	const navigate = useNavigate();
 
 	const genData = () => {
-		const members = JSON.parse(localStorage.getItem('members'));
 		const lands = JSON.parse(localStorage.getItem('landData'));
 
 		if (!members) {
@@ -40,7 +41,7 @@ const RptLandContribution = () => {
 				let row = {
 					no: count,
 					discord: mem.discord,
-					kingdom: kingdom,
+					kingdom: kingdom.name,
 					total: 0,
 				};
 				lands.forEach((land) => {

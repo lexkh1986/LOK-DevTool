@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Col, Row, Container } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
-import { Lands, Members } from '../connection/appContexts';
+import { Lands, Members, UserProfile } from '../connection/appContexts';
+import { getAllMembers } from '../connection/sql/organizations';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import '../assets/styles/main.css';
 
 const Main = () => {
+	const { profile } = useContext(UserProfile);
+
 	const [lands, setLands] = useState();
 	const [members, setMembers] = useState();
+
+	useEffect(() => {
+		getAllMembers(profile.organization)
+			.then((snapshot) => {
+				setMembers(snapshot.docs.map((doc) => doc.data()));
+			})
+			.catch((err) => {
+				alert(`Oops got an error: ${err}!!!`);
+			});
+	}, []);
 
 	return (
 		<div>
