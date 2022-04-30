@@ -139,9 +139,10 @@ const RptMemContribution = () => {
 													<td className='bold'>{row.discord}</td>
 													<td className='col-center'>
 														<Button
-															variant='outline-secondary'
+															variant='outline-success'
 															className='mem-level bold'
 															size='sm'
+															disabled
 														>
 															{row.level}
 														</Button>

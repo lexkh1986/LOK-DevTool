@@ -7,7 +7,6 @@ const SignUp = ({ orgs, email }) => {
 
 	const [dao, setDao] = useState();
 	const [discord, setDiscord] = useState();
-	const [username, setUsername] = useState();
 	const [walletType, setWalletType] = useState();
 	const [walletAddress, setWalletAddress] = useState();
 	const [kingdoms, setKingdoms] = useState({ 1: { count: 1, name: '', id: '' } });
