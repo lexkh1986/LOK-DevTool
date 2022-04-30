@@ -56,6 +56,12 @@ const Member = ({ member }) => {
 	const [email, setEmail] = useState(member.email);
 	const [wallettype, setWalletType] = useState(member.wallettype);
 	const [walletid, setWalletId] = useState(member.walletid);
+	const [currInfo, setCurrInfo] = useState({
+		email: member.level,
+		level: member.level,
+		wallettype: member.wallettype,
+		walletid: member.walletid,
+	});
 
 	const [editMode, setMode] = useState(false);
 	const [isLoading, setLoading] = useState(false);
@@ -65,14 +71,54 @@ const Member = ({ member }) => {
 			<td>
 				<Button
 					size='sm'
-					variant='outline-info'
-					className='edit-member'
+					variant={editMode ? 'outline-info' : 'outline-secondary'}
+					className={'edit-member' + (isLoading ? 'disabled' : '')}
 					onClick={() => {
-						setMode(!editMode);
+						if (editMode) {
+							setLoading(true);
+							setMemberInfo(member.uid, {
+								email: email,
+								level: parseInt(level),
+								wallettype: wallettype,
+								walletid: walletid,
+							})
+								.then(() => {
+									setMode(!editMode);
+									setCurrInfo({
+										email: email,
+										level: level,
+										wallettype: wallettype,
+										walletid: walletid,
+									});
+									setLoading(false);
+								})
+								.catch((err) => {
+									alert(`Oops! Got an error ${err}`);
+									setLoading(false);
+								});
+						} else {
+							setMode(!editMode);
+						}
 					}}
 				>
 					<i className={editMode ? 'fa fa-floppy-o' : 'fa fa-unlock'} aria-hidden='true' />
 				</Button>
+				{editMode ? (
+					<Button
+						size='sm'
+						variant='outline-info'
+						className='edit-member'
+						onClick={() => {
+							setLevel(currInfo.level);
+							setEmail(currInfo.email);
+							setWalletType(currInfo.wallettype);
+							setWalletId(currInfo.walletid);
+							setMode(false);
+						}}
+					>
+						<i className='fa fa-times' aria-hidden='true'></i>
+					</Button>
+				) : null}
 			</td>
 			<td>
 				{member.discord}
@@ -104,10 +150,20 @@ const Member = ({ member }) => {
 						style={{ width: '26px' }}
 						value={level}
 						onChange={(e) => {
-							setLevel(e.target.value.replace(/\D/, ''));
+							let newStr = e.target.value.replace(/\D/, '');
+							if (newStr) {
+								setLevel(newStr);
+							} else {
+								alert('Must not empty!');
+							}
 						}}
 						onBlur={(e) => {
-							setLevel(e.target.value.replace(/\D/, ''));
+							let newStr = e.target.value.replace(/\D/, '');
+							if (newStr) {
+								setLevel(newStr);
+							} else {
+								alert('Must not empty!');
+							}
 						}}
 					/>
 				) : (
@@ -121,13 +177,16 @@ const Member = ({ member }) => {
 					<>
 						<Form.Label>
 							Type
-							<Form.Control
+							<Form.Select
 								size='sm'
 								value={wallettype}
-								style={{ width: '85px' }}
+								style={{ width: '125px' }}
 								onChange={(e) => setWalletType(e.target.value)}
 								onBlur={(e) => setWalletType(e.target.value)}
-							/>
+							>
+								<option value='metamask'>Metamask</option>
+								<option value='polygon'>Polygon</option>
+							</Form.Select>
 						</Form.Label>
 						<Form.Label>
 							Address
@@ -135,8 +194,21 @@ const Member = ({ member }) => {
 								size='sm'
 								value={walletid}
 								style={{ width: '350px' }}
-								onChange={(e) => setWalletId(e.target.value)}
-								onBlur={(e) => setWalletId(e.target.value)}
+								onChange={(e) => {
+									let newStr = e.target.value.trim();
+									if (!newStr || newStr.toLowerCase() === 'n/a') {
+										setWalletId('N/A');
+										return;
+									}
+									setWalletId(newStr.toLowerCase());
+								}}
+								onBlur={(e) => {
+									let newStr = e.target.value.trim();
+									if (!newStr || newStr.toLowerCase() === 'n/a') {
+										setWalletId('N/A');
+										return;
+									}
+								}}
 							/>
 						</Form.Label>
 					</>
@@ -156,8 +228,22 @@ const Member = ({ member }) => {
 					<Form.Control
 						size='sm'
 						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						onBlur={(e) => setEmail(e.target.value)}
+						onChange={(e) => {
+							let newStr = e.target.value.trim();
+							if (!newStr || newStr.toLowerCase() === 'n/a') {
+								setEmail('N/A');
+								return;
+							}
+							setEmail(newStr.toLowerCase());
+						}}
+						onBlur={(e) => {
+							let newStr = e.target.value.trim();
+							if (!newStr || newStr.toLowerCase() === 'n/a') {
+								setEmail('N/A');
+								return;
+							}
+							setEmail(newStr.toLowerCase());
+						}}
 					/>
 				) : (
 					email
