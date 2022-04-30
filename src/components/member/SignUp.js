@@ -27,7 +27,6 @@ const SignUp = ({ orgs, email }) => {
 
 		return {
 			organization: dao,
-			identity: username.trim(),
 			discord: discord.trim(),
 			email: email,
 			level: 1,
@@ -115,19 +114,6 @@ const SignUp = ({ orgs, email }) => {
 						<Row>
 							<Col md='8'>
 								<Form.Label>Profile information</Form.Label>
-								<InputGroup size='sm' className='mb-3'>
-									<InputGroup.Text id='lblUsername'>Username</InputGroup.Text>
-									<Form.Control
-										id='txtUsername'
-										aria-describedby='lblUsername'
-										placeholder='Enter your username'
-										onChange={(e) => setUsername(e.target.value)}
-										required
-									/>
-									<Form.Control.Feedback type='invalid'>
-										Please enter a username!
-									</Form.Control.Feedback>
-								</InputGroup>
 								<InputGroup size='sm' className='mb-3'>
 									<InputGroup.Text id='lblDiscord'>Discord</InputGroup.Text>
 									<Form.Control

@@ -16,7 +16,7 @@ const Main = () => {
 	useEffect(() => {
 		getAllMembers(profile.organization)
 			.then((snapshot) => {
-				setMembers(snapshot.docs.map((doc) => doc.data()));
+				setMembers(snapshot.docs.map((doc) => Object.assign(doc.data(), { uid: doc.id })));
 			})
 			.catch((err) => {
 				alert(`Oops got an error: ${err}!!!`);

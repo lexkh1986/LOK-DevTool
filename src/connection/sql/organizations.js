@@ -29,6 +29,18 @@ export async function addMember(data) {
 	await addDoc(collection(db, 'members'), data);
 }
 
+export async function toggleMemberStatus(uid, status) {
+	await setDoc(doc(collection(db, 'members'), uid), { approved: status }, { merge: true });
+}
+
+export async function setMemberInfo(uid, data) {
+	await setDoc(doc(collection(db, 'members'), uid), data, { merge: true });
+}
+
+export async function getMember(uid) {
+	return await getDoc(doc(collection(db, 'members'), uid));
+}
+
 // Payout rate functions
 export async function getPayoutRate(organization) {
 	return await getDoc(doc(db, 'organizations', organization), 'payoutRate');

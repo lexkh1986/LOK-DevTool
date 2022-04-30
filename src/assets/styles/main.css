@@ -142,9 +142,21 @@ html {
     text-align: center;
 }
 
+.edit-member {
+    padding: 0px;
+    margin: 0px;
+    width: 22px;
+    height: 22px;
+}
+
+.edit-member i {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    padding-top: 2px;
+}
+
 .kingdom button {
-    margin-left: 2px;
-    margin-right: 2px;
+    margin: 2px;
 }
 
 .kingdom button img {

@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import { Table, Button } from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import { Table, Button, Form } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Members } from '../connection/appContexts';
 import { dateToString } from '../components/functions/share';
+import { toggleMemberStatus, setMemberInfo, getMember } from '../connection/sql/organizations';
 import PleaseWait from './PleaseWait';
 import metamaskIcon from '../assets/images/metamask16.png';
 import polygonIcon from '../assets/images/polygon16.png';
@@ -27,10 +28,10 @@ const MemberList = () => {
 						<Table hover responsive size='sm'>
 							<thead>
 								<tr>
-									<th>User</th>
+									<th></th>
 									<th>Discord</th>
 									<th>Joined Date</th>
-									<th className='col-center'>Level</th>
+									<th>Level</th>
 									<th>Wallet Address</th>
 									<th>Email</th>
 									<th>Kingdoms</th>
@@ -50,27 +51,120 @@ const MemberList = () => {
 };
 
 const Member = ({ member }) => {
+	const [isApproved, setApprove] = useState(member.approved);
+	const [level, setLevel] = useState(member.level);
+	const [email, setEmail] = useState(member.email);
+	const [wallettype, setWalletType] = useState(member.wallettype);
+	const [walletid, setWalletId] = useState(member.walletid);
+
+	const [editMode, setMode] = useState(false);
+	const [isLoading, setLoading] = useState(false);
+
 	return (
 		<tr>
-			<td>{member.identity}</td>
-			<td>{member.discord}</td>
-			<td>{dateToString(member.joinedDate.toDate())}</td>
-			<td className='col-center'>
-				<Button variant='outline-secondary' className='mem-level bold' size='sm'>
-					{member.level}
+			<td>
+				<Button
+					size='sm'
+					variant='outline-info'
+					className='edit-member'
+					onClick={() => {
+						setMode(!editMode);
+					}}
+				>
+					<i className={editMode ? 'fa fa-floppy-o' : 'fa fa-unlock'} aria-hidden='true' />
 				</Button>
 			</td>
 			<td>
-				<img
-					className='wallet-icon'
-					alt='Wallet Type'
-					src={member.wallettype === 'polygon' ? polygonIcon : metamaskIcon}
+				{member.discord}
+				<Form.Check
+					className={isLoading ? 'disabled' : ''}
+					type='switch'
+					checked={isApproved}
+					onChange={() => {
+						setLoading(true);
+						toggleMemberStatus(member.uid, !isApproved)
+							.then()
+							.catch((err) => alert(`Oops! Got an error: ${err}`))
+							.finally(() => {
+								getMember(member.uid).then((res) => {
+									setApprove(res.data().approved);
+									setLoading(false);
+								});
+							});
+					}}
 				/>
-				{member.walletid}
 			</td>
-			<td>{member.email}</td>
+			<td>{dateToString(member.joinedDate.toDate())}</td>
 			<td>
-				<Kingdoms memberRef={member.email} list={member.kingdoms} />
+				{editMode ? (
+					<Form.Control
+						size='sm'
+						maxLength={1}
+						className='bold'
+						style={{ width: '26px' }}
+						value={level}
+						onChange={(e) => {
+							setLevel(e.target.value.replace(/\D/, ''));
+						}}
+						onBlur={(e) => {
+							setLevel(e.target.value.replace(/\D/, ''));
+						}}
+					/>
+				) : (
+					<Button size='sm' variant='outline-success' className='bold' disabled>
+						{level}
+					</Button>
+				)}
+			</td>
+			<td>
+				{editMode ? (
+					<>
+						<Form.Label>
+							Type
+							<Form.Control
+								size='sm'
+								value={wallettype}
+								style={{ width: '85px' }}
+								onChange={(e) => setWalletType(e.target.value)}
+								onBlur={(e) => setWalletType(e.target.value)}
+							/>
+						</Form.Label>
+						<Form.Label>
+							Address
+							<Form.Control
+								size='sm'
+								value={walletid}
+								style={{ width: '350px' }}
+								onChange={(e) => setWalletId(e.target.value)}
+								onBlur={(e) => setWalletId(e.target.value)}
+							/>
+						</Form.Label>
+					</>
+				) : (
+					<>
+						<img
+							className='wallet-icon'
+							alt='Wallet Type'
+							src={wallettype === 'polygon' ? polygonIcon : metamaskIcon}
+						/>
+						{walletid}
+					</>
+				)}
+			</td>
+			<td>
+				{editMode ? (
+					<Form.Control
+						size='sm'
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						onBlur={(e) => setEmail(e.target.value)}
+					/>
+				) : (
+					email
+				)}
+			</td>
+			<td>
+				<Kingdoms memberRef={email} list={member.kingdoms} />
 			</td>
 		</tr>
 	);
