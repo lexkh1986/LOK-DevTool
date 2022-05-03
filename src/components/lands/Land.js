@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { Form, Stack, Button, Collapse, Spinner } from 'react-bootstrap';
 import { motion } from 'framer-motion';
-import { UserProfile } from '../connection/appContexts';
-import { setLand } from '../connection/sql/organizations';
-import { addDays, parseDate, dateToString } from './functions/share';
-import PleaseWait from './PleaseWait';
+import { UserProfile } from '../../connection/appContexts';
+import { setLand } from '../../connection/sql/organizations';
+import { addDays, parseDate, dateToString } from '../functions/share';
+import PleaseWait from '../PleaseWait';
 
 const Land = ({ land, handeDelete }) => {
 	const { profile } = useContext(UserProfile);

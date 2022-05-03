@@ -1,6 +1,6 @@
 import React from 'react';
-import LandManagement from '../components/LandManagement';
-import RptLandContribution from '../components/RptLandContribution';
+import LandManagement from '../components/lands/LandManagement';
+import RptLandContribution from '../components/reports/RptLandContribution';
 import { motion } from 'framer-motion';
 
 const Lands = () => {

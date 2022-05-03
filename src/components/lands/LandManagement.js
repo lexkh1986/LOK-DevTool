@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ListGroup, Row, Col, Button, Form, InputGroup } from 'react-bootstrap';
 import { AnimatePresence } from 'framer-motion';
 import { onSnapshot } from 'firebase/firestore';
-import { UserProfile, Lands } from '../connection/appContexts';
-import { getLands, addLand as build, deleteLand as remove } from '../connection/sql/organizations';
-import PleaseWait from './PleaseWait';
-import Land from '../components/Land';
+import { UserProfile, Lands } from '../../connection/appContexts';
+import { getLands, addLand as build, deleteLand as remove } from '../../connection/sql/organizations';
+import PleaseWait from '../PleaseWait';
+import Land from './Land';
 
 const LandManagement = () => {
 	const { profile } = useContext(UserProfile);

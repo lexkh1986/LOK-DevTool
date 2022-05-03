@@ -1,5 +1,6 @@
 import React from 'react';
 import SignUp from './SignUp';
+import logo from '../../assets/images/logo_mini.png';
 
 const UnauthorizedContent = ({ session, orgs }) => {
 	const DAOdesc = 'https://en.wikipedia.org/wiki/Decentralized_autonomous_organization';
@@ -15,6 +16,7 @@ const UnauthorizedContent = ({ session, orgs }) => {
 					</p>
 				</div>
 				<SignUp orgs={orgs} email={session.email} />
+				<img className='corner-img' src={logo}></img>
 			</>
 		)
 	);

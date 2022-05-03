@@ -129,7 +129,6 @@ const Member = ({ member }) => {
 					onChange={() => {
 						setLoading(true);
 						toggleMemberStatus(member.uid, !isApproved)
-							.then()
 							.catch((err) => alert(`Oops! Got an error: ${err}`))
 							.finally(() => {
 								getMember(member.uid).then((res) => {

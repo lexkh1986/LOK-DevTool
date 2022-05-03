@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
-import { useCSVDownloader } from 'react-papaparse';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UserProfile, Members } from '../connection/appContexts';
-import { getPayoutRate } from '../connection/sql/organizations';
-import PleaseWait from './PleaseWait';
-import metamaskIcon from '../assets/images/metamask16.png';
-import polygonIcon from '../assets/images/polygon16.png';
+import { useCSVDownloader } from 'react-papaparse';
+import { UserProfile, Members } from '../../connection/appContexts';
+import { getPayoutRate } from '../../connection/sql/organizations';
+import PleaseWait from '../PleaseWait';
+import metamaskIcon from '../../assets/images/metamask16.png';
+import polygonIcon from '../../assets/images/polygon16.png';
 
 const RptMemContribution = () => {
+	const { CSVDownloader } = useCSVDownloader();
 	const { profile } = useContext(UserProfile);
 	const { members } = useContext(Members);
+
 	const [payoutRate, setRates] = useState({});
 	const [isLoading, setLoading] = useState(false);
 
-	const { CSVDownloader } = useCSVDownloader();
 	const [rptPayout] = useState(JSON.parse(localStorage.getItem('landContribution')));
 
 	useEffect(() => {
@@ -25,7 +26,7 @@ const RptMemContribution = () => {
 		});
 	}, []);
 
-	const genPayout = () => {
+	function genPayout(members, contributions, rates) {
 		let body = [];
 
 		let count = 1;
@@ -36,14 +37,14 @@ const RptMemContribution = () => {
 				wallettype: mem.wallettype,
 				walletaddress: mem.walletid,
 				level: mem.level,
-				rate: payoutRate[mem.level],
+				rate: rates[mem.level],
 				bonus: 0,
 				devpoint: 0,
 			};
-			rptPayout.forEach((rptRow) => {
+			contributions.forEach((rptRow) => {
 				row.devpoint += rptRow.discord === mem.discord ? rptRow.total : 0;
 			});
-			row.payout = (row.devpoint / 1000) * payoutRate[mem.level];
+			row.payout = (row.devpoint / 1000) * rates[mem.level];
 			body.push(row);
 			count += 1;
 		});
@@ -68,12 +69,12 @@ const RptMemContribution = () => {
 		});
 
 		return body;
-	};
+	}
 
-	const exportCSV = () => {
-		const data = [];
-		genPayout().forEach((row) => {
-			data.push({
+	const exportCSV = (data) => {
+		let body = [];
+		data.forEach((row) => {
+			body.push({
 				no: row.no,
 				discord: row.discord,
 				level: row.level,
@@ -85,7 +86,7 @@ const RptMemContribution = () => {
 				payout: row.payout,
 			});
 		});
-		return data;
+		return body;
 	};
 
 	return (
@@ -94,7 +95,7 @@ const RptMemContribution = () => {
 				<p className='error-text'>Please generate contribution data from land management first</p>
 			) : (
 				<>
-					{isLoading || !members ? (
+					{isLoading || !members || !payoutRate ? (
 						<PleaseWait type='page-spinner' />
 					) : (
 						<>
@@ -105,7 +106,7 @@ const RptMemContribution = () => {
 									bom={true}
 									config={{ delimeter: ',' }}
 									download={true}
-									data={exportCSV()}
+									data={() => exportCSV(genPayout(members, rptPayout, payoutRate))}
 								>
 									<Button variant='outline-secondary' size='sm'>
 										Export
@@ -133,7 +134,7 @@ const RptMemContribution = () => {
 											</tr>
 										</thead>
 										<tbody>
-											{genPayout().map((row, key) => (
+											{genPayout(members, rptPayout, payoutRate).map((row, key) => (
 												<tr key={key}>
 													<td>{row.no}</td>
 													<td className='bold'>{row.discord}</td>

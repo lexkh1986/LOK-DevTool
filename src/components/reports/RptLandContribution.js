@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { ButtonGroup, Button, Row, Col, Table, Spinner } from 'react-bootstrap';
-import { Members } from '../connection/appContexts';
+import { Members } from '../../connection/appContexts';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCSVDownloader } from 'react-papaparse';
 import { useNavigate } from 'react-router-dom';
