@@ -57,7 +57,7 @@ const Member = ({ member }) => {
 	const [wallettype, setWalletType] = useState(member.wallettype);
 	const [walletid, setWalletId] = useState(member.walletid);
 	const [currInfo, setCurrInfo] = useState({
-		email: member.level,
+		email: member.email,
 		level: member.level,
 		wallettype: member.wallettype,
 		walletid: member.walletid,
@@ -72,7 +72,7 @@ const Member = ({ member }) => {
 				<Button
 					size='sm'
 					variant={editMode ? 'outline-info' : 'outline-secondary'}
-					className={'edit-member' + (isLoading ? 'disabled' : '')}
+					className='edit-member'
 					onClick={() => {
 						if (editMode) {
 							setLoading(true);

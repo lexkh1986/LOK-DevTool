@@ -30,24 +30,26 @@ const RptMemContribution = () => {
 		let body = [];
 
 		let count = 1;
-		members.forEach((mem) => {
-			let row = {
-				no: count,
-				discord: mem.discord,
-				wallettype: mem.wallettype,
-				walletaddress: mem.walletid,
-				level: mem.level,
-				rate: rates[mem.level],
-				bonus: 0,
-				devpoint: 0,
-			};
-			contributions.forEach((rptRow) => {
-				row.devpoint += rptRow.discord === mem.discord ? rptRow.total : 0;
+		members
+			.filter((item) => item.approved)
+			.forEach((mem) => {
+				let row = {
+					no: count,
+					discord: mem.discord,
+					wallettype: mem.wallettype,
+					walletaddress: mem.walletid,
+					level: mem.level,
+					rate: rates[mem.level],
+					bonus: 0,
+					devpoint: 0,
+				};
+				contributions.forEach((rptRow) => {
+					row.devpoint += rptRow.discord === mem.discord ? rptRow.total : 0;
+				});
+				row.payout = (row.devpoint / 1000) * rates[mem.level];
+				body.push(row);
+				count += 1;
 			});
-			row.payout = (row.devpoint / 1000) * rates[mem.level];
-			body.push(row);
-			count += 1;
-		});
 
 		body.sort((a, b) => -(a.payout - b.payout));
 		count = 1;
