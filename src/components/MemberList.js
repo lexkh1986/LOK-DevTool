@@ -123,7 +123,7 @@ const Member = ({ member }) => {
 			<td>
 				{member.discord}
 				<Form.Check
-					className={isLoading ? 'disabled' : ''}
+					disabled={isLoading}
 					type='switch'
 					checked={isApproved}
 					onChange={() => {
