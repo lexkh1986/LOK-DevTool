@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ButtonGroup, InputGroup, Form, Button, Row, Col } from 'react-bootstrap';
 import { motion } from 'framer-motion';
+import { UserProfile, Members as memList } from '../connection/appContexts';
+import { addMember, getAllMembers } from '../connection/sql/organizations';
 import Papa from 'papaparse';
 import MemberList from '../components/MemberList';
 
 const Members = () => {
+	const { profile } = useContext(UserProfile);
+	const { members, setMembers } = useContext(memList);
 	const [csvSource, setSource] = useState(undefined);
 
 	const readCSV = (file) => {
@@ -17,9 +21,15 @@ const Members = () => {
 			complete: function (results) {
 				const data = MapMembers(results.data);
 				data.forEach((mem) => {
-					mem.kingdoms = mem.kingdoms.filter((item) => item);
+					addMember(mem);
 				});
-				console.log(data);
+				getAllMembers(profile.organization)
+					.then((snapshot) => {
+						setMembers(snapshot.docs.map((doc) => Object.assign(doc.data(), { uid: doc.id })));
+					})
+					.catch((err) => {
+						alert(`Oops got an error: ${err}!!!`);
+					});
 			},
 		});
 	};
@@ -29,17 +39,23 @@ const Members = () => {
 		raw.forEach((item) => {
 			let newMem = {
 				approved: false,
+				organization: profile.organization,
 				discord: item.discord.trim(),
 				email: item.email.trim(),
 				level: parseInt(item.level),
+				joinedDate: new Date(),
 				wallettype: item.wallettype.trim().toLowerCase(),
 				walletid: item.walletaddress.trim().toLowerCase(),
 				kingdoms: [],
 				contributions: [],
 			};
 			Object.keys(item).forEach((key) => {
-				if (key.includes('kingdom')) {
-					newMem.kingdoms.push(item[key].trim());
+				if (key.includes('kingdom') && item[key].trim()) {
+					newMem.kingdoms.push({
+						id: '',
+						isActive: true,
+						name: item[key].trim(),
+					});
 				}
 			});
 			list.push(newMem);
@@ -64,6 +80,8 @@ const Members = () => {
 							variant='outline-primary'
 							onClick={() => {
 								readCSV(csvSource);
+								document.getElementById('csvMemberFile').value = null;
+								setSource(null);
 							}}
 							title='Browse to .csv file and then click this button to import list of contributed members'
 						>

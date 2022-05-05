@@ -3,7 +3,7 @@ import { Table, Button, Form } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Members } from '../connection/appContexts';
 import { dateToString } from '../components/functions/share';
-import { toggleMemberStatus, setMemberInfo, getMember } from '../connection/sql/organizations';
+import { toggleMemberStatus, setMemberInfo, getMember, deleteMember } from '../connection/sql/organizations';
 import PleaseWait from './PleaseWait';
 import metamaskIcon from '../assets/images/metamask16.png';
 import polygonIcon from '../assets/images/polygon16.png';
@@ -11,7 +11,17 @@ import isInActive from '../assets/images/redlight12.png';
 import isActive from '../assets/images/greenlight12.png';
 
 const MemberList = () => {
-	const { members } = useContext(Members);
+	const { members, setMembers } = useContext(Members);
+
+	const removeMember = (uid) => {
+		deleteMember(uid)
+			.then(() => {
+				setMembers(members.filter((item) => item.uid != uid));
+			})
+			.catch((err) => {
+				alert(`Oops! Got an error: ${err}`);
+			});
+	};
 
 	return (
 		<div className='member-list'>
@@ -39,7 +49,7 @@ const MemberList = () => {
 							</thead>
 							<tbody>
 								{members.map((member, key) => (
-									<Member key={key} member={member} />
+									<Member key={key} member={member} handleDelete={removeMember} />
 								))}
 							</tbody>
 						</Table>
@@ -50,7 +60,7 @@ const MemberList = () => {
 	);
 };
 
-const Member = ({ member }) => {
+const Member = ({ member, handleDelete }) => {
 	const [isApproved, setApprove] = useState(member.approved);
 	const [level, setLevel] = useState(member.level);
 	const [email, setEmail] = useState(member.email);
@@ -104,20 +114,33 @@ const Member = ({ member }) => {
 					<i className={editMode ? 'fa fa-floppy-o' : 'fa fa-unlock'} aria-hidden='true' />
 				</Button>
 				{editMode ? (
-					<Button
-						size='sm'
-						variant='outline-info'
-						className='edit-member'
-						onClick={() => {
-							setLevel(currInfo.level);
-							setEmail(currInfo.email);
-							setWalletType(currInfo.wallettype);
-							setWalletId(currInfo.walletid);
-							setMode(false);
-						}}
-					>
-						<i className='fa fa-times' aria-hidden='true'></i>
-					</Button>
+					<div>
+						<Button
+							size='sm'
+							variant='outline-info'
+							className='edit-member'
+							onClick={() => {
+								setLevel(currInfo.level);
+								setEmail(currInfo.email);
+								setWalletType(currInfo.wallettype);
+								setWalletId(currInfo.walletid);
+								setMode(false);
+							}}
+						>
+							<i className='fa fa-times' aria-hidden='true'></i>
+						</Button>
+						<Button
+							size='sm'
+							variant='outline-danger'
+							className='edit-member'
+							onClick={() => {
+								handleDelete(member.uid);
+								setMode(false);
+							}}
+						>
+							<i className='fa fa-chain-broken' aria-hidden='true'></i>
+						</Button>
+					</div>
 				) : null}
 			</td>
 			<td>

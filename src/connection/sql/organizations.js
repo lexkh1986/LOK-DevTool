@@ -29,6 +29,10 @@ export async function addMember(data) {
 	await addDoc(collection(db, 'members'), data);
 }
 
+export async function deleteMember(uid) {
+	await deleteDoc(doc(collection(db, 'members'), uid));
+}
+
 export async function toggleMemberStatus(uid, status) {
 	await setDoc(doc(collection(db, 'members'), uid), { approved: status }, { merge: true });
 }
