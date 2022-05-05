@@ -87,6 +87,15 @@ html {
     background: transparent;
 }
 
+/* --------- Background --------- */
+.corner-img {
+    position: fixed;
+    bottom: 2%;
+    right: 1%;
+
+}
+
+
 /* --------- Content --------- */
 .bold {
     font-weight: 700;
@@ -101,12 +110,35 @@ html {
     margin-right: 4px;
 }
 
-.content .land-list form * {
+.wallet-icon,
+.member-list th,
+.member-list td,
+.contribution-report td,
+.rate-list input,
+.rate-list span {
+    margin-right: 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+.rate-list button {
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 60px;
+}
+
+.rate-list .list-group-item {
+    border-width: 0px;
+}
+
+.rate-list form *,
+.land-list form * {
     text-align: center;
     vertical-align: middle;
     margin-bottom: 0px;
 }
 
+.content .rate-list .form-control,
 .content .land-list .form-control {
     display: inline-flex;
     width: min-content;
@@ -131,21 +163,255 @@ html {
     text-align: center;
 }
 
+.edit-member {
+    padding: 0px;
+    margin: 2px;
+    width: 22px;
+    height: 22px;
+}
+
+.edit-member i {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    padding-top: 2px;
+}
+
 .kingdom button {
+    margin: 2px;
+}
+
+.kingdom button img {
     margin-left: 2px;
     margin-right: 2px;
-}
-
-.wallet-icon {
-    margin-left: 4px;
-    margin-right: 4px;
-}
-
-.member-list th,
-.member-list td {
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-bottom: 4px;
     vertical-align: middle;
+}
+.chart-area {
+    text-align: center;
+}
+
+.chart {
+    min-width: 600px;
+    min-height: 400px;
+}
+.background-img {
+    /* The image used */
+    background-image: url(/019fe5a5a71b64c7c25690afb8e54921.png);
+
+    /* Add the blur effect */
+    filter: blur(9px);
+    -webkit-filter: blur(9px);
+
+    /* Full height */
+    position: fixed;
+    height: calc(100vh);
+    width: calc(100%);
+    z-index: 1;
+
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    /* Center and scale the image nicely */
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-sizing: border-box;
+}
+
+/* Position text in the middle of the page/image */
+.overlay-text {
+    /* Fallback color */
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.45);
+
+    /* Black opacity/see-through */
+    color: white;
+    border: 1px solid #f1f1f1;
+    border-radius: 4px;
+
+    position: absolute;
+    top: 30px;
+    bottom: 30px;
+    left: calc(2%);
+    z-index: 2;
+    width: calc(96%);
+    height: fit-content;
+    box-sizing: border-box;
+
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+.intro-message {
+    text-align: center;
+    top: 30px;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: calc(35%);
+    min-height: calc(20vh);
+    height: fit-content;
+    box-sizing: border-box;
+    z-index: 3;
+}
+
+.intro-message p {
+    font-weight: 300;
+    margin: 50px;
+}
+
+.contribution-history,
+.kingdom-list,
+.profile-details {
+    margin-top: 20px;
+}
+
+.kingdom-list .list-group-item,
+.profile-details .list-group-item {
+    vertical-align: middle;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    background-color: transparent;
+}
+
+.profile-content h4,
+.profile-content h2 {
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.profile-content .row h6 {
+    margin-top: 70px;
+}
+
+.profile-content .welcome-text {
+    padding-top: 30px;
+}
+
+.profile-content .mem-level {
+    color: yellow;
+    vertical-align: middle;
+    text-align: end;
+}
+
+.kingdom-list .light-pulp {
+    vertical-align: bottom;
+    padding-bottom: 3px;
+    padding-left: 4px;
+}
+
+.kingdom-list .info {
+    vertical-align: bottom;
+    padding-left: 6px;
+    color: yellow
+}
+
+.kingdom-list .label {
+    color: white;
+    margin-right: 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* Profile details */
+
+.profile-details .label {
+    color: white;
+    margin-right: 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+.profile-details .wallet-type {
+    margin-left: auto;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.profile-details .list-group-item * {
+    display: block;
+}
+
+.profile-details .info {
+    text-align: end;
+    color: yellow
+}
+
+/* Contribution history table */
+
+.contribution-data th,
+.contribution-data td {
+    margin-right: 4px;
+    margin-left: 4px;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.contribution-data th {
+    color: white;
+}
+
+.contribution-data td {
+    color: yellow;
+}
+
+.contribution-data .settled-icon {
+    margin-right: 10px;
+}
+
+/* Summary total */
+.profile-content .total-sum {
+    padding-top: 50px;
+    padding-left: calc(30%);
+    padding-right: calc(30%);
+}
+
+.profile-content .total-sum .info {
+    color: yellow
+}
+
+.profile-content .total-sum .label {
+    color: white;
+    margin-right: 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* Signup */
+.sign-up form>div {
+    position: relative;
+    left: 28%;
+}
+
+.sign-up .form-label {
+    padding-top: 20px;
+}
+
+.sign-up .input-group-text {
+    width: 80px;
+}
+
+.sign-up select,
+.sign-up input {
+    min-width: fit-content;
+    max-width: max-content;
+}
+
+.sign-up button {
+    margin-right: 4px;
+    margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.sign-up .kingdom-input {
+    max-width: 120px !important;
+}
+
+.sign-up .remove-kingdom {
+    vertical-align: middle;
+    margin-top: 0px;
+    height: fit-content;
 }
 .layout-center button {
     border-radius: 6px !important;
@@ -153,7 +419,7 @@ html {
 
 .layout-center {
     text-align: center;
-    background-image: url(/3925a1a4c285ef579eaa8668e28d3368.png);
+    background-image: url(/81c473fe30bb8f08f2943c195093aae9.png);
     z-index: -99;
     height: 100%;
     background-position: center;
@@ -186,7 +452,7 @@ body {
 .error-page,
 .page-spinner {
     text-align: center;
-    margin-top: calc(50vh)
+    margin-top: calc(40vh)
 }
 
 .area-spinner {
