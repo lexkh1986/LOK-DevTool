@@ -285,7 +285,7 @@ const Member = ({ member, handleDelete }) => {
 				)}
 			</td>
 			<td>
-				<KingdomList memberRef={member.uid} list={member.kingdoms} />
+				<KingdomList memberRef={member.uid} memberName={member.discord} list={member.kingdoms} />
 			</td>
 		</tr>
 	);

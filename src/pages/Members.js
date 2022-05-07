@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { UserProfile, Members as memList } from '../connection/appContexts';
 import { addMember, getAllMembers } from '../connection/sql/organizations';
 import Papa from 'papaparse';
+import { v4 } from 'uuid';
 import MemberList from '../components/members/MemberList';
 import ConfirmDialog from '../components/dialogs/ConfirmDialog';
 
@@ -53,6 +54,7 @@ const Members = () => {
 			Object.keys(item).forEach((key) => {
 				if (key.includes('kingdom') && item[key].trim()) {
 					newMem.kingdoms.push({
+						uuid: v4(),
 						id: '',
 						isActive: true,
 						name: item[key].trim(),

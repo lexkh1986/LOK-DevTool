@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, InputGroup, Form, Button, Spinner } from 'react-bootstrap';
+import { v4 } from 'uuid';
 import { getMemberByEmail, addMember } from '../../connection/sql/organizations';
 
 const SignUp = ({ orgs, email }) => {
@@ -22,6 +23,7 @@ const SignUp = ({ orgs, email }) => {
 				isActive: true,
 				name: kingdoms[key].name.trim(),
 				id: kingdoms[key].id.trim(),
+				uuid: v4(),
 			});
 		});
 

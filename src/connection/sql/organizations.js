@@ -45,6 +45,11 @@ export async function getMember(uid) {
 	return await getDoc(doc(collection(db, 'members'), uid));
 }
 
+// Member kingdoms
+export async function setMemberKingdoms(uid, kingdoms) {
+	await setDoc(doc(collection(db, 'members'), uid), { kingdoms: kingdoms }, { merge: true });
+}
+
 // Payout rate functions
 export async function getPayoutRate(organization) {
 	return await getDoc(doc(db, 'organizations', organization), 'payoutRate');

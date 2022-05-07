@@ -39,19 +39,21 @@ const RptLandContribution = () => {
 		members
 			.filter((item) => item.approved)
 			.forEach((mem) => {
-				mem.kingdoms.forEach((kingdom) => {
-					let row = {
-						no: count,
-						discord: mem.discord,
-						kingdom: kingdom.name,
-						total: 0,
-					};
-					lands.forEach((land) => {
-						row[land['id']] = 0;
+				mem.kingdoms
+					.filter((item) => item.isActive)
+					.forEach((kingdom) => {
+						let row = {
+							no: count,
+							discord: mem.discord,
+							kingdom: kingdom.name,
+							total: 0,
+						};
+						lands.forEach((land) => {
+							row[land['id']] = 0;
+						});
+						body.push(row);
+						count += 1;
 					});
-					body.push(row);
-					count += 1;
-				});
 			});
 
 		// Fill body data

@@ -164,13 +164,21 @@ html {
     padding-top: 2px;
 }
 
-.kingdom button {
+.kingdoms button {
     margin: 2px;
 }
 
-.kingdom button img {
+.kingdoms button img {
     margin-left: 2px;
     margin-right: 2px;
     margin-bottom: 4px;
     vertical-align: middle;
+}
+
+.kingdom-edit label {
+    margin-bottom: 0px;
+}
+
+.kingdom-edit input {
+    margin-bottom: 6px;
 }
