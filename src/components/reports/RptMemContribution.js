@@ -148,7 +148,10 @@ const RptMemContribution = () => {
 	return (
 		<div className='contribution-report'>
 			{!rptPayout ? (
-				<p className='error-text'>Please generate contribution data from land management first</p>
+				<p className='error-text'>
+					To view latest cycle report, please generate the devpoint report from Land Management section first.
+					Then click on "Payout Report" button.
+				</p>
 			) : (
 				<>
 					{isLoading || !members || !payoutRate ? (
