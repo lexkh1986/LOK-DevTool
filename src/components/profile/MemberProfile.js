@@ -11,7 +11,7 @@ const MemberProfile = () => {
 	const { session } = useContext(Session);
 	const { memberProfile, setProfile } = useContext(memProfile);
 
-	const [contributionHistory, setData] = useState([]);
+	const [contributionHistory, setData] = useState({});
 	const [orgs, setOrgs] = useState([]);
 	const [isloading, setLoading] = useState(false);
 
@@ -23,7 +23,7 @@ const MemberProfile = () => {
 				setProfile(prof);
 
 				if (prof) {
-					setData(sortByDate(prof.contributions, true));
+					setData(sortByDate(Object.values(prof.contributions), true));
 				}
 
 				getOrg()

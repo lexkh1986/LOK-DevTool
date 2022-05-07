@@ -44,6 +44,7 @@ const RptLandContribution = () => {
 					.forEach((kingdom) => {
 						let row = {
 							no: count,
+							uid: mem.uid,
 							discord: mem.discord,
 							kingdom: kingdom.name,
 							total: 0,
@@ -119,7 +120,9 @@ const RptLandContribution = () => {
 								if (!localStorage.getItem('landContribution')) {
 									alert('Please generate land contribution report first!');
 								} else {
-									navigate('/report');
+									navigate('/report', {
+										state: { data: JSON.parse(localStorage.getItem('landContribution')) },
+									});
 								}
 							}}
 							title='Group data by discordIDs'

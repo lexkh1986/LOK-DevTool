@@ -25,7 +25,7 @@ const AuthorizedContent = ({ profile, contributions }) => {
 					<ProfileDetails profile={profile} />
 					<Kingdoms arrKingdoms={profile.kingdoms} />
 				</Col>
-				{contributions && contributions.length > 3 && (
+				{contributions && contributions.length > 2 && (
 					<Col md='8'>
 						<div className='chart-area'>
 							<ChartPayout chartData={contributions} />
@@ -34,7 +34,7 @@ const AuthorizedContent = ({ profile, contributions }) => {
 						<div className='total-sum'>
 							<div>
 								<span className='label'>Total devPoints contributed: </span>
-								<span className='info'>{sumDevPoints}</span>
+								<span className='info'>{sumDevPoints.toFixed(2)}</span>
 							</div>
 							<div>
 								<span className='label'>Total payout settled: </span>
@@ -47,7 +47,7 @@ const AuthorizedContent = ({ profile, contributions }) => {
 								<span className='label'>Total payout remain: </span>
 								<span className='info'>
 									<i className='fa fa-usd' aria-hidden='true'></i>
-									{` ${sumPayout - sumSettled}`}
+									{` ${(sumPayout - sumSettled).toFixed(2)}`}
 								</span>
 							</div>
 							<hr />

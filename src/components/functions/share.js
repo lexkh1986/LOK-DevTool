@@ -18,8 +18,8 @@ export const dateToString = (date, delimeter) => {
 
 export const sortByDate = (array, asc) => {
 	return array.sort(function (a, b) {
-		var keyA = new Date(a.date.toDate()),
-			keyB = new Date(b.date.toDate());
+		var keyA = parseDate(a.date),
+			keyB = parseDate(b.date);
 		if (keyA < keyB) return asc ? -1 : 1;
 		if (keyA > keyB) return asc ? 1 : -1;
 		return 0;

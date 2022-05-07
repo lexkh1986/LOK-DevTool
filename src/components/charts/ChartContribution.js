@@ -1,7 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
-import { dateToString } from '../functions/share';
 import '../../assets/styles/charts.css';
 
 const ChartContribution = ({ chartData }) => {
@@ -59,7 +58,7 @@ const ChartContribution = ({ chartData }) => {
 	};
 
 	const data = {
-		labels: chartData.map((item) => dateToString(item.date.toDate())),
+		labels: chartData.map((item) => item.date),
 		datasets: [
 			{
 				label: 'DevPoints History',

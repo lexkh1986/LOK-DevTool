@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import { dateToString } from '../functions/share';
 import settledIcon from '../../assets/images/settled.png';
 
 const ContributionHistory = ({ contributions }) => {
@@ -19,7 +18,7 @@ const ContributionHistory = ({ contributions }) => {
 			<tbody>
 				{contributions.map((row, key) => (
 					<tr key={key}>
-						<td>{dateToString(row.date.toDate())}</td>
+						<td>{row.date}</td>
 						<td>{row.devpoints}</td>
 						<td>{row.rate}</td>
 						<td>

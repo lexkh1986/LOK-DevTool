@@ -50,6 +50,17 @@ export async function setMemberKingdoms(uid, kingdoms) {
 	await setDoc(doc(collection(db, 'members'), uid), { kingdoms: kingdoms }, { merge: true });
 }
 
+// Member contributions
+export async function setMemberContributions(uid, contributions) {
+	await setDoc(doc(collection(db, 'members'), uid), { contributions: contributions }, { merge: true });
+}
+
+// Report functions
+export async function addReport(organization, date, data) {
+	let docRef = doc(collection(doc(db, 'organizations', organization), 'reports'), date);
+	await setDoc(docRef, data, { merge: true });
+}
+
 // Payout rate functions
 export async function getPayoutRate(organization) {
 	return await getDoc(doc(db, 'organizations', organization), 'payoutRate');

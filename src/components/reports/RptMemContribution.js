@@ -2,13 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCSVDownloader } from 'react-papaparse';
+import { useLocation } from 'react-router-dom';
 import { UserProfile, Members } from '../../connection/appContexts';
-import { getPayoutRate } from '../../connection/sql/organizations';
+import { getPayoutRate, getMember, addReport, setMemberContributions } from '../../connection/sql/organizations';
+import { dateToString } from '../functions/share';
 import PleaseWait from '../PleaseWait';
 import metamaskIcon from '../../assets/images/metamask16.png';
 import polygonIcon from '../../assets/images/polygon16.png';
 
 const RptMemContribution = () => {
+	const currCycleData = useLocation();
 	const { CSVDownloader } = useCSVDownloader();
 	const { profile } = useContext(UserProfile);
 	const { members } = useContext(Members);
@@ -16,7 +19,7 @@ const RptMemContribution = () => {
 	const [payoutRate, setRates] = useState({});
 	const [isLoading, setLoading] = useState(false);
 
-	const [rptPayout] = useState(JSON.parse(localStorage.getItem('landContribution')));
+	const [rptPayout, setRptPayout] = useState();
 
 	useEffect(() => {
 		setLoading(true);
@@ -24,6 +27,9 @@ const RptMemContribution = () => {
 			setRates(doc.data().payoutRate);
 			setLoading(false);
 		});
+		if (currCycleData.state) {
+			setRptPayout(currCycleData.state.data);
+		}
 	}, []);
 
 	function genPayout(members, contributions, rates) {
@@ -35,6 +41,7 @@ const RptMemContribution = () => {
 			.forEach((mem) => {
 				let row = {
 					no: count,
+					uid: mem.uid,
 					discord: mem.discord,
 					wallettype: mem.wallettype,
 					walletaddress: mem.walletid,
@@ -69,7 +76,6 @@ const RptMemContribution = () => {
 			item.devpoint = parseFloat(item.devpoint.toFixed(2));
 			item.payout = parseFloat(item.payout.toFixed(2));
 		});
-
 		return body;
 	}
 
@@ -78,6 +84,7 @@ const RptMemContribution = () => {
 		data.forEach((row) => {
 			body.push({
 				no: row.no,
+				uid: mem.uid,
 				discord: row.discord,
 				level: row.level,
 				wallettype: row.wallettype,
@@ -91,6 +98,53 @@ const RptMemContribution = () => {
 		return body;
 	};
 
+	const saveTmpRpt = () => {
+		if (members && rptPayout && payoutRate) {
+			setLoading(true);
+			let data = genPayout(members, rptPayout, payoutRate);
+			// let rptDate = dateToString(new Date());
+			let rptDate = dateToString(new Date());
+			addReport(profile.organization, rptDate, {
+				date: rptDate,
+				data: data,
+			})
+				.then(() => {
+					data.forEach((mem) => {
+						getMember(mem.uid).then((doc) => {
+							let contributions = doc.data().contributions;
+							let rptArr = Object.keys(contributions);
+							if (rptArr.includes(rptDate)) {
+								contributions[rptDate].date = rptDate;
+								contributions[rptDate].devpoints = mem.devpoint;
+								contributions[rptDate].bonus = mem.bonus;
+								contributions[rptDate].rate = mem.rate;
+								contributions[rptDate].payout = mem.payout;
+								contributions[rptDate].settled = false;
+							} else {
+								contributions = {
+									...contributions,
+									[rptDate]: {
+										date: rptDate,
+										devpoints: mem.devpoint,
+										bonus: mem.bonus,
+										rate: mem.rate,
+										payout: mem.payout,
+										settled: false,
+									},
+								};
+							}
+							setMemberContributions(mem.uid, contributions);
+						});
+					});
+					setLoading(false);
+				})
+				.catch((err) => {
+					alert(`Oops! Got an error during saving process: ${err}`);
+					setLoading(false);
+				});
+		}
+	};
+
 	return (
 		<div className='contribution-report'>
 			{!rptPayout ? (
@@ -102,18 +156,23 @@ const RptMemContribution = () => {
 					) : (
 						<>
 							<div className='d-flex align-items-center justify-content-between'>
-								<h6>Payout</h6>
-								<CSVDownloader
-									filename='Payout_Report'
-									bom={true}
-									config={{ delimeter: ',' }}
-									download={true}
-									data={() => exportCSV(genPayout(members, rptPayout, payoutRate))}
-								>
-									<Button variant='outline-secondary' size='sm'>
-										Export
+								<h3>Temp Report - {dateToString(new Date(), '/')}</h3>
+								<div className='report-button'>
+									<Button variant='success' size='sm' onClick={saveTmpRpt}>
+										Save
 									</Button>
-								</CSVDownloader>
+									<CSVDownloader
+										filename='Payout_Report'
+										bom={true}
+										config={{ delimeter: ',' }}
+										download={true}
+										data={() => exportCSV(genPayout(members, rptPayout, payoutRate))}
+									>
+										<Button variant='outline-secondary' size='sm'>
+											Export
+										</Button>
+									</CSVDownloader>
+								</div>
 							</div>
 							<AnimatePresence>
 								<motion.div
