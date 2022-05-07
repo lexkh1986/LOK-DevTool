@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { Table, Button, Form } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Members } from '../connection/appContexts';
-import { dateToString } from '../components/functions/share';
-import { toggleMemberStatus, setMemberInfo, getMember, deleteMember } from '../connection/sql/organizations';
-import PleaseWait from './PleaseWait';
-import metamaskIcon from '../assets/images/metamask16.png';
-import polygonIcon from '../assets/images/polygon16.png';
-import isInActive from '../assets/images/redlight12.png';
-import isActive from '../assets/images/greenlight12.png';
+import { Members } from '../../connection/appContexts';
+import { toggleMemberStatus, setMemberInfo, getMember, deleteMember } from '../../connection/sql/organizations';
+import PleaseWait from '../PleaseWait';
+import KingdomList from './KingdomList';
+import ConfirmDialog from '../dialogs/ConfirmDialog';
+import metamaskIcon from '../../assets/images/metamask16.png';
+import polygonIcon from '../../assets/images/polygon16.png';
 
 const MemberList = () => {
 	const { members, setMembers } = useContext(Members);
@@ -37,7 +36,6 @@ const MemberList = () => {
 								<tr>
 									<th></th>
 									<th>Discord</th>
-									<th>Joined Date</th>
 									<th>Level</th>
 									<th>Wallet Address</th>
 									<th>Email</th>
@@ -131,17 +129,21 @@ const Member = ({ member, handleDelete }) => {
 						>
 							<i className='fa fa-times' aria-hidden='true'></i>
 						</Button>
-						<Button
-							size='sm'
-							variant='outline-danger'
-							className='edit-member'
-							onClick={() => {
+						<ConfirmDialog
+							buttonText={<i className='fa fa-chain-broken' aria-hidden='true' />}
+							buttonProps={{ size: 'sm', variant: 'outline-danger', className: 'edit-member' }}
+							body={
+								<>
+									You are about to delete <strong>{member.discord}</strong> from your list. Are you
+									sure?
+								</>
+							}
+							activeCondition={() => true}
+							handleSubmit={() => {
 								setMode(false);
 								handleDelete(member.uid);
 							}}
-						>
-							<i className='fa fa-chain-broken' aria-hidden='true'></i>
-						</Button>
+						/>
 					</div>
 				) : null}
 			</td>
@@ -174,7 +176,6 @@ const Member = ({ member, handleDelete }) => {
 					}}
 				/>
 			</td>
-			<td>{dateToString(member.joinedDate.toDate())}</td>
 			<td>
 				{editMode ? (
 					<Form.Control
@@ -284,22 +285,9 @@ const Member = ({ member, handleDelete }) => {
 				)}
 			</td>
 			<td>
-				<Kingdoms memberRef={email} list={member.kingdoms} />
+				<KingdomList memberRef={member.uid} list={member.kingdoms} />
 			</td>
 		</tr>
-	);
-};
-
-const Kingdoms = ({ memberRef, list }) => {
-	return (
-		<div className='kingdom' member_ref={memberRef}>
-			{list.map((kingdom, key) => (
-				<Button variant='outline-info' size='sm' key={key} title={kingdom.id ? kingdom.id : 'Unknown'}>
-					{kingdom.name}
-					<img className='light-pulp' src={kingdom.isActive ? isActive : isInActive} />
-				</Button>
-			))}
-		</div>
 	);
 };
 

@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import { UserProfile, Members as memList } from '../connection/appContexts';
 import { addMember, getAllMembers } from '../connection/sql/organizations';
 import Papa from 'papaparse';
-import MemberList from '../components/MemberList';
+import MemberList from '../components/members/MemberList';
+import ConfirmDialog from '../components/dialogs/ConfirmDialog';
 
 const Members = () => {
 	const { profile } = useContext(UserProfile);
@@ -79,17 +80,25 @@ const Members = () => {
 			<Row>
 				<Col md='4'>
 					<InputGroup className='mb-3'>
-						<Button
-							variant='outline-primary'
-							onClick={() => {
+						<ConfirmDialog
+							buttonText={
+								<>
+									<i className='fa fa-cloud-upload' aria-hidden='true' />
+									Import
+								</>
+							}
+							buttonProps={{
+								variant: 'outline-primary',
+								title: 'Browse to .csv file and then click this button to import list of contributed members',
+							}}
+							body='You are importing directly a list of new members into your organization. Please confirm your action!'
+							activeCondition={() => (csvSource ? true : false)}
+							handleSubmit={() => {
 								readCSV(csvSource);
 								document.getElementById('csvMemberFile').value = null;
 								setSource(null);
 							}}
-							title='Browse to .csv file and then click this button to import list of contributed members'
-						>
-							<i className='fa fa-cloud-upload' aria-hidden='true'></i>Import
-						</Button>
+						/>
 						<Form.Control
 							id='csvMemberFile'
 							type='file'

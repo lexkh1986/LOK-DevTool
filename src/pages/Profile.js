@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MemberProfile as memProfile } from '../connection/appContexts';
-import MemberProfile from '../components/member/MemberProfile';
+import MemberProfile from '../components/profile/MemberProfile';
 import '../assets/styles/mem-profile.css';
 
 const Profile = () => {
