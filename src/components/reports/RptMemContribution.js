@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { UserProfile, Members } from '../../connection/appContexts';
 import { getPayoutRate, getMember, addReport, setMemberContributions } from '../../connection/sql/organizations';
 import { dateToString } from '../functions/share';
+import ConfirmDialog from '../dialogs/ConfirmDialog';
 import PleaseWait from '../PleaseWait';
 import metamaskIcon from '../../assets/images/metamask16.png';
 import polygonIcon from '../../assets/images/polygon16.png';
@@ -102,7 +103,6 @@ const RptMemContribution = () => {
 		if (members && rptPayout && payoutRate) {
 			setLoading(true);
 			let data = genPayout(members, rptPayout, payoutRate);
-			// let rptDate = dateToString(new Date());
 			let rptDate = dateToString(new Date());
 			addReport(profile.organization, rptDate, {
 				date: rptDate,
@@ -158,9 +158,13 @@ const RptMemContribution = () => {
 							<div className='d-flex align-items-center justify-content-between'>
 								<h3>Temp Report - {dateToString(new Date(), '/')}</h3>
 								<div className='report-button'>
-									<Button variant='success' size='sm' onClick={saveTmpRpt}>
-										Save
-									</Button>
+									<ConfirmDialog
+										buttonText='Save'
+										buttonProps={{ size: 'sm', variant: 'success' }}
+										body='You are saving this report to database. All members in the report will be updated contribution history and this action be not be undone. Are you sure?'
+										activeCondition={() => true}
+										handleSubmit={saveTmpRpt}
+									/>
 									<CSVDownloader
 										filename='Payout_Report'
 										bom={true}
