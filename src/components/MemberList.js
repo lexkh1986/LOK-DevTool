@@ -14,13 +14,10 @@ const MemberList = () => {
 	const { members, setMembers } = useContext(Members);
 
 	const removeMember = (uid) => {
-		deleteMember(uid)
-			.then(() => {
-				setMembers(members.filter((item) => item.uid != uid));
-			})
-			.catch((err) => {
-				alert(`Oops! Got an error: ${err}`);
-			});
+		setMembers(members.filter((item) => item.uid != uid));
+		deleteMember(uid).catch((err) => {
+			alert(`Oops! Got an error: ${err}`);
+		});
 	};
 
 	return (
@@ -48,8 +45,8 @@ const MemberList = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{members.map((member, key) => (
-									<Member key={key} member={member} handleDelete={removeMember} />
+								{members.map((member) => (
+									<Member key={member.uid} member={member} handleDelete={removeMember} />
 								))}
 							</tbody>
 						</Table>
@@ -62,11 +59,13 @@ const MemberList = () => {
 
 const Member = ({ member, handleDelete }) => {
 	const [isApproved, setApprove] = useState(member.approved);
+	const [username, setUsername] = useState(member.username ? member.username : '');
 	const [level, setLevel] = useState(member.level);
 	const [email, setEmail] = useState(member.email);
 	const [wallettype, setWalletType] = useState(member.wallettype);
 	const [walletid, setWalletId] = useState(member.walletid);
 	const [currInfo, setCurrInfo] = useState({
+		username: member.username ? member.username : '',
 		email: member.email,
 		level: member.level,
 		wallettype: member.wallettype,
@@ -87,6 +86,7 @@ const Member = ({ member, handleDelete }) => {
 						if (editMode) {
 							setLoading(true);
 							setMemberInfo(member.uid, {
+								username: username,
 								email: email,
 								level: parseInt(level),
 								wallettype: wallettype,
@@ -95,8 +95,9 @@ const Member = ({ member, handleDelete }) => {
 								.then(() => {
 									setMode(!editMode);
 									setCurrInfo({
+										username: username,
 										email: email,
-										level: level,
+										level: parseInt(level),
 										wallettype: wallettype,
 										walletid: walletid,
 									});
@@ -120,6 +121,7 @@ const Member = ({ member, handleDelete }) => {
 							variant='outline-info'
 							className='edit-member'
 							onClick={() => {
+								setUsername(currInfo.username);
 								setLevel(currInfo.level);
 								setEmail(currInfo.email);
 								setWalletType(currInfo.wallettype);
@@ -134,8 +136,8 @@ const Member = ({ member, handleDelete }) => {
 							variant='outline-danger'
 							className='edit-member'
 							onClick={() => {
-								handleDelete(member.uid);
 								setMode(false);
+								handleDelete(member.uid);
 							}}
 						>
 							<i className='fa fa-chain-broken' aria-hidden='true'></i>
@@ -144,6 +146,16 @@ const Member = ({ member, handleDelete }) => {
 				) : null}
 			</td>
 			<td>
+				{editMode ? (
+					<Form.Control
+						size='sm'
+						style={{ width: '90px' }}
+						value={username}
+						placeholder='Username'
+						onChange={(e) => setUsername(e.target.value ? e.target.value : '')}
+						onBlur={(e) => setUsername(e.target.value ? e.target.value : '')}
+					/>
+				) : null}
 				{member.discord}
 				<Form.Check
 					disabled={isLoading}

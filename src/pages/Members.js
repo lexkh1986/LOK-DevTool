@@ -60,6 +60,9 @@ const Members = () => {
 			});
 			list.push(newMem);
 		});
+		// Validate the invalid data
+		let currMems = members.map((item) => item.discord);
+		list = list.filter((item) => item.discord && !currMems.includes(item.discord));
 		return list;
 	};
 

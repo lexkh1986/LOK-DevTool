@@ -27,7 +27,7 @@ const SignUp = ({ orgs, email }) => {
 
 		return {
 			organization: dao,
-			identity: username.trim(),
+			username: username.trim(),
 			discord: discord.trim(),
 			email: email,
 			level: 1,
