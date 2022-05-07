@@ -85,7 +85,7 @@ const RptMemContribution = () => {
 		data.forEach((row) => {
 			body.push({
 				no: row.no,
-				uid: mem.uid,
+				uid: row.uid,
 				discord: row.discord,
 				level: row.level,
 				wallettype: row.wallettype,
