@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Form } from 'react-bootstrap';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCSVDownloader } from 'react-papaparse';
 import { useLocation } from 'react-router-dom';
@@ -19,6 +19,7 @@ const RptMemContribution = () => {
 
 	const [payoutRate, setRates] = useState({});
 	const [isLoading, setLoading] = useState(false);
+	const [autoPayout, setAutoPay] = useState(false);
 
 	const [rptPayout, setRptPayout] = useState();
 
@@ -32,6 +33,15 @@ const RptMemContribution = () => {
 			setRptPayout(currCycleData.state.data);
 		}
 	}, []);
+
+	function getAutoPayoutRate(devpoint) {
+		if (devpoint <= 2000) return 0;
+		else if (devpoint <= 4000) return 0.4;
+		else if (devpoint <= 6000) return 0.5;
+		else if (devpoint <= 4000) return 0.6;
+		else if (devpoint <= 8000) return 0.7;
+		else return 0.7;
+	}
 
 	function genPayout(members, contributions, rates) {
 		let body = [];
@@ -54,7 +64,9 @@ const RptMemContribution = () => {
 				contributions.forEach((rptRow) => {
 					row.devpoint += rptRow.discord === mem.discord ? rptRow.total : 0;
 				});
-				row.payout = (row.devpoint / 1000) * rates[mem.level];
+
+				row.rate = autoPayout ? getAutoPayoutRate(row.devpoint) : rates[mem.level];
+				row.payout = (row.devpoint / 1000) * row.rate;
 				body.push(row);
 				count += 1;
 			});
@@ -161,6 +173,14 @@ const RptMemContribution = () => {
 							<div className='d-flex align-items-center justify-content-between'>
 								<h3>Temp Report - {dateToString(new Date(), '/')}</h3>
 								<div className='report-button'>
+									<Form.Check
+										type='switch'
+										label='Auto Setting'
+										checked={autoPayout}
+										onChange={() => {
+											setAutoPay(!autoPayout);
+										}}
+									/>
 									<ConfirmDialog
 										buttonText='Save'
 										buttonProps={{ size: 'sm', variant: 'success' }}
@@ -195,7 +215,7 @@ const RptMemContribution = () => {
 												<th>Discord ID</th>
 												<th className='col-center'>Level</th>
 												<th>Wallet Address</th>
-												<th>Rate</th>
+												<th>{autoPayout ? 'Auto Rate' : 'Rate'}</th>
 												<th>Bonus</th>
 												<th>DevPoints</th>
 												<th>Payout</th>
